@@ -24,7 +24,7 @@ public sealed class ResurrectionState : GameComponent
 
     public void NotifyEligibleDeath(Pawn pawn)
     {
-        if (!ResurrectionTuning.Enabled || !ModsConfig.IdeologyActive ||
+        if (!ResurrectionTuning.Enabled ||
             !Find.Storyteller.difficulty.allowViolentQuests)
             return;
 
@@ -56,7 +56,7 @@ public sealed class ResurrectionState : GameComponent
             return;
 
         // No permanent delay queue if the feature becomes unavailable.
-        if (!ResurrectionTuning.Enabled || !ModsConfig.IdeologyActive ||
+        if (!ResurrectionTuning.Enabled ||
             !Find.Storyteller.difficulty.allowViolentQuests)
         {
             ClearPending();

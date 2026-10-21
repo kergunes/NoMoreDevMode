@@ -1,124 +1,101 @@
 # Testing / human acceptance
 
-## Actual evidence, 2026-10-21
+## Current status — 2026-10-22
 
-| Check | Status |
-| --- | --- |
-| Local version/runtime and vanilla source/defs research | Inspected: 1.7.4984 rev1242, Waylith, .NET 10 |
-| Main project build against installed game/Harmony | PASS: zero warnings/errors |
-| Separate integration test assembly build | PASS: zero warnings/errors |
-| Game startup / mod constructor / Harmony initialization | Reached in isolated test profile; no mod XML/patch error observed before fixture stopped |
-| Core + Ideology only launch | NOT VERIFIED: fresh profile auto-enabled other owned DLC |
-| Automated integration scenarios | STOPPED at initial fixture assertion, before any scenario ran |
-| Natural gameplay, stage progression, actual reward, save/load | HUMAN VERIFICATION REQUIRED |
+The DLC-independent production DLL compiled successfully against installed
+RimWorld 1.7.4984 rev1242 and Harmony, with zero warnings/errors. No game was
+launched and no automated gameplay tests were run for this revision, respecting
+the user's request to test personally. **HUMAN VERIFICATION REQUIRED.**
 
-The user requested to do testing personally. The agent stopped its owned game
-process and performed no subsequent gameplay tests. No personal save or active
-mod configuration was changed. Raw interrupted-run evidence remains in ignored
-`artifacts/integration-01/`, including `stdout.txt` and `integration-results.txt`.
-Waylith wrote its runtime output to redirected stdout rather than the requested
-Unity-style Player.log path. Unrelated installed-mod metadata warnings may appear
-during discovery even when those mods are not enabled.
-
-The later mod-options change was compiled successfully (zero warnings/errors).
-Its settings UI and gameplay behavior remain HUMAN VERIFICATION REQUIRED; no
-further game launch or automated gameplay test was performed.
-
-## Mod options checklist
-
-- Restart after the updated DLL is installed. Open Options → Mod settings →
-  NoMoreDevMode / Earned Resurrection.
-- Confirm the three arrival choices: Immediately, Within 1–2 days, Within one week
-  (1–7 days). Default is 1–2 days. Confirm the minimum membership slider spans
-  whole days 0–60 and defaults to 20. These are global mod preferences.
-- For a quick copied-save trial, choose Immediately and minimum 0, then kill an
-  otherwise eligible free colonist and unpause. One quest should appear on the
-  next game tick, unless a pending opportunity, active chain or cooldown blocks it.
-- In separate fresh/copied states without a cooldown, try both delayed choices.
-  Changing the setting after a death must not move its already scheduled time.
-- Set minimum days above/below a colonist's actual recorded membership and check
-  eligibility. With 0 days, prisoners/slaves/guests still must not qualify.
-- Close/reopen settings and restart the game: both preferences should persist.
-- Return to 20 days and 1–2 days for the main baseline checklist below.
+Historical evidence: the older Ideology-dependent version reached startup in an
+isolated profile. Its automated attempt stopped at the initial DLC fixture
+assertion because the game auto-enabled other owned expansions. That run proves
+neither Core-only loading nor quest progression. Historical output remains in
+ignored `artifacts/integration-01/`.
 
 ## Preparation
 
-1. Make a **copy** of a colony save. Use an established free colonist whose Records
-   show at least 20 days as a colonist. Biological age or 20 days of world age is
-   insufficient. Recently recruited/enslaved pawns must not qualify.
-2. In the mod list enable Harmony, Core, Ideology and **NoMoreDevMode / Earned
-   Resurrection**. Disable the development-only integration-test mod. For the
-   first acceptance run, disable unrelated mods and other DLC.
-3. Restart the game and load the copied save. Check the log for
-   `[EarnedResurrection] NoMoreDevMode / Earned Resurrection loaded.` and absence
-   of XML/def/Harmony exceptions. Ordinary serum effects remain vanilla.
-4. Dev Mode is optional for killing a test pawn or advancing time. Use the
-   `Earned Resurrection` debug category's `Print resurrection state` action for
-   pending/active/cooldown timestamps. `Clear resurrection cooldown` is for
-   separate repeat runs; do not use it during the cooldown acceptance checks.
+1. Use a new test world with **Harmony → Core → NoMoreDevMode / Earned
+   Resurrection** only. Disable all DLC and the separate integration-test mod.
+   Leave a hostile pirate/tribal faction enabled at world creation; the quest
+   needs a hostile humanlike faction capable of defending a Core outpost.
+2. Do not disable Ideology on a valuable existing save merely for this test.
+   Previously generated quests still contain DLC complexes and terminals.
+   Finish those with Ideology enabled before removing the DLC. New quests use
+   Core outposts regardless of whether Ideology is installed.
+3. Restart after updating the DLL. Check startup for XML/def/Harmony errors.
+   The log should contain `[EarnedResurrection] ... loaded.`.
+4. For a quick test, open Options → Mod settings → NoMoreDevMode / Earned
+   Resurrection. Set **Immediately** and **0 minimum membership days**. Keep
+   violent quests enabled. Existing pending/active quests and cooldown still apply.
 
 ## Main gameplay run
 
-1. Kill the established colonist. Expect no immediate quest. Print state: pending
-   is set, active is false, cooldown has not started. Kill a second established
-   colonist while pending: the first opportunity must remain the only one.
-2. **Save A**, quit/load, and allow 1–2 days from the original death (default). One offer
-   should name the first dead pawn and warn about preserving remains. The offer
-   must contain exactly one serum reward and no relic-info reward.
-3. Print state: active true, pending -1, cooldown end 60 days after generation.
-   Accept. One first-lead site appears. Keep the body frozen if you intend to
-   resurrect this pawn; loss of the body should not break the chain.
-4. Send a real caravan to the marked complex. Hack every marked ancient terminal.
-   One day later the second site appears; repeat for leads two and three.
-   **Save B** with a partially completed stage, quit/load, and verify the same
-   quest and terminal progress resume without a second chain.
-5. The fourth site must include sleeping mechanoid defenders and be harder than
-   a lead. Hack all terminals while enemies remain: there must be no serum yet.
-   Clear all threats, including dormant/fogged enemies. Expect one reward pod
-   at this site and quest success. Open/collect it: **exactly one resurrector
-   mech serum**, no relic. Repeated signals/reload must not produce another.
-6. Save/load after success. Active false, cooldown unchanged. Vanilla serum use
-   should behave normally; no new resurrection rules or item exist.
+1. Kill a free player colonist and unpause. On the next game tick, one opportunity
+   should name the dead pawn and show exactly one resurrector serum reward.
+   Preserve the body if you plan to use the serum. Corpse loss must not crash or
+   cancel the quest.
+2. Accept. Only the first outpost should appear. Send a real caravan, attack it,
+   and defeat its defenders. There are no terminal objectives in new quests.
+   Clearing the outpost narratively recovers shipment records.
+3. One day later, the next outpost appears. Repeat for three leads. Old completed
+   sites disappearing must not retroactively fail the chain.
+4. The fourth outpost should have the same enemy faction and a higher threat
+   budget (1.5x the leads). Entering without defeating its defenders must award
+   nothing. Clear all threats, including turrets and any dormant/fogged enemies.
+5. Expect quest success and exactly **one vanilla resurrector mech serum** in a
+   reward pod at the final site. Collect it before leaving. Reloading or repeated
+   clearance must not create another serum. Resurrection behavior stays vanilla.
 
-## Failure and cooldown runs (separate copied saves)
+## Settings and eligibility
 
-- Destroy an unhacked terminal: chain fails, no reward, active clears, cooldown stays.
-- Destroy a terminal already hacked after the stage is complete: no retroactive failure.
-- Leave a site before completing it / allow its map to be removed: chain fails.
-- Let a site's 30-day deadline expire: chain fails, including the final stage.
-- Ignore an offer for ten days: offer expires and releases the active slot; cooldown stays.
-- Dismiss only hides the vanilla quest UI. It does not itself mean failure; use
-  site abandonment, deadline or failed objectives to test failed opportunities.
-- **Save C/D** after failure and during cooldown, quit/load: no cooldown reset.
-- Kill established pawns during active chain and after failure but before cooldown
-  expiry: no extra pending trigger or chain.
-- **Case E:** reach cooldown end without a new death. Nothing appears. Only a
-  **new** eligible death schedules the next opportunity with the configured delay.
+- Arrival options: Immediately (next unpaused tick), 1–2 days (default), Within
+  one week (1–7 days). Try each in a separate state without an active/pending
+  opportunity or cooldown. Changing options must not reschedule a pending death.
+- Minimum membership: whole-day slider 0–60, default 20. Uses actual cumulative
+  free-colonist membership from vanilla Records, not biological/world age.
+- Reset preferences to 20 days and 1–2 days for normal baseline testing.
+- With 20 selected, recent recruits must not qualify. Prisoners, visitors, quest
+  guests, animals, mechanoids and off-map faction members never qualify. Test
+  slaves in a separate optional-Ideology run; Core has no slave feature.
+- Established caravan colonist deaths should work like map deaths. Check multiple
+  maps, caravan travel and relocation. Mental breaks/downed status alone do not
+  disqualify an established free colonist.
+- Settings should survive closing the dialog and restarting the game.
 
-## Eligibility and edge cases
+## Persistence, failure and cooldown
 
-Test separately: recent recruit, prisoner, slave, guest/quest lodger, visitor,
-hostile/neutral human, animal, mechanoid and off-map faction member: no trigger.
-An established player caravan colonist death should trigger just like a map death.
-Check multiple home maps, caravan travel, relocation, pending saves without a
-corpse and a pawn resurrected elsewhere mid-chain. Narrative remains associated
-with the original death; quest continues and reward remains generic.
+- **A:** choose delayed arrival, kill an eligible pawn, save/quit/load before the
+  due time. The same one opportunity should appear on schedule.
+- **B:** save/quit/load during an active expedition. Same quest, sites and stage;
+  no duplicate chain. Repeat during the one-day gap between leads.
+- Leave an unfinished site, allow its map to be removed, or let its 30-day
+  deadline expire: fail the chain, no serum, active state clears.
+- Ignore the offer for ten days: slot clears, cooldown remains. Vanilla Dismiss
+  only hides the quest; it is not abandonment.
+- **C/D:** after failure and during cooldown, save/quit/load: cooldown remains.
+  The 60-day cooldown starts at generation, not death/acceptance.
+- Kill other eligible pawns while pending, active or in cooldown: no extra queue.
+- **E:** after cooldown expiry, no old death generates a quest. A **new** death
+  is required.
+- Destroy the corpse or resurrect the named pawn elsewhere mid-chain: chain
+  continues, reward remains generic.
+- Optional Ideology run: relic/precept/progress state must remain unchanged.
 
-Before/after the chain compare actual ideology relic objectives, precepts and
-relic progress: all unchanged, including an ideology with no relic configured.
+## Debug tools and optional harness
 
-## Optional automated harness (not run further)
+Dev Mode → Earned Resurrection → Print resurrection state logs pending tick,
+active quest and cooldown end. Clear resurrection cooldown is for separate repeat
+runs; do not use it while accepting the real cooldown behavior.
 
-`Tests/Integration` is a separate developer-only mod and project, excluded from
-the main solution. It exercises real game APIs with forced ticks, generated
-maps, forced hacking/deaths and real Scribe save/load. These fixtures cannot
-prove natural combat, balance or caravan UI acceptance.
+`Tests/Integration` is an opt-in developer-only mod, outside the main solution.
+Its source has been adapted to Core outposts but was not built/run for this
+revision. Forced ticks, maps, deaths and Scribe reloads would still be automation
+evidence, not human combat/caravan/balance acceptance.
 
-If explicitly resuming automated tests later, build both projects with the same
-game/Harmony properties. Enable the test mod only in a dedicated
-`-savedatafolder=...` profile and launch `-quicktest -erIntegration`. Populate
-`knownExpansions` with **all locally owned DLC IDs**, while `activeMods` includes
-only Core, Ideology, Harmony and the two local mods; otherwise the game adds
-newly discovered owned expansions and the initial assertion fails. The harness
-writes `integration-results.txt` to that dedicated folder. Do not enable it in a
-personal save. No automated integration PASS is claimed for this revision.
+Only when explicitly resuming automation, build both projects with local game
+and Harmony properties. Enable Core, Harmony and both local mods in a dedicated
+`-savedatafolder=...` profile. Populate `knownExpansions` with **all owned DLC IDs**
+but omit them from `activeMods` to prevent automatic activation. Launch with
+`-quicktest -erIntegration`; output is `integration-results.txt` in that profile.
+Never enable this test mod in a personal save. No integration PASS is claimed.

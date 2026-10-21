@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <!-- Same vanilla generator and rooms. Exclude security crates because their
-       independent loot table can roll another resurrector serum before success. -->
-  <ComplexLayoutDef ParentName="AncientComplex">
+  <!-- Legacy definition for already generated Ideology-era quests only.
+       New quests use Core outposts. Skip before XML inheritance when DLC is absent. -->
+  <ComplexLayoutDef ParentName="AncientComplex" MayRequire="Ludeon.RimWorld.Ideology">
     <defName>ER_AncientComplex</defName>
     <threats Inherit="False">
       <SleepingMechanoids />

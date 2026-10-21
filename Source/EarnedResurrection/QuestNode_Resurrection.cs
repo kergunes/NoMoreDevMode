@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using RimWorld.Planet;
 using RimWorld.QuestGen;
@@ -7,13 +8,16 @@ using Verse;
 
 namespace EarnedResurrection;
 
-public sealed class QuestNode_Resurrection : QuestNode_Root_AncientComplex
+public sealed class QuestNode_Resurrection : QuestNode
 {
-    protected override LayoutDef LayoutDef => DefDatabase<LayoutDef>.GetNamed("ER_AncientComplex");
+    private static IEnumerable<Faction> EnemyFactions => Find.FactionManager.AllFactions.Where(f =>
+        !f.IsPlayer && !f.temporary && !f.defeated && !f.Hidden && f.HostileTo(Faction.OfPlayer) &&
+        f.def.humanlikeFaction && f.def.pawnGroupMakers != null &&
+        f.def.pawnGroupMakers.Any(g => g.kindDef == PawnGroupKindDefOf.Settlement));
 
-    protected override bool TestRunInt(Slate slate) => ModsConfig.IdeologyActive &&
-        Find.Storyteller.difficulty.allowViolentQuests && Faction.OfMechanoids != null &&
-        TileFinder.TryFindNewSiteTile(out _, 2, 10, false, AllowedLandmarks);
+    protected override bool TestRunInt(Slate slate) =>
+        Find.Storyteller.difficulty.allowViolentQuests && EnemyFactions.Any() &&
+        TileFinder.TryFindNewSiteTile(out _, 2, 10);
 
     protected override void RunInt()
     {
@@ -23,6 +27,11 @@ public sealed class QuestNode_Resurrection : QuestNode_Root_AncientComplex
         slate.Set("resolvedQuestName", "ER_QuestTitle".Translate(name).Resolve());
         slate.Set("resolvedQuestDescription", "ER_QuestDescription".Translate(name).Resolve());
         float points = Math.Max(300f, slate.Get("points", 0f)) * ResurrectionTuning.ThreatMultiplier;
+        if (!EnemyFactions.TryRandomElement(out Faction enemy))
+            throw new InvalidOperationException("No hostile faction capable of defending an outpost.");
+        // Use the same faction throughout, including its vanilla minimum budget,
+        // so the final's multiplier cannot be flattened by a different faction.
+        points = Math.Max(points, enemy.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Settlement));
         string enable = slate.Get<string>("inSignal");
         var cleanup = new QuestPart_ResurrectionCleanup();
         // Cleanup must run before vanilla destroys unspawned world objects.
@@ -32,59 +41,29 @@ public sealed class QuestNode_Resurrection : QuestNode_Root_AncientComplex
         {
             bool final = stage == 4;
             string completed = QuestGen.GenerateNewSignal("ER_Stage" + stage + "Completed");
-            string hacked = final ? QuestGen.GenerateNewSignal("ER_FinalTerminalsHacked") : completed;
             float stagePoints = points * (final ? ResurrectionTuning.FinalThreatMultiplier : 1f);
-            LayoutStructureSketch sketch = QuestSetupComplex(quest, stagePoints);
-            if (!TileFinder.TryFindNewSiteTile(out PlanetTile tile, 2, 10, false, AllowedLandmarks))
-                throw new InvalidOperationException("No suitable ancient complex tile.");
+            if (!TileFinder.TryFindNewSiteTile(out PlanetTile tile, 2, 10))
+                throw new InvalidOperationException("No suitable outpost tile.");
 
-            float complexThreat = ThreatPointsOverPointsCurve.Evaluate(stagePoints);
+            SitePartDef outpost = DefDatabase<SitePartDef>.GetNamed("Outpost");
+            SitePartParams outpostParams = outpost.Worker.GenerateDefaultParams(stagePoints, tile, enemy);
+            // No randomly rolled site reward; the only quest serum is the final pod.
+            outpostParams.lootMarketValue = 0f;
             var parts = new List<SitePartDefWithParams>
             {
-                new SitePartDefWithParams(SitePartDefOf.AncientComplex, new SitePartParams
-                {
-                    ancientLayoutStructureSketch = sketch,
-                    ancientComplexRewardMaker = ThingSetMakerDefOf.MapGen_AncientComplexRoomLoot_Default,
-                    threatPoints = complexThreat,
-                    points = stagePoints
-                })
+                new SitePartDefWithParams(outpost, outpostParams)
             };
-            if (final)
-            {
-                SitePartDef guards = DefDatabase<SitePartDef>.GetNamed("SleepingMechanoids");
-                parts.Add(new SitePartDefWithParams(guards,
-                    guards.Worker.GenerateDefaultParams(stagePoints, tile, Faction.OfMechanoids)));
-            }
 
-            Site site = QuestGen_Sites.GenerateSite(parts, tile, Faction.OfAncientsHostile);
+            Site site = QuestGen_Sites.GenerateSite(parts, tile, enemy);
             site.customLabel = "ER_SiteLabel".Translate(stage).Resolve();
             string siteTag = QuestGen.GenerateNewTargetQuestTag("ER_site" + stage);
             QuestUtility.AddQuestTag(site, siteTag);
             quest.SpawnWorldObject(site, inSignal: enable);
             cleanup.sites.Add(site);
 
-            var pass = new QuestPart_PassAllActivable
-            {
-                inSignalEnable = enable,
-                expiryInfoPartKey = "ER_TerminalsHacked"
-            };
-            pass.outSignalsCompleted.Add(hacked);
-            foreach (Thing terminal in sketch.thingsToSpawn)
-            {
-                string terminalTag = QuestGen.GenerateNewTargetQuestTag("ER_terminal");
-                QuestUtility.AddQuestTag(terminal, terminalTag);
-                pass.inSignals.Add(terminalTag + ".Hacked");
-                terminal.TryGetComp<CompHackable>().defence = Rand.Bool ? 300 : 1800;
-                string failed = QuestGen.GenerateNewSignal("ER_TerminalDestroyed");
-                quest.AddPart(new QuestPart_Filter_Hacked
-                {
-                    inSignal = terminalTag + ".Destroyed", outSignalElse = failed
-                });
-                quest.SignalPassActivable(inSignalEnable: enable, inSignal: failed,
-                    inSignalDisable: completed,
-                    action: () => quest.End(QuestEndOutcome.Fail, sendStandardLetter: true));
-            }
-            quest.AddPart(pass);
+            string secured = siteTag + ".AllEnemiesDefeated";
+            if (!final)
+                quest.SignalPassActivable(inSignalEnable: enable, inSignal: secured, outSignalCompleted: completed);
             quest.DescriptionPart((final ? "ER_FinalDescription" : "ER_StageDescription").Translate(stage).Resolve(), enable, completed);
             quest.Letter(LetterDefOf.NeutralEvent, inSignal: enable,
                 label: "ER_StageLetterTitle".Translate(stage).Resolve(),
@@ -112,8 +91,10 @@ public sealed class QuestNode_Resurrection : QuestNode_Root_AncientComplex
             {
                 quest.AddPart(new QuestPart_SerumRecovery
                 {
-                    site = site, terminalsHackedSignal = hacked,
-                    clearanceSignal = siteTag + ".AllEnemiesDefeated", outSignal = completed
+                    // Retain the old field name for existing saved quest parts.
+                    // New quests recover the records when the outpost is secured.
+                    site = site, terminalsHackedSignal = secured,
+                    clearanceSignal = secured, outSignal = completed
                 });
                 Thing serum = ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("MechSerumResurrector"));
                 serum.stackCount = 1;
@@ -142,10 +123,4 @@ public sealed class QuestNode_Resurrection : QuestNode_Root_AncientComplex
         }
     }
 
-    public override LayoutStructureSketch QuestSetupComplex(Quest quest, float points)
-    {
-        LayoutStructureSketch sketch = GenerateStructureSketch(points);
-        sketch.thingDiscoveredMessage = "ER_TerminalDiscovered".Translate().Resolve();
-        return sketch;
-    }
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <ER_QuestTitle>Earned resurrection: {0}</ER_QuestTitle>
-  <ER_QuestDescription>A fragment of an old transmission mentions a cache of resurrector mech serum. Most of the coordinates are missing, but an ancient complex nearby may hold records of the shipment.\n\nOther archives are mentioned in the transmission. Following the trail could take you far from home, and there is no telling what still guards these places.\n\nIf you hope to bring {0} back, preserve their remains.</ER_QuestDescription>
+  <ER_QuestDescription>A fragment of an old transmission mentions a shipment of resurrector mech serum. Most of the coordinates are missing, but the trail leads to an enemy outpost nearby. Whoever holds it may have kept the shipment records.\n\nOther outposts are mentioned in the transmission. Following the trail could take you far from home. Their occupants are unlikely to welcome visitors.\n\nIf you hope to bring {0} back, preserve their remains.</ER_QuestDescription>
   <ER_UnknownColonist>the lost colonist</ER_UnknownColonist>
-  <ER_SiteLabel>Mechanite archive {0}</ER_SiteLabel>
+  <ER_SiteLabel>Shipment outpost {0}</ER_SiteLabel>
   <ER_StageLetterTitle>Resurrection expedition: stage {0}</ER_StageLetterTitle>
-  <ER_StageDescription>The trail leads to another ancient complex. Its terminals may contain the missing shipment records. You will need to piece together the data from all of them before moving on.\n\nThe location will remain accessible for 30 days. Anything left unread may be lost when you leave.</ER_StageDescription>
-  <ER_FinalDescription>The records point to a secure archive linked to the serum shipment. Its terminals hold the last access codes, but the installation's defenders are still there. Some may only be dormant.\n\nRecover the codes and secure the site to release the shipment. You have 30 days before the connection is lost.</ER_FinalDescription>
+  <ER_StageDescription>The trail leads to a guarded outpost. Securing it should give you a chance to recover the missing shipment records.\n\nThe location will remain accessible for 30 days. Leave its defenders in control, and this lead may be lost.</ER_StageDescription>
+  <ER_FinalDescription>The records point to the last outpost linked to the serum shipment. Its defenders appear better prepared than the others.\n\nSecure the site to release the shipment. You have 30 days before the connection is lost.</ER_FinalDescription>
   <ER_TerminalsHacked>Archive terminals hacked:</ER_TerminalsHacked>
   <ER_TerminalDiscovered>A terminal containing mechanite archive information has been discovered.</ER_TerminalDiscovered>
   <ER_SettingsDelay>Quest arrival after an eligible colonist dies</ER_SettingsDelay>

@@ -10,7 +10,7 @@ using Verse;
 namespace EarnedResurrectionIntegration;
 
 // Separate opt-in mod, never shipped as part of the playable mod.
-// Drives real game APIs and Scribe; forced ticks/hacks/kills are test fixtures,
+// Drives real game APIs and Scribe; forced ticks/kills are test fixtures,
 // not evidence of natural gameplay difficulty or caravan UI acceptance.
 public sealed class IntegrationRunner : GameComponent
 {
@@ -55,17 +55,16 @@ public sealed class IntegrationRunner : GameComponent
     private void BeforePendingSave()
     {
         File.WriteAllText(ReportPath, "RimWorld in-process integration checks, " + VersionControl.CurrentVersionString + "\n");
-        Check(ModsConfig.IdeologyActive && !ModsConfig.RoyaltyActive && !ModsConfig.BiotechActive &&
-            !ModsConfig.AnomalyActive && !ModsConfig.OdysseyActive, "Core + Ideology only, plus Harmony and test mod");
+        Check(!ModsConfig.IdeologyActive && !ModsConfig.RoyaltyActive && !ModsConfig.BiotechActive &&
+            !ModsConfig.AnomalyActive && !ModsConfig.OdysseyActive, "Core only, plus Harmony and test mod");
+        ResurrectionMod.Settings.delay = OpportunityDelay.OneToTwoDays;
+        ResurrectionMod.Settings.minimumMembershipDays = 20;
         Pawn established = MakeColonist(true);
         Check(ColonistDeathPatch.IsEligible(established), "established colonist eligible");
         Pawn recruit = MakeColonist(false);
         Check(!ColonistDeathPatch.IsEligible(recruit), "recent recruit excluded");
         established.guest.SetGuestStatus(Faction.OfPlayer, GuestStatus.Prisoner);
         Check(!ColonistDeathPatch.IsEligible(established), "prisoner excluded");
-        established.guest.SetGuestStatus(null);
-        established.guest.SetGuestStatus(Faction.OfPlayer, GuestStatus.Slave);
-        Check(!ColonistDeathPatch.IsEligible(established), "slave excluded");
         established.guest.SetGuestStatus(null);
         if (established.Faction != Faction.OfPlayer) established.SetFaction(Faction.OfPlayer);
         established.guest.SetGuestStatus(Faction.OfPlayer);
@@ -112,8 +111,8 @@ public sealed class IntegrationRunner : GameComponent
         var items = ((Reward_Items)rewards[0]).items;
         Check(items.Count == 1 && items[0].def.defName == "MechSerumResurrector" && items[0].stackCount == 1 && !items[0].IsRelic(), "exactly one generic vanilla serum reward");
         Map map = MakeMap(sites[0]);
-        Check(Terminals(map).Length > 0, "real vanilla complex generation spawned hackable terminal(s)");
-        Terminals(map)[0].TryGetComp<CompHackable>().HackNow();
+        Check(map.mapPawns.AllPawnsSpawned.Any(p => p.Faction == sites[0].Faction),
+            "real Core outpost generation spawned defenders");
         SaveReload(2, "ER_active");
     }
 
@@ -126,7 +125,7 @@ public sealed class IntegrationRunner : GameComponent
         {
             Site site = Sites(quest)[index];
             Map map = MakeMap(site);
-            foreach (Thing terminal in Terminals(map)) terminal.TryGetComp<CompHackable>().HackNow();
+            ClearOutpost(site, map);
             Check(!quest.Historical, "lead " + (index + 1) + " completes without ending chain");
             Advance(60000);
             quest.QuestTick();
@@ -134,10 +133,11 @@ public sealed class IntegrationRunner : GameComponent
         }
         Site final = Sites(quest)[3];
         Map finalMap = MakeMap(final);
-        Check(finalMap.mapPawns.AllPawnsSpawned.Any(p => p.RaceProps.IsMechanoid && p.Faction == Faction.OfMechanoids),
-            "final actually spawns vanilla mechanoid defenders");
-        foreach (Thing terminal in Terminals(finalMap)) terminal.TryGetComp<CompHackable>().HackNow();
-        Check(!quest.Historical, "hacking final terminals alone cannot grant serum while defenders remain");
+        Check(finalMap.mapPawns.AllPawnsSpawned.Any(p => p.Faction == final.Faction),
+            "final actually spawns Core outpost defenders");
+        Check(final.parts[0].parms.threatPoints > Sites(quest)[0].parts[0].parms.threatPoints,
+            "final has a higher threat budget than the leads");
+        Check(!quest.Historical, "entering final site cannot grant serum while defenders remain");
         Check(!finalMap.listerThings.AllThings.Any(x => x.def.defName == "MechSerumResurrector"), "no serum spawned before final victory");
         // Fail this first chain; a later chain will exercise actual reward delivery.
         quest.End(QuestEndOutcome.Fail, sendLetter: false);
@@ -163,23 +163,15 @@ public sealed class IntegrationRunner : GameComponent
         expectedCooldown = State.NextEligibleTick;
         for (int index = 0; index < 3; index++)
         {
-            Map map = MakeMap(Sites(quest)[index]);
-            foreach (Thing terminal in Terminals(map)) terminal.TryGetComp<CompHackable>().HackNow();
+            Site site = Sites(quest)[index];
+            Map map = MakeMap(site);
+            ClearOutpost(site, map);
             Advance(60000);
             quest.QuestTick();
         }
         Site final = Sites(quest)[3];
         Map finalMap = MakeMap(final);
-        foreach (Thing terminal in Terminals(finalMap)) terminal.TryGetComp<CompHackable>().HackNow();
-        foreach (Pawn pawn in finalMap.mapPawns.AllPawnsSpawned.ToList())
-            if (pawn.Faction != Faction.OfPlayer && (pawn.RaceProps.IsMechanoid || pawn.RaceProps.Insect || pawn.HostileTo(Faction.OfPlayer)))
-                pawn.Kill(null);
-        // Some complex threats are buildings, not pawns. Remove only hostile attack targets.
-        foreach (Thing thing in finalMap.listerThings.AllThings.ToList())
-            if (thing is Building && thing.HostileTo(Faction.OfPlayer)) thing.Destroy();
-        Check(!GenHostility.AnyHostileActiveThreatToPlayer(finalMap, true, true), "all final threats cleared in test fixture");
-        // Execute the real site's clearance detector without waiting for its interval.
-        AccessTools.Method(typeof(Site), "CheckAllEnemiesDefeated").Invoke(final, null);
+        ClearOutpost(final, finalMap);
         Check(quest.State == QuestState.EndedSuccess && !State.ChainActive, "final clearance -> vanilla pod delivery -> quest success");
         var drop = quest.PartsListForReading.OfType<QuestPart_DropPods>().Single();
         Check(!drop.Things.Any(), "delivered serum removed from pending pod inventory");
@@ -187,6 +179,19 @@ public sealed class IntegrationRunner : GameComponent
         Check(!State.ChainActive && State.NextEligibleTick == expectedCooldown, "duplicate final signal cannot restart chain or refund cooldown");
         expectedQuestId = quest.id;
         SaveReload(4, "ER_success");
+    }
+
+    private static void ClearOutpost(Site site, Map map)
+    {
+        foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned.ToList())
+            if (pawn.Faction != Faction.OfPlayer && (pawn.RaceProps.IsMechanoid || pawn.RaceProps.Insect || pawn.HostileTo(Faction.OfPlayer)))
+                pawn.Kill(null);
+        // Outpost turrets also count as threats.
+        foreach (Thing thing in map.listerThings.AllThings.ToList())
+            if (thing is Building && thing.HostileTo(Faction.OfPlayer)) thing.Destroy();
+        Check(!GenHostility.AnyHostileActiveThreatToPlayer(map, true, true), "outpost threats cleared in test fixture");
+        // Execute the real site's clearance detector without waiting for its interval.
+        AccessTools.Method(typeof(Site), "CheckAllEnemiesDefeated").Invoke(site, null);
     }
 
     private void AfterFinalLoad()
@@ -211,7 +216,6 @@ public sealed class IntegrationRunner : GameComponent
     }
 
     private static Site[] Sites(Quest quest) => quest.PartsListForReading.OfType<QuestPart_SpawnWorldObject>().Select(p => (Site)p.worldObject).ToArray();
-    private static Thing[] Terminals(Map map) => map.listerThings.AllThings.Where(t => t.def == ThingDefOf.AncientTerminal).ToArray();
     private static Map MakeMap(Site site)
     {
         Check(site.Spawned, "site spawned before map generation");

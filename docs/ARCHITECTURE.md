@@ -55,32 +55,39 @@ affects future deaths only; existing pending timestamps remain unchanged.
 ## One independent quest, four stages
 
 `ER_Resurrection` has weight zero and is only launched by our delayed trigger.
-`QuestNode_Resurrection : QuestNode_Root_AncientComplex` composes vanilla quest
-parts. It generates four serialized site sketches up front, but only spawns the
-next site after the previous stage's signal and a one-day vanilla delay. All
-four stages use the vanilla ancient complex generator, rooms, terminals and
-threat curve. There are no new map generators or custom encounter archetypes.
-`ER_AncientComplex` inherits vanilla's layout and excludes its security-crate
-threat: that crate can independently roll resurrector serum. Ordinary room loot
-uses the vanilla default supply table, which contains no resurrector serum.
+`QuestNode_Resurrection : QuestNode` composes Core quest parts and four vanilla
+`Outpost` sites. There is no Ideology activity check or Ideology quest root.
+One hostile humanlike faction with a Settlement pawn-group maker defends all
+four locations. No suitable faction/site means no opportunity is generated.
 
-Each stage's `QuestPart_PassAllActivable` persists individual terminal progress.
-Quest tags use unique quest IDs. Unhacked terminal destruction passes through
-`QuestPart_Filter_Hacked` into a gated failure. Leaving a site before completion,
-site destruction, or its 30-day deadline fails the whole chain. Completed
-stages disable those failure gates before later map removal. No retry/reroll.
+The sites are serialized up front; only the next site spawns after the previous
+stage's saved signal and a one-day vanilla delay. Vanilla `GenStep_Outpost` and
+`GenStep_Power` build and defend the maps. No custom map generator or terminal.
+Securing an outpost narratively recovers shipment records; no new intel item.
+Random outpost loot value is zero so the mission does not roll a second serum.
+Defender equipment and ordinary generated furnishings remain vanilla.
 
-Stage four has 1.5x the earlier stages' generation points and an additional
-vanilla `SleepingMechanoids` site part. The base budget is vanilla current threat
-points (minimum 300) x 1.5, frozen at opportunity generation. Vanilla faction
-minimum point budgets apply; no hardcoded pawn counts. No peaceful variant is
-offered while violent quests are disabled.
+Each lead uses `QuestPart_PassActivable` to forward the site's Core
+`AllEnemiesDefeated` signal once. Quest tags use unique quest IDs. Leaving a site
+before completion, site destruction, or its 30-day deadline fails the whole chain.
+Completed stages disable those failure gates before later removal. No retry.
 
-`QuestPart_SerumRecovery` remembers all-terminal completion and reacts to that
-event or the site's vanilla `AllEnemiesDefeated` event. It checks current threats
-with dormant and fogged enemies included. An earlier clearance cannot authorize
-victory while threats remain. It emits its success signal once, with a saved
-completion latch. No polling or custom combat logic.
+The base budget is vanilla current threat points (minimum 300) x 1.5, raised to
+the chosen faction's vanilla minimum Settlement budget. Stage four uses 1.5x
+that effective budget with the same faction. No hardcoded pawn counts or custom
+combat logic. No peaceful variant is offered while violent quests are disabled.
+
+The final `QuestPart_SerumRecovery` reacts to `AllEnemiesDefeated`, rechecks
+current threats including dormant/fogged enemies and emits its result once with
+a saved completion latch. Its old `terminalsHackedSignal`/`terminalsHacked` field
+names are retained for save compatibility; new quests wire the records-recovered
+event to the site's clearance signal. Previously generated quests retain their
+old terminal signal wiring. No per-pawn or per-tick combat polling.
+
+`ER_AncientComplex` remains as a legacy-only XML definition with
+`MayRequire="Ludeon.RimWorld.Ideology"`. The engine skips it before XML inheritance
+when Ideology is absent. New quests never use it. Complete older active quests
+with Ideology enabled before removing that DLC; no migration is attempted.
 
 ## Reward and cleanup
 

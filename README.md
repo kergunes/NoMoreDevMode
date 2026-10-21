@@ -1,11 +1,11 @@
 # NoMoreDevMode / Earned Resurrection
 
-V0.1 for RimWorld 1.7 + Ideology + Harmony. Resurrection should not be random. It should be earned.
+V0.1 for RimWorld 1.7 + Harmony. **No DLC required.** Resurrection should not be random. It should be earned.
 
 ## What it does
 
 An established player colonist dies. After a configurable delay the colony can receive a
-three-lead ancient complex quest chain followed by a more strongly defended
+three-lead enemy outpost quest chain followed by a more strongly defended
 serum recovery expedition. Successful completion delivers exactly one vanilla
 resurrector mech serum. The mod changes access to the item, never resurrection.
 
@@ -17,9 +17,9 @@ resurrector mech serum. The mod changes access to the item, never resurrection.
 - One pending opportunity or active chain across the entire save.
 - Deaths during pending/active/cooldown periods are discarded, never queued.
 - Failure or an expired/abandoned expedition consumes the opportunity; no retries.
-- Three terminal-hacking complexes, then one guarded complex; one day between leads.
+- Secure three enemy outposts to recover shipment records, then a stronger final outpost; one day between leads.
 - Each discovered site has a 30-day deadline. An unaccepted offer expires after ten days.
-- Final success requires every terminal hacked and all threats cleared, including dormant/fogged enemies.
+- Final success requires all threats cleared, including dormant/fogged enemies.
 - Reward: one generic serum, delivered by vanilla pod at the final site. Collect it before leaving.
 - No changes to actual ideology relic progression, corpse preservation, serum use or sickness.
 - Corpse destruction or resurrection elsewhere does not cancel the chain.
@@ -28,9 +28,15 @@ resurrector mech serum. The mod changes access to the item, never resurrection.
 ## Requirements and installation
 
 Target verified from installed files: **RimWorld 1.7.4984 rev1242**, Waylith/.NET 10.
-Requires **Core, Ideology and Harmony's 1.7 build**. No other DLC is required.
-Enable Harmony before Core, then Ideology, then **NoMoreDevMode / Earned Resurrection**.
+Requires **Core and Harmony's 1.7 build**. Ideology and all other DLC are optional.
+Enable Harmony before Core, then **NoMoreDevMode / Earned Resurrection**.
 Do not enable the separate development-only integration test mod for normal play.
+
+Already generated quests from the older Ideology version retain their original
+complexes and terminal objectives. Finish them with Ideology still enabled before
+removing that DLC. New quests always use Core outposts, with or without Ideology.
+This update does not migrate old active quests or make arbitrary DLC removal from
+an existing save safe.
 
 Build, then copy this mod root (About, Assemblies, Defs, Languages) into a folder
 under RimWorld's `Mods/`, or use a local directory junction. Do not distribute game
@@ -38,8 +44,9 @@ DLLs or Harmony's DLL with this mod. No preview image is included yet.
 
 ## Verification status
 
-Production DLL compiled with zero warnings/errors against the installed game and Harmony.
-An isolated game launch loaded the mod, but the automated integration attempt stopped
+Production DLL compiled against the installed game and Harmony; no gameplay test
+has been run for the DLC-independent outpost version. Historically, an isolated
+game launch loaded the older Ideology version, but the automated integration attempt stopped
 on its Core+Ideology-only fixture assertion: RimWorld auto-enabled newly discovered
 owned DLC in the fresh test profile. The requested complete chain/save-load/reward
 tests have **not passed**. Further automated testing was stopped at the user's request.
@@ -80,6 +87,6 @@ centralized in `ResurrectionTuning.cs`.
 
 Easy V0.1 only: no custom map generator, resurrection item, convoy AI, DLC-specific
 finals, compatibility layers or multiplayer support. The three leads intentionally
-reuse the same safe vanilla complex encounter. Future V0.2 work can explore
+reuse the same vanilla Core outpost encounter. Future V0.2 work can explore
 DLC-aware final encounters and more varied independent questlines after this loop
 passes gameplay acceptance.

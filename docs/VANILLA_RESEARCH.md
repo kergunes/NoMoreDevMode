@@ -1,5 +1,29 @@
 # Vanilla research — RimWorld 1.7.4984 rev1242
 
+## Current decision: Core-only encounters (2026-10-22)
+
+The user requested removal of the Ideology requirement. The original research
+below remains historical evidence; the current quest no longer uses its complex
+or hacking machinery. Inspected Core `Sites/Parts/Outpost.xml`, `BanditCamp.xml`,
+`SitePartWorker_Outpost`, `GenStep_Outpost`, and `QuestNode_Root_Mission_BanditCamp`
+in the installed game. Core supplies guarded outposts, point-scaled Settlement
+defenders, power generation and the Site `AllEnemiesDefeated` signal. These are
+the replacement for the three leads and final, with no copied DLC assets.
+
+`SitePartWorker_Outpost.GenerateDefaultParams` applies the faction's minimum
+Settlement budget and a loot curve. Our sites set `lootMarketValue` to zero;
+`GenStep_Outpost` passes that value to BaseGen. The quest's deterministic final
+serum is still delivered through `Reward_Items`/`QuestPart_DropPods`.
+
+No `QuestNode_Root_AncientComplex`, `CompHackable`, `AncientTerminal`, complex
+loot-table or Ideology-active check is used in newly generated quests. The only
+optional DLC XML is the guarded legacy `ER_AncientComplex` definition for saved
+older quests. It remains available when Ideology is enabled and is skipped when
+absent. There is no migration of active older quests. All DLC are optional;
+Harmony remains required for the same narrow death patch.
+
+## Historical Ideology implementation research
+
 Inspected the installed `Version.txt`, `RimWorld.runtimeconfig.json`, `Assembly-CSharp.dll`
 with ILSpy, and Core/Ideology XML on 2026-10-21. Decompiled game code remains local
 and ignored. Target: Waylith, .NET 10, Core + Ideology. No 1.6 compatibility claim.

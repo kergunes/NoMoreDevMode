@@ -4,11 +4,12 @@ using Verse;
 
 namespace EarnedResurrection;
 
-// Event-driven final check: past NoActiveThreats signals cannot authorize victory
+// Event-driven final check: past clearance signals cannot authorize victory
 // while newly revealed/dormant threats remain. No per-pawn or per-tick polling.
 public sealed class QuestPart_SerumRecovery : QuestPart
 {
     public Site site;
+    // Legacy saved name: now also used for records recovered by securing an outpost.
     public string terminalsHackedSignal;
     public string clearanceSignal;
     public string outSignal;
