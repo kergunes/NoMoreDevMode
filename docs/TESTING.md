@@ -66,6 +66,36 @@ Do not enable it in a personal save.
   both endpoints and the default. Changing it during a chain must not alter that
   already generated plan. New chains use the new setting.
 
+## Physical reward isolation (newly generated DLC leads)
+
+- Run each scenario both as a shipment child and as the ordinary vanilla quest;
+  vanilla must retain its original rewards, research, ownership and completion.
+- Mechanitor child: open the cryptosleep pod, inspect its corpse and verify no
+  MechlinkImplant/extractable mechlink. Keep the pod/corpse and its opening behavior.
+  Clear enemies and open the shipment archive: exactly one parent progress dialog
+  and the next lead must follow. Opening the pod alone must not bypass the archive.
+- Mercenary child: the leader must still wield the same unique weapon and use its
+  traits in combat. Down/kill/disarm them: the weapon must not become usable loot;
+  ordinary enemy gear remains. The archive/clearance objective must still work.
+- Mechanoid signal: let the crash finish and select Recover engine records. The
+  job must finish and arm native success, but wait for attacker clearance. Verify
+  no working/claimable/launchable engine, no research flag change, no gravship quest
+  and no bonus gravlite panels. Also try with an unrelated engine already inspected.
+- Wreckage child: keep the wreck and enemies. Its engine must remain inert and
+  unclaimable; opening the defended shipment archive must still finish this lead.
+- Sanguophage child: crash, reinforcements, hemogen/deathless combat and native
+  operation timing must work; the carrier must lack XenogermReimplanter and cannot
+  give the colony that xenogerm. Defeating threats must still advance the chain.
+- Odyssey crates / native distant complex: opening crates/security crates must
+  retain their triggers and traps, ordinary salvage and guards, with no bonus
+  serum, unique weapon or special progression item. Minified packages must never
+  be left empty. Save/reload before opening and after enemy downing to check markers.
+- Bring player colonists, a serum, special gear and minified upgrades into a lead
+  site: their existing items/implants/genes must remain untouched. Test the separate
+  final cache and recover its one serum normally.
+- Existing old leads and previously acquired items must remain unchanged; generate
+  new children for this revision. These checks are NOT claimed passed by compilation.
+
 ## Progress dialog and waiting
 
 - After every lead, a direct message window should open explaining the recovered

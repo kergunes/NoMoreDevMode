@@ -90,13 +90,47 @@ started flag and 30-day deadline. It relays success once through the existing
 progress dialog/delay; child failure, offer expiration, unknown abandonment or
 outer timeout fails the parent. Parent cleanup concludes any unfinished child.
 
-Native reward choices/parts are removed before registration; physical site loot
-remains. Opportunity sites keep native layouts and occupants but replace premature
+Native reward choices/parts are removed before registration; ordinary physical site
+loot remains. Opportunity sites keep native layouts and occupants but replace premature
 arrival/claim success with a guarded shipment-archive interaction. That archive
 holds a component, never serum. Crash/hosting combat gates preserve the native
 success prerequisite and also require hostile clearance, including dormant enemies.
 Native mission deadlines can be shorter than the outer 30 days. Surface-only
 validation prevents dispatching an orbital or underground expedition.
+
+### Shipment-only physical reward restrictions
+
+`ShipmentRewardPolicy.GenerationScope` is a thread-local, disposable capture active
+only around this dispatcher's `QuestGen.Generate` call. Harmony postfixes record
+new things/pawns only while it is active; no global quest root or def is modified.
+After generation, it marks engines/unique weapons, removes the sanguophage's
+XenogermReimplanter gene (retaining combat genes), and removes special loose loot.
+The collector is discarded in `Dispose` even if generation fails.
+
+New child sites receive the saved `ER_ShipmentRewardSite` quest tag before spawning.
+`Site.PostMapGenerate` traverses their nested holders once, removes dead mechanitors'
+MechlinkImplant, cleans special loot and updates mechlink reveal messages without
+changing casket opening signals. `CompLootSpawn.PostSpawnSetup` cleans later crate
+contents on those marked sites. Player pawns/corpses and their carried gear are
+excluded. Minified packages are removed whole to avoid empty-package references.
+If cleaning empties a previously occupied crate, one steel scrap preserves vanilla
+CanOpen and its original opening/hacking/trap signals; already empty crates stay empty.
+
+Special crate loot includes serums, mechlinks, unique weapons, archotech parts,
+gene/archite rewards, psychic/orbital devices, grav resources/upgrades, techprint
+and quest-map rewards. Ordinary supplies/equipment/resources remain. Deployed
+gravship facilities are retained; only packaged facility rewards are removed.
+Enemy-equipped unique weapons keep every combat trait and acquire a saved object
+tag; equipment drop/transfer patches destroy only marked unique weapons. Ruined
+engines keep their original object/tag/inspection job and emit `Inspected`, but
+their Inspect prefix bypasses research, ownership and gravship-quest generation.
+Claim/launch reports reject only marked engines; their record-reading action stays
+available even after an unrelated engine has been inspected.
+
+The parent final site has no restriction tag, so its physical serum is untouched.
+Ordinary vanilla quests have neither our generation scope nor tags and take the
+original code path. No old lead or already acquired reward is migrated/confiscated.
+Compilation is verified; in-game equivalence is explicitly pending human checks.
 
 The distant Ideology shuttle mission requires Royalty and a real player relic for
 the native text/sketch setup. Its `Reward_RelicInfo` is removed before registration;

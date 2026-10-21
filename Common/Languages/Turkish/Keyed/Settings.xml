@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <ER_ArchiveRemainsLabel>Bir kuryeden kalanlar</ER_ArchiveRemainsLabel>
+  <ER_ArchiveRemainsText>Eski sakinin üzerinde kullanılabilir bir mechlink yok. Sevkiyatın izleri kompleksin başka bir köşesinde hâlâ bulunabilir.</ER_ArchiveRemainsText>
+  <ER_EngineRuined>Motor onarılamayacak durumda. Yalnızca kayıtları kurtarılabilir.</ER_EngineRuined>
+  <ER_InspectEngineRecords>Motorun kayıtlarını kurtar</ER_InspectEngineRecords>
+  <ER_EngineRecordsRecovered>Motor onarılamayacak durumda ama kayıtları sevkiyatın başka bir izini ortaya çıkardı.</ER_EngineRecordsRecovered>
+  <ER_DamagedEngineLead>Arızalı gemi, sinyaline yanıt verilerek yere çekilebilir. Motoru onarılamayacak durumda ama kayıtları hâlâ okunabilir. Birini incelemeye gönder ve peşine takılan tehditlerle ilgilen.</ER_DamagedEngineLead>
+  <ER_DamagedMechanitorLead>İzler bir mekanitorun son durağına uzanıyor. Sahibinin mechlink'i işlevini yitirmiş ama komplekste sevkiyatın kayıtları hâlâ bulunabilir. Eski makineler nöbet tutuyor olabilir.</ER_DamagedMechanitorLead>
+  <ER_SpecialRewardsDamaged>Bu izin vadettiği şey bilgi. Eski kayıtlarda sözü edilen özel ganimetler artık kurtarılabilir durumda değil; sıradan malzemeler geride kalmış olabilir.</ER_SpecialRewardsDamaged>
   <ER_SettingsDlcPools>DLC görev havuzları</ER_SettingsDlcPools>
   <ER_SettingsShowDlcQuests>{0} görevlerini göster</ER_SettingsShowDlcQuests>
   <ER_SettingsHideDlcQuests>{0} görevlerini gizle</ER_SettingsHideDlcQuests>

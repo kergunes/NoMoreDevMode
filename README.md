@@ -126,4 +126,11 @@ as linked subquests, retaining their layouts and operation logic. Opportunity
 sites require clearing defenders and opening a shipment archive; home crash
 quests also require the native operation to finish and surviving threats to be
 cleared. Ordinary generated reward choices are removed: the lead reward is
-information, and the separate final supplies the serum. Native site loot remains.
+information, and the separate final supplies the serum. Ordinary native salvage
+remains, but special progression loot is restricted on newly generated shipment
+leads: no corpse mechlink, transferable sanguophage xenogerm, usable grav engine,
+unique weapon reward, bonus serum, or special crate upgrade. Enemy unique weapons
+retain their combat effects and are destroyed when dropped/transferred. Ruined
+engines retain inspection as a quest action without research/ownership unlocks.
+Normal vanilla quests and the final serum cache are outside these restrictions.
+Already generated old leads/items are not retroactively changed.

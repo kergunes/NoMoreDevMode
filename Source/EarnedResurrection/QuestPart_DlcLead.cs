@@ -82,7 +82,11 @@ public sealed class QuestPart_DlcLead : QuestPartActivable
             if (!def.CanRun(slate, home)) continue;
 
             pool.used.Add(entry.name);
-            child = QuestGen.Generate(def, slate);
+            using (var generated = new ShipmentRewardPolicy.GenerationScope())
+            {
+                child = QuestGen.Generate(def, slate);
+                if (child != null) generated.Apply(entry.name);
+            }
             if (child == null)
             {
                 Log.Error("[EarnedResurrection] Could not generate DLC lead " + entry.name);
@@ -126,6 +130,7 @@ public sealed class QuestPart_DlcLead : QuestPartActivable
         {
             if (!Surface(site)) throw new InvalidOperationException("A DLC lead selected a non-surface site.");
             site.customLabel = child.name;
+            QuestUtility.AddQuestTag(site, ShipmentRewardPolicy.SiteTag);
             // Fail unfinished abandonment even when the native opportunity
             // normally treats a removed map as an unknown outcome.
             string tag = "Quest" + child.id + ".ER_leadSite";
@@ -165,6 +170,23 @@ public sealed class QuestPart_DlcLead : QuestPartActivable
         {
             Precept_Relic relic = Faction.OfPlayer.ideos.PrimaryIdeo.GetAllPreceptsOfType<Precept_Relic>().First();
             child.description = child.description.Replace(relic.Label, "ER_SiteLabel".Translate().Resolve());
+        }
+        if (entry.name == "MechanoidSignal")
+        {
+            child.description = "ER_DlcLeadIntroduction".Translate(quest.name).Resolve() + "\n\n" +
+                "ER_DamagedEngineLead".Translate().Resolve() + "\n\n" + "ER_DlcDefendObjective".Translate().Resolve();
+            foreach (QuestPart_Letter letter in child.PartsListForReading.OfType<QuestPart_Letter>())
+            {
+                letter.letter = LetterMaker.MakeLetter("ER_DlcName_MechanoidSignal".Translate(),
+                    "ER_DamagedEngineLead".Translate(), letter.letter.def, letter.letter.lookTargets);
+            }
+        }
+        else
+        {
+            if (entry.name == "OpportunitySite_AncientComplex_Mechanitor")
+                child.description = "ER_DlcLeadIntroduction".Translate(quest.name).Resolve() + "\n\n" +
+                    "ER_DamagedMechanitorLead".Translate().Resolve() + "\n\n" + "ER_DlcArchiveObjective".Translate().Resolve();
+            child.description += "\n\n" + "ER_SpecialRewardsDamaged".Translate().Resolve();
         }
     }
 
