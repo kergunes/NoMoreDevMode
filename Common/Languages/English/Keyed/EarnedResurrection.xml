@@ -42,5 +42,7 @@
   <ER_LeadRecoveredImmediate>The recovered records bring you a little closer to the serum shipment. Among the fragments is another lead, with enough detail to trace its location.</ER_LeadRecoveredImmediate>
   <ER_NextLeadTimer>Tracing the next lead: {0}</ER_NextLeadTimer>
   <ER_SettingsMembershipExplanation>0–60 days of actual colonist membership. Set to 0 to allow newly joined colonists. Prisoners, slaves, guests and other ineligible pawns remain excluded.</ER_SettingsMembershipExplanation>
-  <ER_SettingsTimingExplanation>Applies to future deaths. A scheduled opportunity keeps its original arrival time. Immediately means the next game tick; the game must be unpaused. The 60-day global cooldown and one-chain limit still apply.</ER_SettingsTimingExplanation>
+  <ER_SettingsCooldown>Global quest cooldown: {0} days</ER_SettingsCooldown>
+  <ER_SettingsCooldownExplanation>0–120 days, default 60. Starts when a questline is generated. Changes apply to newly generated chains and do not shorten an existing cooldown. At 0, only the pending/active chain limit remains; a new eligible death is still required.</ER_SettingsCooldownExplanation>
+  <ER_SettingsTimingExplanation>Applies to future deaths and questlines. Scheduled times and existing cooldowns are preserved. Immediately means the next game tick; the game must be unpaused. Only one opportunity or chain can exist at a time.</ER_SettingsTimingExplanation>
 </LanguageData>

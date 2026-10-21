@@ -91,7 +91,9 @@ public sealed class ResurrectionState : GameComponent
         }
         activeQuest = generated;
         chainActive = true;
-        nextEligibleTick = checked(Find.TickManager.TicksGame + ResurrectionTuning.CooldownTicks);
+        int cooldownTicks = (ResurrectionMod.Settings?.cooldownDays ?? ResurrectionTuning.DefaultCooldownDays) *
+            ResurrectionTuning.TicksPerDay;
+        nextEligibleTick = checked(Find.TickManager.TicksGame + cooldownTicks);
         Find.QuestManager.Add(generated);
         QuestUtility.SendLetterQuestAvailable(generated);
         Log.Message($"[EarnedResurrection] Questline generated for {pawnName}; global cooldown until tick {nextEligibleTick}.");

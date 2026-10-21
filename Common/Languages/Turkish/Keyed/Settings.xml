@@ -24,5 +24,7 @@
   <ER_LeadRecoveredImmediate>Kurtarılan kayıtlar sizi serum sevkiyatına bir adım daha yaklaştırıyor. Parçaların arasında başka bir ipucu var; konumunu belirlemeye yetecek kadar ayrıntı içeriyor.</ER_LeadRecoveredImmediate>
   <ER_NextLeadTimer>Sonraki ipucunun izi sürülüyor: {0}</ER_NextLeadTimer>
   <ER_SettingsMembershipExplanation>Kolonist olarak geçirilmiş toplam 0–60 gün. Yeni katılan kolonistlere de izin vermek için 0 seç. Mahkûmlar, köleler, misafirler ve diğer uygun olmayan karakterler yine kapsam dışındadır.</ER_SettingsMembershipExplanation>
-  <ER_SettingsTimingExplanation>Sonraki ölümler için geçerlidir. Zaten planlanmış bir fırsatın gelme zamanı değişmez. Anında seçeneği bir sonraki oyun tikinde çalışır; oyun duraklatılmış olmamalıdır. 60 günlük global bekleme süresi ve tek görev zinciri sınırı geçerliliğini korur.</ER_SettingsTimingExplanation>
+  <ER_SettingsCooldown>Görevler arası global bekleme süresi: {0} gün</ER_SettingsCooldown>
+  <ER_SettingsCooldownExplanation>0–120 gün, varsayılan 60. Görev zinciri oluşturulduğunda başlar. Değişiklikler yeni oluşturulan zincirlere uygulanır; mevcut bekleme süresi kısalmaz. 0 seçildiğinde yalnızca bekleyen/aktif zincir sınırı kalır; yine yeni ve uygun bir ölüm gerekir.</ER_SettingsCooldownExplanation>
+  <ER_SettingsTimingExplanation>Sonraki ölümler ve görev zincirleri için geçerlidir. Planlanmış zamanlar ve mevcut bekleme süreleri korunur. Anında seçeneği bir sonraki oyun tikinde çalışır; oyun duraklatılmış olmamalıdır. Aynı anda yalnızca bir fırsat veya görev zinciri bulunabilir.</ER_SettingsTimingExplanation>
 </LanguageData>

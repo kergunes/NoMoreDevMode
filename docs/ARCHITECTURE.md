@@ -52,9 +52,12 @@ If violent quests are disabled or no suitable ground site exists when due, the
 opportunity is discarded without a cooldown; a future death is required.
 
 The pending timestamp is cleared before generation. A successful generated quest
-is assigned as active and starts the full 3,600,000-tick cooldown before being
+is assigned as active and starts the configured cooldown (0–120 days, default
+60 / 3,600,000 ticks) before being
 registered with the quest manager and announced. Offer expiration also consumes
-the opportunity. No failure path shortens the cooldown.
+the opportunity. No failure path shortens the cooldown. The generated end tick
+is saved unchanged when preferences later change. At zero days, pending and
+active-chain guards still prevent overlap and no old death queue is created.
 
 `Scribe_Values`, `Scribe_References` and normal QuestManager serialization own all
 saved state. Loaded-game reconciliation clears an orphan active reference and

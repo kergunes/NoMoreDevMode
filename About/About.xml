@@ -8,5 +8,5 @@
     <li><packageId>brrainz.harmony</packageId><displayName>Harmony</displayName><steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl></li>
   </modDependencies>
   <loadAfter><li>brrainz.harmony</li><li>ludeon.rimworld</li><li>ludeon.rimworld.ideology</li></loadAfter>
-  <description>Resurrection should be earned. Follow distinct, combat-focused leads, then open a guarded medical cache to recover one vanilla resurrector mech serum. Ideology encounters are preferred when available; Core encounters provide a DLC-free fallback. Configurable quest length. One opportunity per year, one active chain. Requires Core and Harmony. V0.1: human gameplay verification pending.</description>
+  <description>Resurrection should be earned. Follow distinct, combat-focused leads, then open a guarded medical cache to recover one vanilla resurrector mech serum. Ideology encounters are preferred when available; Core encounters provide a DLC-free fallback. Configurable quest length and cooldown (default one year), one active chain. Requires Core and Harmony. V0.1: human gameplay verification pending.</description>
 </ModMetaData>

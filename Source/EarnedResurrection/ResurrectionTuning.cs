@@ -5,7 +5,8 @@ public static class ResurrectionTuning
 {
     public const bool Enabled = true;
     public const int TicksPerDay = 60000;
-    public const int CooldownTicks = 60 * TicksPerDay;
+    public const int DefaultCooldownDays = 60;
+    public const int MaximumCooldownDays = 120;
     public const int DefaultMinimumMembershipDays = 20;
     public const float ThreatMultiplier = 1.5f;
     public const float FinalThreatMultiplier = 1.5f;

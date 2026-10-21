@@ -47,6 +47,11 @@ public sealed class ResurrectionMod : Mod
         Settings.minimumMembershipDays = Mathf.RoundToInt(listing.Slider(Settings.minimumMembershipDays, 0f, 60f));
         listing.Label("ER_SettingsMembershipExplanation".Translate());
         listing.Gap();
+        listing.Label("ER_SettingsCooldown".Translate(Settings.cooldownDays));
+        Settings.cooldownDays = Mathf.RoundToInt(listing.Slider(Settings.cooldownDays, 0f,
+            ResurrectionTuning.MaximumCooldownDays));
+        listing.Label("ER_SettingsCooldownExplanation".Translate());
+        listing.Gap();
         listing.Label("ER_SettingsTimingExplanation".Translate());
         settingsHeight = listing.CurHeight + 20f;
         listing.End();

@@ -13,7 +13,7 @@ resurrector mech serum. The mod changes access to the item, never resurrection.
 
 - Minimum cumulative actual free-colonist membership: configurable 0–60 days, default 20, using vanilla records.
 - Quest arrival: immediately (next game tick), within 1–2 days (default), or within one week (1–7 days).
-- One global 60-day cooldown, beginning when the opportunity is generated.
+- Global cooldown: configurable 0–120 days, default 60, beginning when the opportunity is generated. Existing cooldown end times are preserved when settings change.
 - One pending opportunity or active chain across the entire save.
 - Deaths during pending/active/cooldown periods are discarded, never queued.
 - Failure or an expired/abandoned expedition consumes the opportunity; no retries.
@@ -106,7 +106,8 @@ one target. With both built, run `./scripts/Package.ps1` to create an installabl
 ZIP under `artifacts/`, containing only this mod's binaries and content.
 
 Open Options → Mod settings → **NoMoreDevMode / Earned Resurrection** to choose
-quest arrival time, lead count, days between leads and minimum membership days. Settings persist through vanilla
+quest arrival time, lead count, days between leads, minimum membership days and
+global cooldown days. Settings persist through vanilla
 `ModSettings` and are global preferences, not per-save state. They apply to future
 deaths/questlines; pending arrival times, active quests and cooldowns are not
 rescheduled. Stage intervals are fixed when a questline is generated, so changing

@@ -75,6 +75,12 @@ Do not enable it in a personal save.
 
 ## Failure, eligibility and global state
 
+- Cooldown slider: whole days 0–120, default 60. Check both endpoints on new
+  chains. At 0, deaths while pending/active still cannot create a second chain;
+  only a new eligible death after completion can schedule another. Changing the
+  slider must not shorten/extend an already stored cooldown. Restore 60 for the
+  baseline cooldown acceptance below. Check the preference survives restart.
+
 - Destroy an unhacked terminal: fail. Destroying an already hacked terminal after
   its encounter completes must not retroactively fail a later encounter.
 - Abandon an unfinished site / remove its map / expire its 30-day deadline: fail.

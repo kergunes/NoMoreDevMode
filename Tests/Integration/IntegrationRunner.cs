@@ -61,6 +61,7 @@ public sealed class IntegrationRunner : GameComponent
         ResurrectionMod.Settings.minimumMembershipDays = 20;
         ResurrectionMod.Settings.betweenStagesDays = 1;
         ResurrectionMod.Settings.leadCount = 3;
+        ResurrectionMod.Settings.cooldownDays = ResurrectionTuning.DefaultCooldownDays;
         Pawn established = MakeColonist(true);
         Check(ColonistDeathPatch.IsEligible(established), "established colonist eligible");
         Pawn recruit = MakeColonist(false);
