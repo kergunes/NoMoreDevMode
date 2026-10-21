@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>NoMoreDevMode / Earned Resurrection</name>
+  <author>kergunes</author>
+  <packageId>kergunes.earnedresurrection</packageId>
+  <supportedVersions><li>1.7</li></supportedVersions>
+  <modDependencies>
+    <li><packageId>ludeon.rimworld.ideology</packageId><displayName>Ideology</displayName></li>
+  </modDependencies>
+  <loadAfter><li>ludeon.rimworld</li><li>ludeon.rimworld.ideology</li></loadAfter>
+  <description>Resurrection should be earned. An established colonist's death can lead to three dangerous information-gathering expeditions and a final recovery mission for exactly one vanilla resurrector mech serum. One opportunity per year, one active chain. Requires Ideology.</description>
+</ModMetaData>

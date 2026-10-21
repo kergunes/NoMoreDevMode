@@ -1,0 +1,10 @@
+.tools/
+.research/
+artifacts/
+**/bin/
+**/obj/
+Assemblies/*.dll
+Assemblies/*.pdb
+Directory.Build.props.user
+.vs/
+*.user
