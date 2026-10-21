@@ -24,7 +24,11 @@ public sealed class ResurrectionMod : Mod
 
     public override void DoSettingsWindowContents(Rect inRect)
     {
-        var listing = new Listing_Standard();
+        // A scroll view must grow vertically. Listing otherwise wraps overflow
+        // into an invisible second column, shrinking CurHeight on the next draw.
+        var listing = new Listing_Standard { maxOneColumn = true };
+        settingsHeight = Mathf.Max(settingsHeight, inRect.height);
+        settingsScroll.y = Mathf.Clamp(settingsScroll.y, 0f, Mathf.Max(0f, settingsHeight - inRect.height));
         var viewRect = new Rect(0f, 0f, inRect.width - 20f, settingsHeight);
         Widgets.BeginScrollView(inRect, ref settingsScroll, viewRect);
         listing.Begin(viewRect);
@@ -68,7 +72,7 @@ public sealed class ResurrectionMod : Mod
         listing.Label("ER_SettingsDlcPoolsExplanation".Translate());
         listing.Gap();
         listing.Label("ER_SettingsTimingExplanation".Translate());
-        settingsHeight = listing.CurHeight + 20f;
+        settingsHeight = Mathf.Max(inRect.height, listing.CurHeight + 20f);
         listing.End();
         Widgets.EndScrollView();
     }

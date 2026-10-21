@@ -40,6 +40,9 @@ Do not enable it in a personal save.
   Expand each DLC and disable one encounter: a new chain must exclude only that
   encounter, leaving its DLC's other encounters eligible. Individual checkboxes
   start enabled, survive restart, and are preserved across whole-pool toggles.
+  Expand every DLC list and scroll to the final setting, then collapse them and
+  scroll back up. Repeat in a smaller window: no rows may disappear into a hidden
+  second column, and the page must not collapse to its first label/radio button.
   Changing preferences during an existing chain must not change its saved pool.
 - Exercise each enabled pool separately, using repeated new chains: Royalty five
   types, Ideology five types, Biotech two types, Odyssey eight types. Native
