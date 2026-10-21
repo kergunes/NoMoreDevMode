@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <ER_SettingsLeadCount>Finalden önce izlenecek ipucu sayısı: {0}</ER_SettingsLeadCount>
+  <ER_SettingsLeadCountExplanation>1–5 farklı karşılaşma, varsayılan 3. Ardından her zaman ayrı bir final görevi gelir. Yeni oluşturulan görev zincirleri için geçerlidir.</ER_SettingsLeadCountExplanation>
+  <ER_ProgressTitle>Sevkiyatın izi</ER_ProgressTitle>
+  <ER_CacheLocked>Güvenlik kilidi hâlâ devrede. Sandığı açmadan önce bölgedeki savunucuları temizle.</ER_CacheLocked>
+  <ER_Name_Outpost>İşgal altındaki depo</ER_Name_Outpost>
+  <ER_Name_Mechanoids>Sessiz makine avlusu</ER_Name_Mechanoids>
+  <ER_Name_Turrets>Otomatik aktarma istasyonu</ER_Name_Turrets>
+  <ER_Name_Manhunters>İstila edilmiş konaklama yeri</ER_Name_Manhunters>
+  <ER_Name_Ambush>Yarım kalmış buluşma</ER_Name_Ambush>
+  <ER_Name_Complex>Gömülü arşiv</ER_Name_Complex>
+  <ER_Name_Terminal>Korunan tapınak</ER_Name_Terminal>
+  <ER_Name_Drone>Düşmüş haberci</ER_Name_Drone>
+  <ER_Name_Final>Mühürlü tıbbi kasa</ER_Name_Final>
   <ER_SettingsDelay>Uygun bir kolonist öldükten sonra görevin gelme süresi</ER_SettingsDelay>
   <ER_DelayImmediate>Anında</ER_DelayImmediate>
   <ER_DelayOneToTwoDays>1–2 gün içinde</ER_DelayOneToTwoDays>
@@ -8,7 +21,7 @@
   <ER_SettingsBetweenStages>Sefer aşamaları arasındaki süre: {0} gün</ER_SettingsBetweenStages>
   <ER_SettingsBetweenStagesExplanation>0–7 gün, varsayılan 1. 0 seçildiğinde sonraki ipucu beklemeden gelir. Yeni oluşturulan görev zincirleri için geçerlidir; mevcut görevlerin planlanmış aralıkları korunur.</ER_SettingsBetweenStagesExplanation>
   <ER_LeadRecovered>Kurtarılan kayıtlar sizi serum sevkiyatına bir adım daha yaklaştırıyor. Koordinatlar eksik, ama aralarında başka bir ipucu var. Konumunu belirlemek yaklaşık {0} sürecek gibi görünüyor.</ER_LeadRecovered>
-  <ER_LeadRecoveredImmediate>Kurtarılan kayıtlar sizi serum sevkiyatına bir adım daha yaklaştırıyor. Parçaların arasında başka bir karakoldan söz ediliyor; konumunu belirlemeye yetecek kadar ayrıntı var.</ER_LeadRecoveredImmediate>
+  <ER_LeadRecoveredImmediate>Kurtarılan kayıtlar sizi serum sevkiyatına bir adım daha yaklaştırıyor. Parçaların arasında başka bir ipucu var; konumunu belirlemeye yetecek kadar ayrıntı içeriyor.</ER_LeadRecoveredImmediate>
   <ER_NextLeadTimer>Sonraki ipucunun izi sürülüyor: {0}</ER_NextLeadTimer>
   <ER_SettingsMembershipExplanation>Kolonist olarak geçirilmiş toplam 0–60 gün. Yeni katılan kolonistlere de izin vermek için 0 seç. Mahkûmlar, köleler, misafirler ve diğer uygun olmayan karakterler yine kapsam dışındadır.</ER_SettingsMembershipExplanation>
   <ER_SettingsTimingExplanation>Sonraki ölümler için geçerlidir. Zaten planlanmış bir fırsatın gelme zamanı değişmez. Anında seçeneği bir sonraki oyun tikinde çalışır; oyun duraklatılmış olmamalıdır. 60 günlük global bekleme süresi ve tek görev zinciri sınırı geçerliliğini korur.</ER_SettingsTimingExplanation>

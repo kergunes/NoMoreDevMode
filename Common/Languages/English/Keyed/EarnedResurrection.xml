@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <ER_QuestTitle>Earned resurrection: {0}</ER_QuestTitle>
-  <ER_QuestDescription>A fragment of an old transmission mentions a shipment of resurrector mech serum. Most of the coordinates are missing, but the trail leads to an enemy outpost nearby. Whoever holds it may have kept the shipment records.\n\nOther outposts are mentioned in the transmission. Following the trail could take you far from home. Their occupants are unlikely to welcome visitors.\n\nIf you hope to bring {0} back, preserve their remains.</ER_QuestDescription>
+  <ER_QuestDescription>A fragment of an old transmission mentions a shipment of resurrector mech serum. Most of the coordinates are missing, but scattered records may still reveal where it was sealed away.\n\nFollowing the trail could take you far from home. Some of these places have not been abandoned as completely as they seem.\n\nIf you hope to bring {0} back, preserve their remains.</ER_QuestDescription>
   <ER_UnknownColonist>the lost colonist</ER_UnknownColonist>
-  <ER_SiteLabel>Shipment outpost {0}</ER_SiteLabel>
-  <ER_StageLetterTitle>Resurrection expedition: stage {0}</ER_StageLetterTitle>
+  <ER_SiteLabel>Shipment records</ER_SiteLabel>
+  <ER_StageLetterTitle>A trace of the shipment</ER_StageLetterTitle>
   <ER_StageDescription>The trail leads to a guarded outpost. Securing it should give you a chance to recover the missing shipment records.\n\nThe location will remain accessible for 30 days. Leave its defenders in control, and this lead may be lost.</ER_StageDescription>
-  <ER_FinalDescription>The records point to the last outpost linked to the serum shipment. Its defenders appear better prepared than the others.\n\nSecure the site to release the shipment. You have 30 days before the connection is lost.</ER_FinalDescription>
+  <ER_FinalDescription>The trail ends at a sealed medical cache. Its security interlock is still connected to the defenders outside. Clear the site, then send someone to open the case and recover its contents.\n\nThe location will remain accessible for 30 days.</ER_FinalDescription>
+  <ER_SettingsLeadCount>Leads before the final recovery: {0}</ER_SettingsLeadCount>
+  <ER_SettingsLeadCountExplanation>1–5 distinct encounters, default 3. A separate final recovery always follows. Applies to newly generated questlines.</ER_SettingsLeadCountExplanation>
+  <ER_ProgressTitle>A trace of the shipment</ER_ProgressTitle>
+  <ER_CacheLocked>The security interlock remains engaged. Clear the site's defenders before opening the cache.</ER_CacheLocked>
+  <ER_Name_Outpost>The occupied depot</ER_Name_Outpost>
+  <ER_Name_Mechanoids>The silent machine yard</ER_Name_Mechanoids>
+  <ER_Name_Turrets>The automated relay</ER_Name_Turrets>
+  <ER_Name_Manhunters>The overrun waystation</ER_Name_Manhunters>
+  <ER_Name_Ambush>The broken rendezvous</ER_Name_Ambush>
+  <ER_Name_Complex>The buried archive</ER_Name_Complex>
+  <ER_Name_Terminal>The guarded shrine</ER_Name_Terminal>
+  <ER_Name_Drone>The fallen messenger</ER_Name_Drone>
+  <ER_Name_Final>The sealed medical vault</ER_Name_Final>
+  <ER_Description_Outpost>A hostile group has occupied a depot named in the shipment records. Defeat its defenders to search what they left behind. The location will remain accessible for 30 days.</ER_Description_Outpost>
+  <ER_Description_Mechanoids>Shipment fragments point to a yard watched by dormant mechanoids. Clear the machines to recover the records. The location will remain accessible for 30 days.</ER_Description_Mechanoids>
+  <ER_Description_Turrets>An old relay still guards its stores with automated guns. Disable its defenses to recover the missing records. The location will remain accessible for 30 days.</ER_Description_Turrets>
+  <ER_Description_Manhunters>A waystation named in the records has been overrun by scaria-infected animals. Clear the pack to recover what remains. The location will remain accessible for 30 days.</ER_Description_Manhunters>
+  <ER_Description_Ambush>An abandoned supply rendezvous may hold another trace of the shipment. Approach carefully; someone may be watching. Clear the hostile presence to recover the records. The location will remain accessible for 30 days.</ER_Description_Ambush>
+  <ER_Description_Complex>An ancient complex may hold part of the shipment archive. Hack every terminal and clear its security threats before you leave. The location will remain accessible for 30 days.</ER_Description_Complex>
+  <ER_Description_Terminal>A guarded terminal stands among the remains of an old shrine. Its occupants have made the place their own. Hack the terminal and defeat its defenders to recover the data. The location will remain accessible for 30 days.</ER_Description_Terminal>
+  <ER_Description_Drone>A fallen spacedrone still carries fragments of the shipment's route. Mechanoids keep watch over the wreck. Hack its databanks and clear the machines before leaving. The location will remain accessible for 30 days.</ER_Description_Drone>
+  <ER_Description_Final>The trail ends at a sealed medical cache. Its security interlock is still connected to the defenders outside. Clear the site, then send someone to open the case and recover its contents. The location will remain accessible for 30 days.</ER_Description_Final>
   <ER_TerminalsHacked>Archive terminals hacked:</ER_TerminalsHacked>
   <ER_TerminalDiscovered>A terminal containing mechanite archive information has been discovered.</ER_TerminalDiscovered>
   <ER_SettingsDelay>Quest arrival after an eligible colonist dies</ER_SettingsDelay>
@@ -17,7 +39,7 @@
   <ER_SettingsBetweenStages>Time between expedition leads: {0} days</ER_SettingsBetweenStages>
   <ER_SettingsBetweenStagesExplanation>0–7 days, default 1. At 0, the next lead follows without a waiting period. Applies to newly generated questlines; existing quests keep their scheduled intervals.</ER_SettingsBetweenStagesExplanation>
   <ER_LeadRecovered>The recovered records bring you a little closer to the serum shipment. The coordinates are incomplete, but there is another lead among them. It should take about {0} to trace its location.</ER_LeadRecovered>
-  <ER_LeadRecoveredImmediate>The recovered records bring you a little closer to the serum shipment. Among the fragments is a reference to another outpost, with enough detail to trace its location.</ER_LeadRecoveredImmediate>
+  <ER_LeadRecoveredImmediate>The recovered records bring you a little closer to the serum shipment. Among the fragments is another lead, with enough detail to trace its location.</ER_LeadRecoveredImmediate>
   <ER_NextLeadTimer>Tracing the next lead: {0}</ER_NextLeadTimer>
   <ER_SettingsMembershipExplanation>0–60 days of actual colonist membership. Set to 0 to allow newly joined colonists. Prisoners, slaves, guests and other ineligible pawns remain excluded.</ER_SettingsMembershipExplanation>
   <ER_SettingsTimingExplanation>Applies to future deaths. A scheduled opportunity keeps its original arrival time. Immediately means the next game tick; the game must be unpaused. The 60-day global cooldown and one-chain limit still apply.</ER_SettingsTimingExplanation>

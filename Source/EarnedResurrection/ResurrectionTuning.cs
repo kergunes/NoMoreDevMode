@@ -1,6 +1,6 @@
 namespace EarnedResurrection;
 
-// Gameplay defaults; the two player-facing options are stored in ModSettings.
+// Gameplay defaults; player-facing options are stored in ModSettings.
 public static class ResurrectionTuning
 {
     public const bool Enabled = true;

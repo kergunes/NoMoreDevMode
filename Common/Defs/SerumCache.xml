@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>ER_SerumCache</defName>
+    <label>sealed medical cache</label>
+    <description>A sealed medical shipment case. Its security interlock will not release while the site's defenders remain.</description>
+    <thingClass>EarnedResurrection.Building_SerumCache</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Ship/ShipCryptosleepCasket</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,2)</drawSize>
+    </graphicData>
+    <size>(1,2)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.5</fillPercent>
+    <rotatable>true</rotatable>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <statBases><MaxHitPoints>350</MaxHitPoints><Flammability>0</Flammability></statBases>
+    <building><isInert>true</isInert></building>
+    <selectable>true</selectable>
+  </ThingDef>
+</Defs>

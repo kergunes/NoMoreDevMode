@@ -60,6 +60,7 @@ public sealed class IntegrationRunner : GameComponent
         ResurrectionMod.Settings.delay = OpportunityDelay.OneToTwoDays;
         ResurrectionMod.Settings.minimumMembershipDays = 20;
         ResurrectionMod.Settings.betweenStagesDays = 1;
+        ResurrectionMod.Settings.leadCount = 3;
         Pawn established = MakeColonist(true);
         Check(ColonistDeathPatch.IsEligible(established), "established colonist eligible");
         Pawn recruit = MakeColonist(false);
@@ -112,8 +113,8 @@ public sealed class IntegrationRunner : GameComponent
         var items = ((Reward_Items)rewards[0]).items;
         Check(items.Count == 1 && items[0].def.defName == "MechSerumResurrector" && items[0].stackCount == 1 && !items[0].IsRelic(), "exactly one generic vanilla serum reward");
         Map map = MakeMap(sites[0]);
-        Check(map.mapPawns.AllPawnsSpawned.Any(p => p.Faction == sites[0].Faction),
-            "real Core outpost generation spawned defenders");
+        Check(GenHostility.AnyHostileActiveThreatToPlayer(map, true, true),
+            "Core encounter generation spawned a combat threat");
         SaveReload(2, "ER_active");
     }
 
@@ -136,7 +137,7 @@ public sealed class IntegrationRunner : GameComponent
         Map finalMap = MakeMap(final);
         Check(finalMap.mapPawns.AllPawnsSpawned.Any(p => p.Faction == final.Faction),
             "final actually spawns Core outpost defenders");
-        Check(final.parts[0].parms.threatPoints > Sites(quest)[0].parts[0].parms.threatPoints,
+        Check(final.parts.Sum(p => p.parms.threatPoints) > Sites(quest)[0].parts.Sum(p => p.parms.threatPoints),
             "final has a higher threat budget than the leads");
         Check(!quest.Historical, "entering final site cannot grant serum while defenders remain");
         Check(!finalMap.listerThings.AllThings.Any(x => x.def.defName == "MechSerumResurrector"), "no serum spawned before final victory");
@@ -173,9 +174,15 @@ public sealed class IntegrationRunner : GameComponent
         Site final = Sites(quest)[3];
         Map finalMap = MakeMap(final);
         ClearOutpost(final, finalMap);
-        Check(quest.State == QuestState.EndedSuccess && !State.ChainActive, "final clearance -> vanilla pod delivery -> quest success");
-        var drop = quest.PartsListForReading.OfType<QuestPart_DropPods>().Single();
-        Check(!drop.Things.Any(), "delivered serum removed from pending pod inventory");
+        Check(!quest.Historical, "clearing final defenders alone does not grant the serum");
+        var cache = finalMap.listerThings.AllThings.OfType<Building_SerumCache>().Single();
+        Check(cache.CanOpen && cache.HasAnyContents, "physical final cache unlocks after clearance");
+        cache.Open();
+        Check(quest.State == QuestState.EndedSuccess && !State.ChainActive, "cache opening -> physical serum -> quest success");
+        Check(!quest.PartsListForReading.OfType<QuestPart_DropPods>().Any(), "no reward pod part");
+        Check(finalMap.listerThings.AllThings.Where(t => t.def.defName == "MechSerumResurrector").Sum(t => t.stackCount) == 1,
+            "exactly one physical serum recovered");
+        cache.Open();
         QuestUtility.SendQuestTargetSignals(final.questTags, "AllEnemiesDefeated", final.Named("SUBJECT"));
         Check(!State.ChainActive && State.NextEligibleTick == expectedCooldown, "duplicate final signal cannot restart chain or refund cooldown");
         expectedQuestId = quest.id;

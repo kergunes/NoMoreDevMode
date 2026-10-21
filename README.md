@@ -5,8 +5,8 @@ V0.1 for RimWorld 1.6 / 1.7 + Harmony. **No DLC required.** Resurrection should 
 ## What it does
 
 An established player colonist dies. After a configurable delay the colony can receive a
-three-lead enemy outpost quest chain followed by a more strongly defended
-serum recovery expedition. Successful completion delivers exactly one vanilla
+chain of distinct leads followed by a more strongly defended
+serum recovery expedition. Open its sealed cache to recover exactly one vanilla
 resurrector mech serum. The mod changes access to the item, never resurrection.
 
 ## Core rules
@@ -17,11 +17,14 @@ resurrector mech serum. The mod changes access to the item, never resurrection.
 - One pending opportunity or active chain across the entire save.
 - Deaths during pending/active/cooldown periods are discarded, never queued.
 - Failure or an expired/abandoned expedition consumes the opportunity; no retries.
-- Secure three enemy outposts to recover shipment records, then a stronger final outpost.
-- Time between leads: configurable 0–7 whole days, default 1. Each recovered lead shows a short progress message and the remaining wait in the quest UI.
+- Leads before the final: configurable 1–5, default 3; the final is always separate.
+- No encounter type repeats within a chain. Sites have descriptive names without stage numbers.
+- With Ideology: ancient archive hacking, guarded shrine terminal and defended spacedrone databanks are the primary encounters. Longer chains add distinct Core encounters.
+- Without Ideology: occupied depot, sleeping mechanoid yard, automated turret relay, manhunter-overrun waystation and ambushed rendezvous form the combat-heavy fallback pool.
+- Time between leads: configurable 0–7 whole days, default 1. Each recovered lead opens a direct message dialog and shows the remaining wait in the quest UI.
 - Each discovered site has a 30-day deadline. An unaccepted offer expires after ten days.
 - Final success requires all threats cleared, including dormant/fogged enemies.
-- Reward: one generic serum, delivered by vanilla pod at the final site. Collect it before leaving.
+- Reward: one generic serum physically stored in a sealed medical cache at the final site. Defeat its defenders, then order a colonist to open it. No reward pod. Destroying the cache destroys its contents.
 - No changes to actual ideology relic progression, corpse preservation, serum use or sickness.
 - Corpse destruction or resurrection elsewhere does not cancel the chain.
 - No opportunity while violent quests are disabled, or when no suitable expedition site exists.
@@ -36,7 +39,7 @@ Do not enable the separate development-only integration test mod for normal play
 
 Already generated quests from the older Ideology version retain their original
 complexes and terminal objectives. Finish them with Ideology still enabled before
-removing that DLC. New quests always use Core outposts, with or without Ideology.
+removing that DLC. New quests choose the Ideology path when enabled, or Core fallback otherwise.
 This update does not migrate old active quests or make arbitrary DLC removal from
 an existing save safe.
 
@@ -46,8 +49,8 @@ DLLs or Harmony's DLL with this mod. No preview image is included yet.
 
 `LoadFolders.xml` loads shared content from `Common` and exactly one version's
 assembly directory. The old root `Assemblies/` is deliberately not loaded, so a
-stale earlier DLL cannot be loaded alongside the current one. The legacy
-Ideology layout is restricted to `1.7/Defs`; new quests on both versions are Core-only.
+stale earlier DLL cannot be loaded alongside the current one. The optional
+Ideology layout in `Common/Defs` is skipped when the DLC is absent on either version.
 This is mod support for both versions, not support for downgrading a 1.7 game save.
 
 ## Verification status
@@ -56,7 +59,7 @@ Both production DLLs compiled with zero warnings/errors. The 1.6 build uses
 Krafs.Rimworld.Ref 1.6.4871 and local Harmony 1.6; a full 1.6 game installation
 was not available. The 1.7 build uses the installed game and local Harmony 1.7.
 No gameplay test
-has been run for the DLC-independent outpost version. Historically, an isolated
+has been run for the current varied-encounter/cache-interaction version. Historically, an isolated
 game launch loaded the older Ideology version, but the automated integration attempt stopped
 on its Core+Ideology-only fixture assertion: RimWorld auto-enabled newly discovered
 owned DLC in the fresh test profile. The requested complete chain/save-load/reward
@@ -103,7 +106,7 @@ one target. With both built, run `./scripts/Package.ps1` to create an installabl
 ZIP under `artifacts/`, containing only this mod's binaries and content.
 
 Open Options → Mod settings → **NoMoreDevMode / Earned Resurrection** to choose
-quest arrival time, days between leads and minimum membership days. Settings persist through vanilla
+quest arrival time, lead count, days between leads and minimum membership days. Settings persist through vanilla
 `ModSettings` and are global preferences, not per-save state. They apply to future
 deaths/questlines; pending arrival times, active quests and cooldowns are not
 rescheduled. Stage intervals are fixed when a questline is generated, so changing
@@ -113,8 +116,8 @@ centralized in `ResurrectionTuning.cs`.
 
 ## Scope
 
-Easy V0.1 only: no custom map generator, resurrection item, convoy AI, DLC-specific
-finals, compatibility layers or multiplayer support. The three leads intentionally
-reuse the same vanilla Core outpost encounter. Future V0.2 work can explore
-DLC-aware final encounters and more varied independent questlines after this loop
+Easy V0.1 only: no custom map generator, resurrection item, convoy AI, bespoke DLC
+bosses, compatibility layers or multiplayer support. The leads intentionally
+reuse vanilla site generators and hacking/opening mechanics. Future V0.2 work can explore
+additional final encounters and more varied independent questlines after this loop
 passes gameplay acceptance.

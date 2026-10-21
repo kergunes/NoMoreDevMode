@@ -9,9 +9,9 @@ and matching Harmony). The default is 1.7. Settings use Framework-compatible
 
 `LoadFolders.xml` loads `Common` plus the corresponding `1.6`/`1.7` directory;
 the mod assembly is present once per selected version. Shared quest XML and
-languages live in `Common`. Root-level `Assemblies/` is excluded. Legacy
-`ER_AncientComplex` XML lives only in `1.7/Defs` because it describes the earlier
-1.7 layout system. Existing supported save field names are unchanged. Runtime
+languages live in `Common`. Root-level `Assemblies/` is excluded. The optional
+`ER_AncientComplex` layout lives in `Common/Defs` and is skipped without Ideology.
+Existing supported save field names are unchanged. Runtime
 acceptance is pending on both targets; this does not support save downgrades.
 
 ## Death and membership
@@ -67,73 +67,73 @@ whole-day slider through the standard settings window. The static settings
 reference is a user preference object, not world/save state. Changing settings
 affects future deaths only; existing pending timestamps remain unchanged.
 
-## One independent quest, four stages
+## Saved encounter plan
 
-`ER_Resurrection` has weight zero and is only launched by our delayed trigger.
-`QuestNode_Resurrection : QuestNode` composes Core quest parts and four vanilla
-`Outpost` sites. There is no Ideology activity check or Ideology quest root.
-One hostile humanlike faction with a Settlement pawn-group maker defends all
-four locations. No suitable faction/site means no opportunity is generated.
+The root uses vanilla quest primitives with no player relic/precept state. At
+quest generation it freezes the selected 1–5 lead count (default 3), the 0–7 day
+interval, faction/threat budgets and encounter choices into native quest parts.
+It then appends one separate final recovery. Existing quests are not rebuilt.
 
-The sites are serialized up front; only the next site spawns after the previous
-stage's saved signal and a configurable vanilla delay (default one day). The
-selected interval is copied into all three delay parts at quest generation and
-persisted by vanilla; existing chains are not rescheduled by preferences.
-Vanilla `GenStep_Outpost` and
-`GenStep_Power` build and defend the maps. No custom map generator or terminal.
-Securing an outpost narratively recovers shipment records; no new intel item.
-Random outpost loot value is zero so the mission does not roll a second serum.
-Defender equipment and ordinary generated furnishings remain vanilla.
+Selection removes each chosen type from its pool; no type repeats. With Ideology,
+ancient complex, guarded worshipful terminal and defended spacedrone are chosen
+first. Longer chains extend with distinct Core encounters. Without Ideology the
+pool is occupied outpost, sleeping mechanoids, turrets, manhunters and edge ambush.
+Combat weights favor defended sources over the animal encounter. A world with
+insufficient supported encounter types/factions cannot generate the requested
+unique plan; no duplicated filler is silently inserted.
 
-Each lead uses `QuestPart_PassActivable` to forward the site's Core
-`AllEnemiesDefeated` signal once. Quest tags use unique quest IDs. Leaving a site
-before completion, site destruction, or its 30-day deadline fails the whole chain.
-Completed stages disable those failure gates before later removal. No retry.
+All sites use vanilla generators. Complexes use the optional independent
+ER_AncientComplex layout (security crates excluded to avoid random extra serum).
+Shrine/drone expeditions reuse their Ideology hackable objects, placed through
+ItemStash plus vanilla defenders; they do not invoke relic-dependent quest roots.
+Core leads use their corresponding defense site part and a small deterministic
+supply stash. Random outpost loot value is zero. Site/letter names describe the
+encounter; sequence indices remain internal signals only.
 
-The base budget is vanilla current threat points (minimum 300) x 1.5, raised to
-the chosen faction's vanilla minimum Settlement budget. Stage four uses 1.5x
-that effective budget with the same faction. No hardcoded pawn counts or custom
-combat logic. No peaceful variant is offered while violent quests are disabled.
+QuestPart_ArchiveObjective listens to saved hacking and AllEnemiesDefeated
+signals. It requires every configured terminal hacked and no active threat,
+including dormant/fogged enemies. Core leads have no terminal requirement. It
+completes once through QuestPartActivable's saved state. Destroying an unhacked
+terminal, abandoning an unfinished site, site destruction or a 30-day deadline
+fails the chain. Completed stages disable those failure gates.
 
-The final `QuestPart_SerumRecovery` reacts to `AllEnemiesDefeated`, rechecks
-current threats including dormant/fogged enemies and emits its result once with
-a saved completion latch. Its old `terminalsHackedSignal`/`terminalsHacked` field
-names are retained for save compatibility; new quests wire the records-recovered
-event to the site's clearance signal. Previously generated quests retain their
-old terminal signal wiring. No per-pawn or per-tick combat polling.
+Each lead completion opens a vanilla QuestPart_Dialog directly. A gated waiting
+paragraph and native delay timer stay in the quest UI until the next site is
+revealed. Zero-day intervals use different text without promising a wait. A
+scrollable settings window accommodates all preferences.
 
-Each of the first three completion signals also sends a localized vanilla
-positive `Message`. A signal-gated description shows that records were recovered
-and the next location is being traced, until the next site's activation signal.
-The vanilla delay's expiry text shows the remaining time. At zero days a distinct
-message omits the waiting claim. No custom quest part or ticking message system.
+## Physical final and cleanup
 
-`ER_AncientComplex` remains as a legacy-only XML definition with
-`MayRequire="Ludeon.RimWorld.Ideology"`. The engine skips it before XML inheritance
-when Ideology is absent. New quests never use it. Complete older active quests
-with Ideology enabled before removing that DLC; no migration is attempted.
+A final always follows, regardless of Ideology or lead count. With Ideology it
+uses an ancient complex with additional guards; Core fallback uses an outpost.
+Both include an ItemStash containing one Building_SerumCache. Final generation
+points are multiplied by 1.5. Defense budgets use vanilla faction minimums.
 
-## Reward and cleanup
+One vanilla MechSerumResurrector is made at generation and placed in that cache's
+native deep-saved ThingOwner. Reward_Items displays a reference to the same item;
+no reward generator, duplicate item, or QuestPart_DropPods is created. Opening is
+locked until current threats (including dormant/fogged enemies) are cleared.
 
-Exactly one vanilla `MechSerumResurrector` thing is instantiated at generation.
-`Reward_Items` displays it; `QuestPart_DropPods` deeply owns the same item until
-successful recovery. The pod drops at the final site, not a possibly abandoned
-home map. The drop's result signal ends the quest successfully; failure cleanup
-destroys the undelivered serum. The completed recovery latch and empty delivered
-inventory prevent duplicate rewards. The player must collect the landed pod
-before leaving, as with ordinary site loot.
+Building_SerumCache inherits Core Building_Casket and IOpenable, so the player
+orders the normal opening job. Open ejects the serum nearby; only an empty
+container after ejection emits the saved success signal. Failed placement does
+not resolve success. Reopening an empty cache cannot emit another result.
+Destroying/deconstructing the case clears contents before base destruction, so
+it cannot bypass opening. The quest fails if the case is destroyed before success.
 
-`QuestPart_ResurrectionCleanup` reports every cleaned-up outcome to the component
-and removes/marks our spawned sites for removal using vanilla cleanup. The
-component also reconciles historical/removed quests. Neither resets cooldown.
-The quest UI's Dismiss button hides a quest; vanilla dismissal is not quest
-failure. An ignored offer expires after ten days; an abandoned active site or
-expired stage fails. The deadlines avoid an impossible chain reserving the slot
-forever. Corpse loss or resurrection elsewhere never cancels the quest.
+QuestPart_ResurrectionCleanup retains a cache reference. On failure/expiry it
+clears the undelivered contents, reports outcome to the global state component
+and removes/marks sites for cleanup. On success the physically recovered serum
+is left alone. The cooldown is never refunded. Collect the serum before leaving.
+The older QuestPart_SerumRecovery type remains for old saved quests only.
 
-## Ideology isolation
+## Save compatibility and acceptance
 
-No relic/precept reference is passed into our slate or persisted. No relic-info,
-development points or relic history reward is added. The serializer stores vanilla
-quest parts and our small objective/cleanup parts, never ideology state. Vanilla
-serum use and all resurrection consequences remain unchanged.
+Shared save field names are retained, including old quest parts. Existing chains
+keep their old objectives, delays and reward mechanism; changes apply to newly
+generated chains. Do not remove Ideology from a save containing its active sites.
+No cross-version save downgrade support or automatic active-chain migration.
+
+Both targets are compiled; game loading, XML resolution, individual generators,
+opening jobs, dialogs and persistence still require human verification. No game
+was launched for this revision at the user's request.

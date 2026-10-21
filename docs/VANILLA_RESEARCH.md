@@ -1,6 +1,32 @@
 # Vanilla research — RimWorld 1.7.4984 rev1242
 
-## Current decision: Core-only encounters (2026-10-22)
+## Current decision: Ideology primary, varied Core fallback, physical final
+
+This section supersedes the Core-only decision below. The user requested restored
+Ideology content, unique encounter selection, configurable lead count and a
+physical final cache. Both 1.6.4871 reference signatures and installed 1.7 code
+were inspected. `QuestNode_Root_AncientComplex`, `LayoutStructureSketch` and
+`ComplexLayoutDef` exist on both targets.
+
+The Ideology pool independently composes an ancient complex, a worshipful terminal
+under hostile occupation, and a mechanoid-guarded spacedrone site. It does not call
+the actual relic quest roots. The terminal/drone are placed with Core `ItemStash`
+plus vanilla defense site parts; this is deliberately an expedition adaptation,
+not vanilla's neutral temporary village or home-map spacedrone delivery.
+At most three primary encounters are selected before longer chains add Core leads.
+Core fallback uses distinct Outpost, SleepingMechanoids, Turrets, Manhunters and
+AmbushEdge site parts. Selection removes each chosen type from the candidate pool.
+
+`QuestPart_Dialog` supplies a direct node-tree message after each lead. The final
+uses `Building_Casket` / `IOpenable` / vanilla opening jobs. `Building_SerumCache`
+gates opening on security clearance, stores the real serum in its native
+`ThingOwner`, and only emits its opening result after successful physical ejection.
+Destroyed caches never eject their reward. `GenStep_ItemStash` / BaseGen storage
+places the case from `SitePart.things`; `SymbolResolver_Stockpile` directly spawns
+concrete contents (including buildings) and clears the staging container.
+No drop-pod reward part is used in new quests. No player relic is referenced.
+
+## Superseded decision: Core-only encounters (2026-10-22)
 
 The user requested removal of the Ideology requirement. The original research
 below remains historical evidence; the current quest no longer uses its complex

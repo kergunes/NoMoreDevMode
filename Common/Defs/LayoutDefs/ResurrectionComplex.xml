@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <!-- Legacy definition for already generated Ideology-era quests only.
-       New quests use Core outposts. Skip before XML inheritance when DLC is absent. -->
+  <!-- Independent Ideology archive layout, shared by 1.6 and 1.7.
+       Skip before XML inheritance when DLC is absent; never generates a relic. -->
   <ComplexLayoutDef ParentName="AncientComplex" MayRequire="Ludeon.RimWorld.Ideology">
     <defName>ER_AncientComplex</defName>
     <threats Inherit="False">
