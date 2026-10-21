@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>EarnedResurrection.Integration</AssemblyName>
+    <OutputPath>Assemblies/</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RimWorldDir Condition="'$(RimWorldDir)' == ''">$(RIMWORLD_DIR)</RimWorldDir>
+    <HarmonyAssembly Condition="'$(HarmonyAssembly)' == ''">$(HARMONY_ASSEMBLY)</HarmonyAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldDir)/Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityStubs"><HintPath>$(RimWorldDir)/UnityStubs.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(HarmonyAssembly)</HintPath><Private>false</Private></Reference>
+    <Reference Include="EarnedResurrection"><HintPath>../../Assemblies/EarnedResurrection.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

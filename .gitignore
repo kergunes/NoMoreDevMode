@@ -5,6 +5,9 @@ artifacts/
 **/obj/
 Assemblies/*.dll
 Assemblies/*.pdb
+**/Assemblies/*.deps.json
+**/Assemblies/*.dll
+**/Assemblies/*.pdb
 Directory.Build.props.user
 .vs/
 *.user

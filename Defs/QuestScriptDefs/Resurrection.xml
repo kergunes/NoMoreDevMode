@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <QuestScriptDef>
+    <defName>ER_Resurrection</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <isRootSpecial>true</isRootSpecial>
+    <defaultChallengeRating>3</defaultChallengeRating>
+    <questAvailableLetterTextIsDescription>true</questAvailableLetterTextIsDescription>
+    <expireDaysRange>10</expireDaysRange>
+    <root Class="EarnedResurrection.QuestNode_Resurrection" />
+  </QuestScriptDef>
+</Defs>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Earned Resurrection integration tests (development only)</name>
+  <author>kergunes</author>
+  <packageId>kergunes.earnedresurrection.tests</packageId>
+  <supportedVersions><li>1.7</li></supportedVersions>
+  <modDependencies><li><packageId>kergunes.earnedresurrection</packageId><displayName>Earned Resurrection</displayName><downloadUrl>https://github.com/kergunes/NoMoreDevMode</downloadUrl></li></modDependencies>
+  <loadAfter><li>kergunes.earnedresurrection</li></loadAfter>
+</ModMetaData>

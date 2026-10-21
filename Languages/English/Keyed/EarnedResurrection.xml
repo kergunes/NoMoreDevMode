@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <ER_QuestTitle>Earned resurrection: {0}</ER_QuestTitle>
+  <ER_QuestDescription>Reports have surfaced of an ancient mechanite compound capable of restoring dead organisms. The information is fragmented: three separate expeditions to ancient complexes must recover the coordinates of a final, heavily defended cache.\n\nIf you intend to restore {0}, their remains must be preserved. The serum cannot recover destroyed remains and all ordinary resurrection restrictions apply.\n\nHack every terminal at each lead. The next lead arrives one day later. Each expedition has a 30-day deadline from discovery; leaving an unfinished site, destroying an unhacked terminal, or letting its deadline expire ends the entire opportunity. The final cache requires all terminals hacked and all defenders defeated, including dormant mechanoids. Exactly one resurrector mech serum will then be delivered by pod at that site.\n\nThere is only one opportunity per 60 days. Failure or abandoning the expedition does not refund it. The quest can continue if {0} is resurrected elsewhere or their remains are lost.</ER_QuestDescription>
+  <ER_UnknownColonist>the lost colonist</ER_UnknownColonist>
+  <ER_SiteLabel>Mechanite archive {0}</ER_SiteLabel>
+  <ER_StageLetterTitle>Resurrection expedition: stage {0}</ER_StageLetterTitle>
+  <ER_StageDescription>Lead {0} of 3: travel to the marked ancient complex and hack every terminal. Expect ancient security hazards. Preserve the terminals and complete the expedition within 30 days. Leaving the site unfinished ends the chain. The next coordinates will arrive one day after success.</ER_StageDescription>
+  <ER_FinalDescription>Serum recovery: travel to the final archive. Hack every terminal and defeat all hostile threats, including sleeping mechanoids. This site has stronger security than the earlier leads. Complete both objectives within 30 days to receive exactly one vanilla resurrector mech serum by pod here. Leaving before success ends the chain.</ER_FinalDescription>
+  <ER_TerminalsHacked>Archive terminals hacked:</ER_TerminalsHacked>
+  <ER_TerminalDiscovered>A terminal containing mechanite archive information has been discovered.</ER_TerminalDiscovered>
+</LanguageData>

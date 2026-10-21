@@ -1,0 +1,44 @@
+# Vanilla research — RimWorld 1.7.4984 rev1242
+
+Inspected the installed `Version.txt`, `RimWorld.runtimeconfig.json`, `Assembly-CSharp.dll`
+with ILSpy, and Core/Ideology XML on 2026-10-21. Decompiled game code remains local
+and ignored. Target: Waylith, .NET 10, Core + Ideology. No 1.6 compatibility claim.
+
+## Findings and reuse decision
+
+| Vanilla implementation | Finding / decision |
+| --- | --- |
+| `QuestNode_Root_RelicHunt`, `Script_RelicHunt.xml` | Five successful leads via `QuestPart_SubquestGenerator_RelicHunt`, 5–10 day intervals, then `AncientAltar`. Calls `Precept_Relic.GenerateRelic()`. Do not invoke. |
+| `QuestPart_SubquestGenerator` | Generic persisted interval/subquest accounting, but deliberately retries unsuccessful subquests. Our fail-once design instead uses one quest with sequential signal-gated stages. |
+| `QuestNode_Root_Hack_AncientComplex` | Falls back to a real player relic when no relic is supplied; creates `Reward_RelicInfo`. Unsafe to call directly. |
+| `QuestNode_Root_AncientComplex` | Safe abstract base: reuse `GenerateStructureSketch`, the vanilla ancient layout's rooms/worker, size/terminal curves and `ThreatPointsOverPointsCurve`. No relic state in these methods. Our inherited layout excludes security-crate threats whose separate loot table can roll serum. |
+| `CompHackable`, `QuestPart_PassAllActivable`, `QuestPart_Filter_Hacked` | Reuse terminal `.Hacked` and `.Destroyed` quest tags; persisted all-terminal completion and destruction filtering. |
+| `QuestNode_Root_Hack_WorshippedTerminal` | Requires a real relic, generates temporary faction and relic-info reward. Excluded from V0.1; would need independent wrapper. |
+| `QuestNode_Root_Hack_Spacedrone` | Relic-info reward and real-relic fallback; home-map encounter with raids. Excluded rather than introducing fake relics. |
+| `GenStep_AncientAltar`, `SymbolResolver_AncientAltar`, `SitePartWorker_AncientAltar` | Uses reliquary, `relicThing`, extraction security and relic-lost signals. Even though its inner container can hold a generic item, labels and completion are relic-specific and extraction need not defeat enemies. Excluded. |
+| `AncientComplex`, `SleepingMechanoids` site parts | Reuse vanilla map generators, ancient complex threats/loot, and point-scaled exterior defenders for final combat. No custom generator. |
+| `QuestGen_Sites.GenerateSite`, `QuestPart_SpawnWorldObject` | Reuse world sites, quest tags and deferred spawn signals. Sites appear one at a time. |
+| `QuestPart_Delay`, `QuestPart_WorldObjectTimeout`, `QuestPart_QuestEnd` | Vanilla saved delays, site cleanup, success/failure. Stages have a generous 30-day deadline and chain failure is permanent. |
+| `Reward_Items`, `QuestPart_DropPods` | Display precisely one `MechSerumResurrector`; deliver that same item once after final objective, then end successfully. No random reward generator. |
+| `Pawn.Kill` | No general subscribable persistent-component death event found. A narrow Harmony prefix snapshots eligibility; postfix notifies only after a living-to-dead transition. Map and caravan deaths share this path. |
+| `Pawn_PlayerSettings.joinTick` | Constructor timestamp, not reliable duration of free colonist status (components can exist for other statuses). Do not use it as membership proof. |
+| `RecordDefOf.TimeAsColonistOrColonyAnimal`, `RecordWorker_TimeAsColonistOrColonyAnimal` | Vanilla saved cumulative ticks; excludes slaves, prisoners and extra home faction guests. Reuse for 20 days of actual membership, with strict current ownership checks. No parallel join ledger. |
+
+## Independent resurrection chain
+
+One new quest root composes **three ancient-complex information expeditions** and
+a fourth, more strongly defended complex. Repeating the safe ancient-complex
+encounter is intentional for this easy version; no new encounter archetype.
+Final completion requires all terminals hacked **and no remaining hostile threats,
+including dormant defenders**. The generic serum arrives by vanilla pod at the
+final site. It never enters a reliquary or receives `CompRelic`/precept state.
+
+Quest signals and saved vanilla quest parts own progression. A small saved final
+objective part checks current threats on terminal/clearance signals to avoid
+treating an earlier, stale clearance signal as final victory. A cleanup part
+reports the quest outcome to the persistent game component and removes our sites.
+
+No `Precept_Relic`, `GenerateRelic`, `Reward_RelicInfo`, relic history event,
+development-points reward, or player ideology mutation is used by this mod.
+If the named pawn's corpse disappears or they resurrect elsewhere, the chain
+continues; the serum's behavior remains entirely vanilla.

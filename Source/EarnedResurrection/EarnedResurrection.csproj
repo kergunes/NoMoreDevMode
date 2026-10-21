@@ -10,12 +10,15 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     <RimWorldDir Condition="'$(RimWorldDir)' == ''">$(RIMWORLD_DIR)</RimWorldDir>
+    <HarmonyAssembly Condition="'$(HarmonyAssembly)' == ''">$(HARMONY_ASSEMBLY)</HarmonyAssembly>
   </PropertyGroup>
   <Target Name="CheckGamePath" BeforeTargets="ResolveReferences">
     <Error Condition="!Exists('$(RimWorldDir)/Assembly-CSharp.dll')" Text="Set RIMWORLD_DIR or -p:RimWorldDir to the RimWorld 1.7 installation directory." />
+    <Error Condition="!Exists('$(HarmonyAssembly)')" Text="Set HARMONY_ASSEMBLY or -p:HarmonyAssembly to Harmony's 1.7/Assemblies/0Harmony.dll." />
   </Target>
   <ItemGroup>
     <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldDir)/Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityStubs"><HintPath>$(RimWorldDir)/UnityStubs.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(HarmonyAssembly)</HintPath><Private>false</Private></Reference>
   </ItemGroup>
 </Project>

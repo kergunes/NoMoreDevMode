@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Same vanilla generator and rooms. Exclude security crates because their
+       independent loot table can roll another resurrector serum before success. -->
+  <ComplexLayoutDef ParentName="AncientComplex">
+    <defName>ER_AncientComplex</defName>
+    <threats Inherit="False">
+      <SleepingMechanoids />
+      <SleepingInsects />
+      <Ambush />
+      <CryptosleepPods />
+      <Infestation />
+      <FuelNode><maxPerRoom>1</maxPerRoom><selectionWeight>3</selectionWeight></FuelNode>
+      <RaidTerminal><maxPerRoom>1</maxPerRoom><chancePerComplex>0.5</chancePerComplex></RaidTerminal>
+    </threats>
+  </ComplexLayoutDef>
+</Defs>

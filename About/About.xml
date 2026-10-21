@@ -5,8 +5,9 @@
   <packageId>kergunes.earnedresurrection</packageId>
   <supportedVersions><li>1.7</li></supportedVersions>
   <modDependencies>
+    <li><packageId>brrainz.harmony</packageId><displayName>Harmony</displayName><steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl></li>
     <li><packageId>ludeon.rimworld.ideology</packageId><displayName>Ideology</displayName></li>
   </modDependencies>
-  <loadAfter><li>ludeon.rimworld</li><li>ludeon.rimworld.ideology</li></loadAfter>
-  <description>Resurrection should be earned. An established colonist's death can lead to three dangerous information-gathering expeditions and a final recovery mission for exactly one vanilla resurrector mech serum. One opportunity per year, one active chain. Requires Ideology.</description>
+  <loadAfter><li>brrainz.harmony</li><li>ludeon.rimworld</li><li>ludeon.rimworld.ideology</li></loadAfter>
+  <description>Resurrection should be earned. An established colonist's death can lead to three dangerous information-gathering expeditions and a final recovery mission for exactly one vanilla resurrector mech serum. One opportunity per year, one active chain. Requires Ideology and Harmony. V0.1: human gameplay verification pending.</description>
 </ModMetaData>
