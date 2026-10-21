@@ -22,7 +22,7 @@ resurrector mech serum. The mod changes access to the item, never resurrection.
 - Eligible, unused DLC encounters are selected before Core encounters, with combat encounters favored over hospitality. Royalty, Ideology, Biotech and Odyssey each have an enabled-by-default settings checkbox and expandable list of individual encounter checkboxes, shown only when that DLC is active; a questline saves its pool when generated.
 - Royalty: shuttle assault, human-held problem-causer outpost, shuttle rescue, diverted raids and protected hospitality. Ideology: independent archive/shrine/drone encounters, work camp and distant shuttle mission (the latter also needs Royalty and a player relic for native setup, without advancing its hunt).
 - Odyssey: garrison, launch site, refinery, warehouse and infested settlement. Biotech currently has no encounters in the pool. Native prerequisites still apply; unavailable roots are skipped.
-- Mechanitor complex, gravship wreckage and mechanoid signal are excluded from new lead selection and settings. Old saved pools cannot reselect them; already generated children remain intact, including their existing reward restrictions.
+- Mechanitor complex, gravship wreckage and mechanoid signal are excluded from new lead selection and settings. Old saved pools cannot reselect them; already generated quest parts remain saved. Their retired reward patches are removed; previously saved item/implant changes are not reversed.
 - Sanguophage crash (The bloodbound transport) and ancient mercenaries (The awakened company) are also excluded; the remaining encounters are unchanged. DLC with empty pools display a note instead of empty encounter controls.
 - No mech-cluster quest, mechanitor ship, mechanitor boss, Anomaly, gravcore-chain or orbital mission is selected. The problem-causer quest is restricted to its human outpost branch; hospitality uses an explicit human raid instead of native randomized threats. Space travel is never required.
 - When no eligible unused DLC encounter remains, occupied depot, sleeping mechanoid yard, automated turret relay, manhunter-overrun waystation and ambushed rendezvous form the Core fallback pool. With every DLC pool disabled, all leads use Core.
@@ -129,10 +129,9 @@ sites require clearing defenders and opening a shipment archive; home crash
 quests also require the native operation to finish and surviving threats to be
 cleared. Ordinary generated reward choices are removed: the lead reward is
 information, and the separate final supplies the serum. Ordinary native salvage
-remains, but special progression loot is restricted on newly generated shipment
-leads: no corpse mechlink, transferable sanguophage xenogerm, usable grav engine,
-unique weapon reward, bonus serum, or special crate upgrade. Enemy unique weapons
-retain their combat effects and are destroyed when dropped/transferred. Ruined
-engines retain inspection as a quest action without research/ownership unlocks.
-Normal vanilla quests and the final serum cache are outside these restrictions.
-Already generated old leads/items are not retroactively changed.
+remains, but special loose/container rewards are filtered only on sites verified
+as belonging to a current allowed child of this mod's questline. Normal vanilla
+quests, removed child types, pawns/corpses/carried equipment, engines and the final
+serum cache are outside those filters. No engine, gene, implant, weapon-drop or
+weapon-transfer patches remain. No native quest is removed from the game.
+Previously saved changes are not automatically reversed.

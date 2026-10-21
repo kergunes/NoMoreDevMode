@@ -76,22 +76,19 @@ Do not enable it in a personal save.
 
 - Run each scenario both as a shipment child and as the ordinary vanilla quest;
   vanilla must retain its original rewards, research, ownership and completion.
-- Legacy mechanitor child only (no longer generated): open the cryptosleep pod, inspect its corpse and verify no
-  MechlinkImplant/extractable mechlink. Keep the pod/corpse and its opening behavior.
-  Clear enemies and open the shipment archive: exactly one parent progress dialog
-  and the next lead must follow. Opening the pod alone must not bypass the archive.
-- Legacy mercenary child only (no longer generated): the leader must still wield the same unique weapon and use its
-  traits in combat. Down/kill/disarm them: the weapon must not become usable loot;
-  ordinary enemy gear remains. The archive/clearance objective must still work.
-- Legacy mechanoid signal only (no longer generated): let the crash finish and select Recover engine records. The
-  job must finish and arm native success, but wait for attacker clearance. Verify
-  no working/claimable/launchable engine, no research flag change, no gravship quest
-  and no bonus gravlite panels. Also try with an unrelated engine already inspected.
-- Legacy wreckage child only (no longer generated): keep the wreck and enemies. Its engine must remain inert and
-  unclaimable; opening the defended shipment archive must still finish this lead.
-- Legacy sanguophage child only (no longer generated): crash, reinforcements, hemogen/deathless combat and native
-  operation timing must work; the carrier must lack XenogermReimplanter and cannot
-  give the colony that xenogerm. Defeating threats must still advance the chain.
+- Generate the five removed roots as ordinary VANILLA quests: mechanitor complex,
+  mechanoid signal, gravship wreckage, sanguophage ship, ancient mercenaries. They
+  must still exist in vanilla. Check mechlink extraction, native motor inspection/
+  research/claim/launch, sanguophage genes and unique weapon loot as applicable.
+  No shipment warning, damaged-engine message or shipment completion may appear.
+- Already saved removed ER children retain saved quest parts, but their old
+  engine/pawn/weapon Harmony restrictions no longer exist. Previously removed
+  saved items/genes/implants are not recreated; use freshly generated vanilla
+  quests for the normal-behavior comparison.
+- On a normal vanilla site with the same quest root as a current allowed child,
+  crates must retain native special loot and opening/trap behavior. Repeat on
+  our own child: special loot filtering must apply only there. A stale site tag
+  without matching current child/parent/site ownership must not enable filtering.
 - Odyssey crates / native distant complex: opening crates/security crates must
   retain their triggers and traps, ordinary salvage and guards, with no bonus
   serum, unique weapon or special progression item. Minified packages must never

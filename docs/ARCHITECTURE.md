@@ -78,11 +78,12 @@ names (empty by default). Settings show expandable per-DLC encounter lists.
 No Anomaly/orbital/gravcore/boss/cluster root is enumerated.
 Mechanitor complex, gravship wreckage and mechanoid signal were removed for
 overlapping gameplay and bespoke reward complexity. Sanguophage crash and ancient mercenaries
-are excluded as well; their legacy reward handling remains for saved children.
+are excluded as well; their engine/pawn/equipment Harmony patches have been removed.
 The UI shows an empty-pool note for Biotech rather than unused controls. Dispatch intersects saved
 allowed names with the current catalog, so even old parent pools cannot choose
 these removed roots for a future lead. Existing generated children and marked
-objects retain their logic/protections; no active site or item is deleted.
+objects keep saved quest parts; no active site or item is deleted. Previously
+saved gene/implant/item changes are not automatically reversed.
 The problem-causer adapter runs a temporary native sequence without the mechanoid
 selection node; shared vanilla defs are never modified. Hospitality runs its native
 peaceful difficulty plus an explicit human raid to avoid randomized mech clusters.
@@ -107,19 +108,20 @@ validation prevents dispatching an orbital or underground expedition.
 
 ### Shipment-only physical reward restrictions
 
-`ShipmentRewardPolicy.GenerationScope` is a thread-local, disposable capture active
-only around this dispatcher's `QuestGen.Generate` call. Harmony postfixes record
-new things/pawns only while it is active; no global quest root or def is modified.
-After generation, it marks engines/unique weapons, removes the sanguophage's
-XenogermReimplanter gene (retaining combat genes), and removes special loose loot.
-The collector is discarded in `Dispose` even if generation fails.
+The only reward Harmony targets are `Site.PostMapGenerate` and
+`CompLootSpawn.PostSpawnSetup`. The former cleans generated special loot once;
+the latter cleans newly populated crates. There is no generation collector and
+no patch on engines, equipment, pawn generation, genes, implants or reveal messages.
 
-New child sites receive the saved `ER_ShipmentRewardSite` quest tag before spawning.
-`Site.PostMapGenerate` traverses their nested holders once, removes dead mechanitors'
-MechlinkImplant, cleans special loot and updates mechlink reveal messages without
-changing casket opening signals. `CompLootSpawn.PostSpawnSetup` cleans later crate
-contents on those marked sites. Player pawns/corpses and their carried gear are
-excluded. Minified packages are removed whole to avoid empty-package references.
+`ShipmentRewardPolicy.Restricted` requires all four ownership checks: the site
+tag, a direct parent rooted at ER_Resurrection with QuestPart_DlcPool, a child root
+in the current catalog (including the human problem-causer alias), and an exact
+SpawnWorldObject reference to this site. Normal vanilla quests and retired child
+roots cannot pass, even if a site has an old tag. The query includes historical
+allowed children so finishing the lead does not unlock special crate loot.
+
+Pawns, corpses and all equipped/carried gear are excluded. Engines always use
+vanilla behavior. Minified packages are removed whole to avoid empty references.
 If cleaning empties a previously occupied crate, one steel scrap preserves vanilla
 CanOpen and its original opening/hacking/trap signals; already empty crates stay empty.
 
@@ -127,16 +129,11 @@ Special crate loot includes serums, mechlinks, unique weapons, archotech parts,
 gene/archite rewards, psychic/orbital devices, grav resources/upgrades, techprint
 and quest-map rewards. Ordinary supplies/equipment/resources remain. Deployed
 gravship facilities are retained; only packaged facility rewards are removed.
-Enemy-equipped unique weapons keep every combat trait and acquire a saved object
-tag; equipment drop/transfer patches destroy only marked unique weapons. Ruined
-engines keep their original object/tag/inspection job and emit `Inspected`, but
-their Inspect prefix bypasses research, ownership and gravship-quest generation.
-Claim/launch reports reject only marked engines; their record-reading action stays
-available even after an unrelated engine has been inspected.
-
-The parent final site has no restriction tag, so its physical serum is untouched.
-Ordinary vanilla quests have neither our generation scope nor tags and take the
-original code path. No old lead or already acquired reward is migrated/confiscated.
+Enemy weapons are no longer intercepted on drop/transfer. The parent final site
+does not belong to a qualifying child, so its physical serum is untouched. The
+remaining loot filters neither send letters/messages nor end a quest. No native
+quest def is removed, disabled or rewritten. Old object marker strings are inert;
+previously saved changes are not migrated or undone.
 Compilation is verified; in-game equivalence is explicitly pending human checks.
 
 The distant Ideology shuttle mission requires Royalty and a real player relic for

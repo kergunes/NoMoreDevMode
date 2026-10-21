@@ -54,4 +54,7 @@ internal static class DlcLeadCatalog
     internal static List<string> EnabledNames() => Entries.Where(e => Enabled(e.dlc) &&
         !(ResurrectionMod.Settings?.disabledDlcLeads.Contains(e.name) ?? false) &&
         DefDatabase<QuestScriptDef>.GetNamedSilentFail(e.name) != null).Select(e => e.name).ToList();
+
+    internal static bool ContainsRoot(string root) => Entries.Any(e => e.name == root ||
+        e.name == "ProblemCauser" && root == "ER_HumanProblemCauser");
 }

@@ -77,16 +77,10 @@ public sealed class QuestPart_DlcLead : QuestPartActivable
                 // real relic hunt is used as a parent or advanced by this quest.
                 slate.Set("relic", relic);
             }
-            if ((entry.name == "MechanoidSignal" || entry.name == "GravshipWreckage") &&
-                Faction.OfMechanoids == null) continue;
             if (!def.CanRun(slate, home)) continue;
 
             pool.used.Add(entry.name);
-            using (var generated = new ShipmentRewardPolicy.GenerationScope())
-            {
-                child = QuestGen.Generate(def, slate);
-                if (child != null) generated.Apply(entry.name);
-            }
+            child = QuestGen.Generate(def, slate);
             if (child == null)
             {
                 Log.Error("[EarnedResurrection] Could not generate DLC lead " + entry.name);
@@ -145,25 +139,20 @@ public sealed class QuestPart_DlcLead : QuestPartActivable
             AddArchiveObjective(sites[0]);
             child.description += "\n\n" + "ER_DlcArchiveObjective".Translate();
         }
-        else if (entry.name == "SanguophageShip" || entry.name == "MechanoidSignal" ||
-                 entry.name == "Hospitality_Joiners")
+        else if (entry.name == "Hospitality_Joiners")
         {
-            if (entry.name == "Hospitality_Joiners" || entry.name == "MechanoidSignal")
+            MapParent target = child.PartsListForReading.OfType<QuestPart_PawnsArrive>()
+                .Select(p => p.mapParent).FirstOrDefault(p => p?.Map != null && p.Map.IsPlayerHome) ??
+                child.QuestLookTargets.Select(t => t.WorldObject).OfType<MapParent>()
+                .FirstOrDefault(p => p.Map != null && p.Map.IsPlayerHome) ?? home.Parent;
+            Faction attackers = QuestNode_Resurrection.EnemyFactions.RandomElement();
+            child.AddPart(new QuestPart_RandomRaid
             {
-                MapParent target = child.PartsListForReading.OfType<QuestPart_PawnsArrive>()
-                    .Select(p => p.mapParent).FirstOrDefault(p => p?.Map != null && p.Map.IsPlayerHome) ??
-                    child.QuestLookTargets.Select(t => t.WorldObject).OfType<MapParent>()
-                    .FirstOrDefault(p => p.Map != null && p.Map.IsPlayerHome) ?? home.Parent;
-                Faction attackers = entry.name == "MechanoidSignal" ? Faction.OfMechanoids :
-                    QuestNode_Resurrection.EnemyFactions.RandomElement();
-                child.AddPart(new QuestPart_RandomRaid
-                {
-                    inSignal = entry.name == "MechanoidSignal" ? "Quest" + child.id + ".dropPodsSpawned" : child.InitiateSignal,
-                    mapParent = target, faction = attackers, pointsRange = new FloatRange(points, points),
-                    arrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn, raidStrategy = RaidStrategyDefOf.ImmediateAttack
-                });
-                child.description += "\n\n" + "ER_DlcDefendObjective".Translate();
-            }
+                inSignal = child.InitiateSignal,
+                mapParent = target, faction = attackers, pointsRange = new FloatRange(points, points),
+                arrivalMode = PawnsArrivalModeDefOf.EdgeWalkIn, raidStrategy = RaidStrategyDefOf.ImmediateAttack
+            });
+            child.description += "\n\n" + "ER_DlcDefendObjective".Translate();
             AddCombatGate();
         }
         if (entry.name == "AncientComplex_Mission")
@@ -171,23 +160,7 @@ public sealed class QuestPart_DlcLead : QuestPartActivable
             Precept_Relic relic = Faction.OfPlayer.ideos.PrimaryIdeo.GetAllPreceptsOfType<Precept_Relic>().First();
             child.description = child.description.Replace(relic.Label, "ER_SiteLabel".Translate().Resolve());
         }
-        if (entry.name == "MechanoidSignal")
-        {
-            child.description = "ER_DlcLeadIntroduction".Translate(quest.name).Resolve() + "\n\n" +
-                "ER_DamagedEngineLead".Translate().Resolve() + "\n\n" + "ER_DlcDefendObjective".Translate().Resolve();
-            foreach (QuestPart_Letter letter in child.PartsListForReading.OfType<QuestPart_Letter>())
-            {
-                letter.letter = LetterMaker.MakeLetter("ER_DlcName_MechanoidSignal".Translate(),
-                    "ER_DamagedEngineLead".Translate(), letter.letter.def, letter.letter.lookTargets);
-            }
-        }
-        else
-        {
-            if (entry.name == "OpportunitySite_AncientComplex_Mechanitor")
-                child.description = "ER_DlcLeadIntroduction".Translate(quest.name).Resolve() + "\n\n" +
-                    "ER_DamagedMechanitorLead".Translate().Resolve() + "\n\n" + "ER_DlcArchiveObjective".Translate().Resolve();
-            child.description += "\n\n" + "ER_SpecialRewardsDamaged".Translate().Resolve();
-        }
+        child.description += "\n\n" + "ER_SpecialRewardsDamaged".Translate().Resolve();
     }
 
     private void AddArchiveObjective(Site site)
@@ -195,8 +168,7 @@ public sealed class QuestPart_DlcLead : QuestPartActivable
         // Native arrival/claim/no-active-threat success is replaced by a real
         // guarded interaction. The native terrain/layout/occupants are retained.
         foreach (QuestPart ending in child.PartsListForReading.Where(p =>
-            p is QuestPart_QuestEnd end && end.outcome == QuestEndOutcome.Success ||
-            p.GetType().Name == "QuestPart_EngineClaimed").ToList())
+            p is QuestPart_QuestEnd end && end.outcome == QuestEndOutcome.Success).ToList())
             child.RemovePart(ending);
 
         var cache = (Building_SerumCache)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("ER_ArchiveCache"));
