@@ -2,8 +2,10 @@
 
 ## Current status — 2026-10-22
 
-The DLC-independent production DLL compiled successfully against installed
-RimWorld 1.7.4984 rev1242 and Harmony, with zero warnings/errors. No game was
+Both DLC-independent DLLs compiled with zero warnings/errors: 1.6 against pinned
+`Krafs.Rimworld.Ref` 1.6.4871 (.NET Framework 4.7.2) and installed Harmony 1.6;
+1.7 against installed RimWorld 1.7.4984 rev1242 (.NET 10) and Harmony 1.7.
+A full local RimWorld 1.6 installation was not found. No game was
 launched and no automated gameplay tests were run for this revision, respecting
 the user's request to test personally. **HUMAN VERIFICATION REQUIRED.**
 
@@ -15,7 +17,8 @@ ignored `artifacts/integration-01/`.
 
 ## Preparation
 
-1. Use a new test world with **Harmony → Core → NoMoreDevMode / Earned
+1. On **each version separately**, use a new test world with the matching
+   **Harmony → Core → NoMoreDevMode / Earned
    Resurrection** only. Disable all DLC and the separate integration-test mod.
    Leave a hostile pirate/tribal faction enabled at world creation; the quest
    needs a hostile humanlike faction capable of defending a Core outpost.
@@ -28,6 +31,12 @@ ignored `artifacts/integration-01/`.
 4. For a quick test, open Options → Mod settings → NoMoreDevMode / Earned
    Resurrection. Set **Immediately** and **0 minimum membership days**. Keep
    violent quests enabled. Existing pending/active quests and cooldown still apply.
+
+For 1.6, check the log has no unsupported-version, missing framework/API or
+double-assembly errors. `LoadFolders.xml` should load `Common` + `1.6` only;
+1.7 should load `Common` + `1.7` only. Repeat the flow, settings and persistence
+checklists below independently on both versions. Do not downgrade a 1.7 save as
+a way to test 1.6. The optional automated harness remains a 1.7-only developer tool.
 
 ## Main gameplay run
 

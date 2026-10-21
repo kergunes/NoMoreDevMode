@@ -1,6 +1,6 @@
 # NoMoreDevMode / Earned Resurrection
 
-V0.1 for RimWorld 1.7 + Harmony. **No DLC required.** Resurrection should not be random. It should be earned.
+V0.1 for RimWorld 1.6 / 1.7 + Harmony. **No DLC required.** Resurrection should not be random. It should be earned.
 
 ## What it does
 
@@ -27,8 +27,9 @@ resurrector mech serum. The mod changes access to the item, never resurrection.
 
 ## Requirements and installation
 
-Target verified from installed files: **RimWorld 1.7.4984 rev1242**, Waylith/.NET 10.
-Requires **Core and Harmony's 1.7 build**. Ideology and all other DLC are optional.
+Targets: **1.6.4871 / .NET Framework 4.7.2** (reference-assembly build) and
+**1.7.4984 rev1242 / Waylith / .NET 10** (installed-game build).
+Requires **Core and the matching Harmony version**. All DLC are optional.
 Enable Harmony before Core, then **NoMoreDevMode / Earned Resurrection**.
 Do not enable the separate development-only integration test mod for normal play.
 
@@ -38,13 +39,22 @@ removing that DLC. New quests always use Core outposts, with or without Ideology
 This update does not migrate old active quests or make arbitrary DLC removal from
 an existing save safe.
 
-Build, then copy this mod root (About, Assemblies, Defs, Languages) into a folder
+Build, then copy the package root (`About`, `Common`, `1.6`, `1.7`, `LoadFolders.xml`) into a folder
 under RimWorld's `Mods/`, or use a local directory junction. Do not distribute game
 DLLs or Harmony's DLL with this mod. No preview image is included yet.
 
+`LoadFolders.xml` loads shared content from `Common` and exactly one version's
+assembly directory. The old root `Assemblies/` is deliberately not loaded, so a
+stale earlier DLL cannot be loaded alongside the current one. The legacy
+Ideology layout is restricted to `1.7/Defs`; new quests on both versions are Core-only.
+This is mod support for both versions, not support for downgrading a 1.7 game save.
+
 ## Verification status
 
-Production DLL compiled against the installed game and Harmony; no gameplay test
+Both production DLLs compiled with zero warnings/errors. The 1.6 build uses
+Krafs.Rimworld.Ref 1.6.4871 and local Harmony 1.6; a full 1.6 game installation
+was not available. The 1.7 build uses the installed game and local Harmony 1.7.
+No gameplay test
 has been run for the DLC-independent outpost version. Historically, an isolated
 game launch loaded the older Ideology version, but the automated integration attempt stopped
 on its Core+Ideology-only fixture assertion: RimWorld auto-enabled newly discovered
@@ -57,8 +67,19 @@ and [vanilla research](docs/VANILLA_RESEARCH.md).
 
 ## Build
 
-Requires the .NET 10 SDK and a local RimWorld 1.7 installation (Waylith).
-The installed game's runtime is .NET 10; this project intentionally targets it.
+Requires a .NET SDK supporting .NET 10 (both commands work with the installed
+.NET 10 SDK). Build the 1.6 target using pinned NuGet reference assemblies:
+
+```powershell
+dotnet build -c Release -p:RimWorldVersion=1.6 -p:Harmony16Assembly="your Harmony mod/1.6/Assemblies/0Harmony.dll"
+```
+
+The project restores `Krafs.Rimworld.Ref` 1.6.4871 and .NET Framework reference
+assemblies; no installed 1.6 game or runtime is needed to compile. These are
+compile-time references, not game runtime DLLs to distribute. See the
+[reference package](https://www.nuget.org/packages/Krafs.Rimworld.Ref/1.6.4871).
+
+Build 1.7 (the default target) against your installed Waylith game:
 
 ```powershell
 $env:RIMWORLD_DIR = 'your RimWorld installation directory'
@@ -71,11 +92,15 @@ Alternatively pass `-p:RimWorldDir="..." -p:HarmonyAssembly="..."`, or create th
 ```xml
 <Project><PropertyGroup>
   <RimWorldDir>your game directory</RimWorldDir>
-  <HarmonyAssembly>your Harmony 1.7 assembly</HarmonyAssembly>
+  <Harmony16Assembly>your Harmony 1.6 assembly</Harmony16Assembly>
+  <Harmony17Assembly>your Harmony 1.7 assembly</Harmony17Assembly>
 </PropertyGroup></Project>
 ```
 
-The DLL is written to `Assemblies/`. Game assemblies are referenced locally and never distributed.
+The DLLs are written to `1.6/Assemblies/` and `1.7/Assemblies/`. Each command builds
+one target. With both built, run `./scripts/Package.ps1` to create an installable
+ZIP under `artifacts/`, containing only this mod's binaries and content.
+
 Open Options → Mod settings → **NoMoreDevMode / Earned Resurrection** to choose
 quest arrival time and minimum membership days. Settings persist through vanilla
 `ModSettings` and are global preferences, not per-save state. They apply to future

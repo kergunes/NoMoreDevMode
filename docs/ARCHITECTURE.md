@@ -1,5 +1,19 @@
 # Architecture
 
+## Versioned loading
+
+One source project builds either `RimWorldVersion=1.6` (net472, pinned RimRef
+1.6.4871 and matching local Harmony) or `1.7` (net10.0, local installed game
+and matching Harmony). The default is 1.7. Settings use Framework-compatible
+`Math.Min/Max` and non-generic `Enum.IsDefined` on both targets.
+
+`LoadFolders.xml` loads `Common` plus the corresponding `1.6`/`1.7` directory;
+the mod assembly is present once per selected version. Shared quest XML and
+languages live in `Common`. Root-level `Assemblies/` is excluded. Legacy
+`ER_AncientComplex` XML lives only in `1.7/Defs` because it describes the earlier
+1.7 layout system. Existing supported save field names are unchanged. Runtime
+acceptance is pending on both targets; this does not support save downgrades.
+
 ## Death and membership
 
 `ResurrectionMod` installs one Harmony patch, on `Pawn.Kill`. Its prefix snapshots

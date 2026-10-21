@@ -30,8 +30,8 @@ public sealed class ResurrectionSettings : ModSettings
 
     public void ClampValues()
     {
-        minimumMembershipDays = Math.Clamp(minimumMembershipDays, 0, 60);
-        if (!Enum.IsDefined(delay))
+        minimumMembershipDays = Math.Max(0, Math.Min(60, minimumMembershipDays));
+        if (!Enum.IsDefined(typeof(OpportunityDelay), delay))
             delay = OpportunityDelay.OneToTwoDays;
     }
 

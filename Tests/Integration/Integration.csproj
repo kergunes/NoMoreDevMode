@@ -12,6 +12,6 @@
     <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldDir)/Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityStubs"><HintPath>$(RimWorldDir)/UnityStubs.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="0Harmony"><HintPath>$(HarmonyAssembly)</HintPath><Private>false</Private></Reference>
-    <Reference Include="EarnedResurrection"><HintPath>../../Assemblies/EarnedResurrection.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="EarnedResurrection"><HintPath>../../1.7/Assemblies/EarnedResurrection.dll</HintPath><Private>false</Private></Reference>
   </ItemGroup>
 </Project>
