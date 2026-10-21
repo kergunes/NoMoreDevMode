@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <ER_SettingsDelay>Uygun bir kolonist öldükten sonra görevin gelme süresi</ER_SettingsDelay>
+  <ER_DelayImmediate>Anında</ER_DelayImmediate>
+  <ER_DelayOneToTwoDays>1–2 gün içinde</ER_DelayOneToTwoDays>
+  <ER_DelayWithinAWeek>1 hafta içinde (1–7 gün)</ER_DelayWithinAWeek>
+  <ER_SettingsMinimumMembership>Minimum kolonistlik süresi: {0} gün</ER_SettingsMinimumMembership>
+  <ER_SettingsMembershipExplanation>Kolonist olarak geçirilmiş toplam 0–60 gün. Yeni katılan kolonistlere de izin vermek için 0 seç. Mahkûmlar, köleler, misafirler ve diğer uygun olmayan karakterler yine kapsam dışındadır.</ER_SettingsMembershipExplanation>
+  <ER_SettingsTimingExplanation>Sonraki ölümler için geçerlidir. Zaten planlanmış bir fırsatın gelme zamanı değişmez. Anında seçeneği bir sonraki oyun tikinde çalışır; oyun duraklatılmış olmamalıdır. 60 günlük global bekleme süresi ve tek görev zinciri sınırı geçerliliğini korur.</ER_SettingsTimingExplanation>
+</LanguageData>

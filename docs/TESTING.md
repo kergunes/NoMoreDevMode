@@ -20,6 +20,27 @@ Waylith wrote its runtime output to redirected stdout rather than the requested
 Unity-style Player.log path. Unrelated installed-mod metadata warnings may appear
 during discovery even when those mods are not enabled.
 
+The later mod-options change was compiled successfully (zero warnings/errors).
+Its settings UI and gameplay behavior remain HUMAN VERIFICATION REQUIRED; no
+further game launch or automated gameplay test was performed.
+
+## Mod options checklist
+
+- Restart after the updated DLL is installed. Open Options → Mod settings →
+  NoMoreDevMode / Earned Resurrection.
+- Confirm the three arrival choices: Immediately, Within 1–2 days, Within one week
+  (1–7 days). Default is 1–2 days. Confirm the minimum membership slider spans
+  whole days 0–60 and defaults to 20. These are global mod preferences.
+- For a quick copied-save trial, choose Immediately and minimum 0, then kill an
+  otherwise eligible free colonist and unpause. One quest should appear on the
+  next game tick, unless a pending opportunity, active chain or cooldown blocks it.
+- In separate fresh/copied states without a cooldown, try both delayed choices.
+  Changing the setting after a death must not move its already scheduled time.
+- Set minimum days above/below a colonist's actual recorded membership and check
+  eligibility. With 0 days, prisoners/slaves/guests still must not qualify.
+- Close/reopen settings and restart the game: both preferences should persist.
+- Return to 20 days and 1–2 days for the main baseline checklist below.
+
 ## Preparation
 
 1. Make a **copy** of a colony save. Use an established free colonist whose Records
@@ -41,7 +62,7 @@ during discovery even when those mods are not enabled.
 1. Kill the established colonist. Expect no immediate quest. Print state: pending
    is set, active is false, cooldown has not started. Kill a second established
    colonist while pending: the first opportunity must remain the only one.
-2. **Save A**, quit/load, and allow 1–4 days from the original death. One offer
+2. **Save A**, quit/load, and allow 1–2 days from the original death (default). One offer
    should name the first dead pawn and warn about preserving remains. The offer
    must contain exactly one serum reward and no relic-info reward.
 3. Print state: active true, pending -1, cooldown end 60 days after generation.
@@ -72,7 +93,7 @@ during discovery even when those mods are not enabled.
 - Kill established pawns during active chain and after failure but before cooldown
   expiry: no extra pending trigger or chain.
 - **Case E:** reach cooldown end without a new death. Nothing appears. Only a
-  **new** eligible death schedules the next 1–4 day opportunity.
+  **new** eligible death schedules the next opportunity with the configured delay.
 
 ## Eligibility and edge cases
 

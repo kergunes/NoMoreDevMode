@@ -79,7 +79,7 @@ public sealed class IntegrationRunner : GameComponent
         established.Kill(null);
         expectedPending = State.PendingTick;
         Check(expectedPending >= Find.TickManager.TicksGame + 60000 &&
-            expectedPending <= Find.TickManager.TicksGame + 240000, "real Pawn.Kill schedules 1–4 day delay");
+            expectedPending <= Find.TickManager.TicksGame + 120000, "real Pawn.Kill schedules default 1–2 day delay");
         Check(State.NextEligibleTick == 0 && !State.ChainActive, "death itself starts no cooldown or chain");
         State.NotifyEligibleDeath(established);
         MakeColonist(true).Kill(null);

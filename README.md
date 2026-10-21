@@ -4,14 +4,15 @@ V0.1 for RimWorld 1.7 + Ideology + Harmony. Resurrection should not be random. I
 
 ## What it does
 
-An established player colonist dies. After 1–4 days the colony can receive a
+An established player colonist dies. After a configurable delay the colony can receive a
 three-lead ancient complex quest chain followed by a more strongly defended
 serum recovery expedition. Successful completion delivers exactly one vanilla
 resurrector mech serum. The mod changes access to the item, never resurrection.
 
 ## Core rules
 
-- At least 20 days of cumulative actual free-colonist membership, using vanilla records.
+- Minimum cumulative actual free-colonist membership: configurable 0–60 days, default 20, using vanilla records.
+- Quest arrival: immediately (next game tick), within 1–2 days (default), or within one week (1–7 days).
 - One global 60-day cooldown, beginning when the opportunity is generated.
 - One pending opportunity or active chain across the entire save.
 - Deaths during pending/active/cooldown periods are discarded, never queued.
@@ -68,7 +69,12 @@ Alternatively pass `-p:RimWorldDir="..." -p:HarmonyAssembly="..."`, or create th
 ```
 
 The DLL is written to `Assemblies/`. Game assemblies are referenced locally and never distributed.
-All gameplay defaults are centralized in `ResurrectionTuning.cs`. No settings UI yet.
+Open Options → Mod settings → **NoMoreDevMode / Earned Resurrection** to choose
+quest arrival time and minimum membership days. Settings persist through vanilla
+`ModSettings` and are global preferences, not per-save state. They apply to future
+deaths; pending arrival times, active quests and cooldowns are not rescheduled.
+English and Turkish settings labels are included. Other gameplay defaults remain
+centralized in `ResurrectionTuning.cs`.
 
 ## Scope
 

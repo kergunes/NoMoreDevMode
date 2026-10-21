@@ -30,7 +30,8 @@ public static class ColonistDeathPatch
         // This persisted vanilla record excludes time as prisoner/slave/guest.
         // Cumulative actual membership is intentional, rather than time since spawn.
         if (pawn.records.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) <
-            ResurrectionTuning.MinimumMembershipTicks)
+            (ResurrectionMod.Settings?.minimumMembershipDays ?? ResurrectionTuning.DefaultMinimumMembershipDays) *
+            ResurrectionTuning.TicksPerDay)
             return false;
 
         return PawnsFinder.AllMapsCaravansAndTravellingTransporters_Alive_FreeColonists_NoLodgers.Contains(pawn);

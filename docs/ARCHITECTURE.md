@@ -14,7 +14,8 @@ no host faction, no quest lodger/extra home faction, and presence in vanilla's
 `PawnsFinder.AllMapsCaravansAndTravellingTransporters_Alive_FreeColonists_NoLodgers`.
 Mental breaks and being downed do not disqualify established colonists. Off-map
 world faction members do not qualify. The vanilla saved
-`TimeAsColonistOrColonyAnimal` record must contain at least 1,200,000 ticks. This
+`TimeAsColonistOrColonyAnimal` record must meet the configured minimum: 0–60 days,
+default 20 (1,200,000 ticks). This
 is **cumulative actual membership**, not continuous membership or biological age;
 former colonists retain legitimately earned membership time. Its worker excludes
 prisoner, slave and extra home faction time. No separate membership ledger.
@@ -26,10 +27,13 @@ caravans. It scribes `nextEligibleTick`, `pendingTick`, `chainActive`, `activeQu
 and the triggering pawn's immutable narrative name/ID and death tick. No corpse
 reference is required. The generated quest description owns its narrative text.
 
-Eligible death -> one pending timestamp, randomly 60,000–240,000 ticks later.
+Eligible death -> one pending timestamp using the selected arrival setting:
+immediate (next tick), randomly 60,000–120,000 ticks (default), or randomly
+60,000–420,000 ticks (within one week).
 Any death while pending, active or before `nextEligibleTick` is discarded immediately.
-Every 250 ticks, one cheap component check handles the due event and reconciles a
-missing/historical quest. It does not scan or tick pawns. No catch-up death queue.
+A cheap due-time comparison runs per game tick; due events are processed on that
+tick, outside the death callback. Idle reconciliation of a missing/historical quest
+runs every 250 ticks. It does not scan or tick pawns. No catch-up death queue.
 If violent quests are disabled or no suitable ground site exists when due, the
 opportunity is discarded without a cooldown; a future death is required.
 
@@ -41,6 +45,12 @@ the opportunity. No failure path shortens the cooldown.
 `Scribe_Values`, `Scribe_References` and normal QuestManager serialization own all
 saved state. Loaded-game reconciliation clears an orphan active reference and
 retains cooldown. No mutable static gameplay state or custom serializer.
+
+`ResurrectionSettings : ModSettings` persists the arrival enum and minimum days
+using vanilla mod preferences. `ResurrectionMod` exposes radio buttons and a
+whole-day slider through the standard settings window. The static settings
+reference is a user preference object, not world/save state. Changing settings
+affects future deaths only; existing pending timestamps remain unchanged.
 
 ## One independent quest, four stages
 

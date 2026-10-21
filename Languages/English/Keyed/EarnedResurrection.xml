@@ -9,4 +9,11 @@
   <ER_FinalDescription>Serum recovery: travel to the final archive. Hack every terminal and defeat all hostile threats, including sleeping mechanoids. This site has stronger security than the earlier leads. Complete both objectives within 30 days to receive exactly one vanilla resurrector mech serum by pod here. Leaving before success ends the chain.</ER_FinalDescription>
   <ER_TerminalsHacked>Archive terminals hacked:</ER_TerminalsHacked>
   <ER_TerminalDiscovered>A terminal containing mechanite archive information has been discovered.</ER_TerminalDiscovered>
+  <ER_SettingsDelay>Quest arrival after an eligible colonist dies</ER_SettingsDelay>
+  <ER_DelayImmediate>Immediately</ER_DelayImmediate>
+  <ER_DelayOneToTwoDays>Within 1–2 days</ER_DelayOneToTwoDays>
+  <ER_DelayWithinAWeek>Within one week (1–7 days)</ER_DelayWithinAWeek>
+  <ER_SettingsMinimumMembership>Minimum time as a colonist: {0} days</ER_SettingsMinimumMembership>
+  <ER_SettingsMembershipExplanation>0–60 days of actual colonist membership. Set to 0 to allow newly joined colonists. Prisoners, slaves, guests and other ineligible pawns remain excluded.</ER_SettingsMembershipExplanation>
+  <ER_SettingsTimingExplanation>Applies to future deaths. A scheduled opportunity keeps its original arrival time. Immediately means the next game tick; the game must be unpaused. The 60-day global cooldown and one-chain limit still apply.</ER_SettingsTimingExplanation>
 </LanguageData>

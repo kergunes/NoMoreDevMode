@@ -38,13 +38,18 @@ public sealed class ResurrectionState : GameComponent
         pawnName = pawn.LabelShortCap;
         pawnId = pawn.GetUniqueLoadID();
         deathTick = now;
-        pendingTick = now + Rand.RangeInclusive(ResurrectionTuning.TicksPerDay, 4 * ResurrectionTuning.TicksPerDay);
+        pendingTick = now + (ResurrectionMod.Settings?.RollDelayTicks() ??
+            Rand.RangeInclusive(ResurrectionTuning.TicksPerDay, 2 * ResurrectionTuning.TicksPerDay));
         Log.Message($"[EarnedResurrection] Eligible death: {pawnName}. Opportunity scheduled for tick {pendingTick}.");
     }
 
     public override void GameComponentTick()
     {
-        if (Find.TickManager.TicksGame % ResurrectionTuning.CheckInterval != 0)
+        int now = Find.TickManager.TicksGame;
+        // A due event (including Immediate) runs on the next game tick, outside
+        // Pawn.Kill. Idle reconciliation still runs only every 250 ticks.
+        bool pendingDue = pendingTick >= 0 && now >= pendingTick && !chainActive;
+        if (!pendingDue && now % ResurrectionTuning.CheckInterval != 0)
             return;
         ReconcileActiveQuest();
         if (pendingTick < 0 || Find.TickManager.TicksGame < pendingTick || chainActive)
