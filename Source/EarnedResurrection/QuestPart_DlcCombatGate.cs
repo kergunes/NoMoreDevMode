@@ -20,7 +20,7 @@ public sealed class QuestPart_DlcCombatGate : QuestPartActivable
 
     public override void QuestPartTick()
     {
-        if (nativeSuccess && Find.TickManager.TicksGame % 250 == 0 &&
+        if (nativeSuccess && Find.TickManager.TicksGame % 250 == 0 && maps.Count > 0 &&
             maps.All(m => m != null && !TransporterUtility.IncomingTransporterPreventingMapRemoval(m) &&
                 !GenHostility.AnyHostileActiveThreatToPlayer(m, true, true)))
         {
