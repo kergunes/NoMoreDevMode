@@ -39,7 +39,16 @@ public sealed class QuestPart_DlcLead : QuestPartActivable
             }
             return;
         }
-        if (child == null || Find.TickManager.TicksGame % 250 != 0) return;
+
+        if (Find.TickManager.TicksGame % 250 != 0) return;
+        if (child == null)
+        {
+            // An enabled dispatcher can only be childless when a saved reference
+            // was lost/corrupted. Do not leave the parent chain permanently stuck.
+            Log.Error("[EarnedResurrection] Active DLC lead lost its child quest reference; failing the parent chain.");
+            quest.End(QuestEndOutcome.Fail);
+            return;
+        }
         if (child.State == QuestState.EndedSuccess)
             Complete();
         else if (child.Historical || Find.TickManager.TicksGame >= deadline)
@@ -49,6 +58,11 @@ public sealed class QuestPart_DlcLead : QuestPartActivable
     private void StartLead()
     {
         QuestPart_DlcPool pool = quest.GetFirstPartOfType<QuestPart_DlcPool>();
+        if (pool == null)
+            throw new InvalidOperationException("Resurrection quest is missing its DLC encounter pool.");
+        if (pool.allowed == null) pool.allowed = new List<string>();
+        if (pool.used == null) pool.used = new List<string>();
+
         var candidates = DlcLeadCatalog.Entries.Where(e => pool.allowed.Contains(e.name) &&
             !pool.used.Contains(e.name)).ToList();
         while (candidates.Count > 0)
@@ -174,10 +188,16 @@ public sealed class QuestPart_DlcLead : QuestPartActivable
         var cache = (Building_SerumCache)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("ER_ArchiveCache"));
         cache.ownerQuest = child;
         cache.openedSignal = "Quest" + child.id + ".ER_recordsRecovered";
-        cache.TryAcceptThing(ThingMaker.MakeThing(ThingDefOf.ComponentIndustrial));
+        Thing records = ThingMaker.MakeThing(ThingDefOf.ComponentIndustrial);
+        if (!cache.TryAcceptThing(records))
+        {
+            records.Destroy(DestroyMode.Vanish);
+            throw new InvalidOperationException("Archive cache rejected its records payload.");
+        }
         var stash = new SitePart(site, DefDatabase<SitePartDef>.GetNamed("ItemStash"), new SitePartParams());
         stash.things = new ThingOwner<Thing>(stash, false);
-        stash.things.TryAdd(cache);
+        if (!stash.things.TryAdd(cache))
+            throw new InvalidOperationException("Archive cache could not be added to the site stash.");
         site.AddPart(stash);
         string guards = Faction.OfMechanoids != null ? "SleepingMechanoids" : "Turrets";
         SitePartDef guardDef = DefDatabase<SitePartDef>.GetNamed(guards);

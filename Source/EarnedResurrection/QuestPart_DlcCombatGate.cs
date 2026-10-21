@@ -20,7 +20,7 @@ public sealed class QuestPart_DlcCombatGate : QuestPartActivable
 
     public override void QuestPartTick()
     {
-        if (nativeSuccess && Find.TickManager.TicksGame % 250 == 0 &&
+        if (nativeSuccess && Find.TickManager.TicksGame % 250 == 0 && maps.Count > 0 &&
             maps.All(m => m != null && !TransporterUtility.IncomingTransporterPreventingMapRemoval(m) &&
                 !GenHostility.AnyHostileActiveThreatToPlayer(m, true, true)))
         {
@@ -35,5 +35,10 @@ public sealed class QuestPart_DlcCombatGate : QuestPartActivable
         Scribe_Collections.Look(ref successSignals, "successSignals", LookMode.Value);
         Scribe_Collections.Look(ref maps, "maps", LookMode.Reference);
         Scribe_Values.Look(ref nativeSuccess, "nativeSuccess");
+        if (Scribe.mode == LoadSaveMode.PostLoadInit)
+        {
+            if (successSignals == null) successSignals = new List<string>();
+            if (maps == null) maps = new List<Map>();
+        }
     }
 }

@@ -14,8 +14,9 @@ public sealed class QuestPart_ResurrectionCleanup : QuestPart
     {
         if (quest.State != QuestState.EndedSuccess) cache?.DestroyReward();
         Current.Game?.GetComponent<ResurrectionState>()?.NotifyQuestEnded(quest);
+        if (sites == null) return;
         foreach (Site site in sites)
-            QuestPart_DestroyWorldObject.TryRemove(site);
+            if (site != null) QuestPart_DestroyWorldObject.TryRemove(site);
     }
 
     public override void ExposeData()
@@ -24,5 +25,7 @@ public sealed class QuestPart_ResurrectionCleanup : QuestPart
         // Sites are deeply owned by vanilla SpawnWorldObject until spawned.
         Scribe_Collections.Look(ref sites, "sites", LookMode.Reference);
         Scribe_References.Look(ref cache, "cache");
+        if (Scribe.mode == LoadSaveMode.PostLoadInit && sites == null)
+            sites = new List<Site>();
     }
 }

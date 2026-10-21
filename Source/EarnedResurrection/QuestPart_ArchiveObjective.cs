@@ -17,7 +17,11 @@ public sealed class QuestPart_ArchiveObjective : QuestPartActivable
     {
         if (signal.tag != clearanceSignal && !hackedSignals.Contains(signal.tag)) return;
         foreach (Thing terminal in terminals)
-            if (terminal.DestroyedOrNull() || !terminal.TryGetComp<CompHackable>().IsHacked) return;
+        {
+            if (terminal.DestroyedOrNull()) return;
+            CompHackable hackable = terminal.TryGetComp<CompHackable>();
+            if (hackable == null || !hackable.IsHacked) return;
+        }
         if (site?.Map == null || GenHostility.AnyHostileActiveThreatToPlayer(site.Map, true, true)) return;
         Complete();
     }
@@ -29,5 +33,10 @@ public sealed class QuestPart_ArchiveObjective : QuestPartActivable
         Scribe_Collections.Look(ref terminals, "terminals", LookMode.Reference);
         Scribe_Collections.Look(ref hackedSignals, "hackedSignals", LookMode.Value);
         Scribe_Values.Look(ref clearanceSignal, "clearanceSignal");
+        if (Scribe.mode == LoadSaveMode.PostLoadInit)
+        {
+            if (terminals == null) terminals = new List<Thing>();
+            if (hackedSignals == null) hackedSignals = new List<string>();
+        }
     }
 }

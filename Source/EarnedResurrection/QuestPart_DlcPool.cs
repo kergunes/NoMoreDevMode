@@ -15,5 +15,10 @@ public sealed class QuestPart_DlcPool : QuestPart
         base.ExposeData();
         Scribe_Collections.Look(ref allowed, "allowed", LookMode.Value);
         Scribe_Collections.Look(ref used, "used", LookMode.Value);
+        if (Scribe.mode == LoadSaveMode.PostLoadInit)
+        {
+            if (allowed == null) allowed = new List<string>();
+            if (used == null) used = new List<string>();
+        }
     }
 }
