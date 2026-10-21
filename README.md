@@ -17,7 +17,8 @@ resurrector mech serum. The mod changes access to the item, never resurrection.
 - One pending opportunity or active chain across the entire save.
 - Deaths during pending/active/cooldown periods are discarded, never queued.
 - Failure or an expired/abandoned expedition consumes the opportunity; no retries.
-- Secure three enemy outposts to recover shipment records, then a stronger final outpost; one day between leads.
+- Secure three enemy outposts to recover shipment records, then a stronger final outpost.
+- Time between leads: configurable 0–7 whole days, default 1. Each recovered lead shows a short progress message and the remaining wait in the quest UI.
 - Each discovered site has a 30-day deadline. An unaccepted offer expires after ten days.
 - Final success requires all threats cleared, including dormant/fogged enemies.
 - Reward: one generic serum, delivered by vanilla pod at the final site. Collect it before leaving.
@@ -102,9 +103,11 @@ one target. With both built, run `./scripts/Package.ps1` to create an installabl
 ZIP under `artifacts/`, containing only this mod's binaries and content.
 
 Open Options → Mod settings → **NoMoreDevMode / Earned Resurrection** to choose
-quest arrival time and minimum membership days. Settings persist through vanilla
+quest arrival time, days between leads and minimum membership days. Settings persist through vanilla
 `ModSettings` and are global preferences, not per-save state. They apply to future
-deaths; pending arrival times, active quests and cooldowns are not rescheduled.
+deaths/questlines; pending arrival times, active quests and cooldowns are not
+rescheduled. Stage intervals are fixed when a questline is generated, so changing
+the interval does not alter an existing chain.
 English and Turkish settings labels are included. Other gameplay defaults remain
 centralized in `ResurrectionTuning.cs`.
 

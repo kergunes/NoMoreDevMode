@@ -30,6 +30,11 @@ public sealed class ResurrectionMod : Mod
         if (listing.RadioButton("ER_DelayWithinAWeek".Translate(), Settings.delay == OpportunityDelay.WithinAWeek))
             Settings.delay = OpportunityDelay.WithinAWeek;
         listing.Gap();
+        listing.Label("ER_SettingsBetweenStages".Translate(Settings.betweenStagesDays));
+        Settings.betweenStagesDays = Mathf.RoundToInt(listing.Slider(Settings.betweenStagesDays, 0f,
+            ResurrectionTuning.MaximumBetweenStagesDays));
+        listing.Label("ER_SettingsBetweenStagesExplanation".Translate());
+        listing.Gap();
         listing.Label("ER_SettingsMinimumMembership".Translate(Settings.minimumMembershipDays));
         Settings.minimumMembershipDays = Mathf.RoundToInt(listing.Slider(Settings.minimumMembershipDays, 0f, 60f));
         listing.Label("ER_SettingsMembershipExplanation".Translate());

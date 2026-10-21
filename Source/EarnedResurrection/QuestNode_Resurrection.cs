@@ -33,6 +33,9 @@ public sealed class QuestNode_Resurrection : QuestNode
         // so the final's multiplier cannot be flattened by a different faction.
         points = Math.Max(points, enemy.def.MinPointsToGeneratePawnGroup(PawnGroupKindDefOf.Settlement));
         string enable = slate.Get<string>("inSignal");
+        // Freeze this quest's intervals at generation; vanilla delay parts save them.
+        int betweenStagesTicks = (ResurrectionMod.Settings?.betweenStagesDays ??
+            ResurrectionTuning.DefaultBetweenStagesDays) * ResurrectionTuning.TicksPerDay;
         var cleanup = new QuestPart_ResurrectionCleanup();
         // Cleanup must run before vanilla destroys unspawned world objects.
         quest.AddPart(cleanup);
@@ -111,10 +114,16 @@ public sealed class QuestNode_Resurrection : QuestNode
             else
             {
                 string next = QuestGen.GenerateNewSignal("ER_NextLead");
+                string recoveredText = betweenStagesTicks == 0
+                    ? "ER_LeadRecoveredImmediate".Translate().Resolve()
+                    : "ER_LeadRecovered".Translate(betweenStagesTicks.ToStringTicksToPeriod()).Resolve();
+                quest.Message(recoveredText, MessageTypeDefOf.PositiveEvent, inSignal: completed);
+                quest.DescriptionPart(recoveredText, completed, next);
                 var delay = new QuestPart_Delay
                 {
                     inSignalEnable = completed,
-                    delayTicks = ResurrectionTuning.BetweenStagesTicks
+                    delayTicks = betweenStagesTicks,
+                    expiryInfoPart = "ER_NextLeadTimer".Translate().Resolve()
                 };
                 delay.outSignalsCompleted.Add(next);
                 quest.AddPart(delay);

@@ -59,6 +59,7 @@ public sealed class IntegrationRunner : GameComponent
             !ModsConfig.AnomalyActive && !ModsConfig.OdysseyActive, "Core only, plus Harmony and test mod");
         ResurrectionMod.Settings.delay = OpportunityDelay.OneToTwoDays;
         ResurrectionMod.Settings.minimumMembershipDays = 20;
+        ResurrectionMod.Settings.betweenStagesDays = 1;
         Pawn established = MakeColonist(true);
         Check(ColonistDeathPatch.IsEligible(established), "established colonist eligible");
         Pawn recruit = MakeColonist(false);

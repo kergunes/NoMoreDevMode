@@ -14,6 +14,11 @@
   <ER_DelayOneToTwoDays>Within 1–2 days</ER_DelayOneToTwoDays>
   <ER_DelayWithinAWeek>Within one week (1–7 days)</ER_DelayWithinAWeek>
   <ER_SettingsMinimumMembership>Minimum time as a colonist: {0} days</ER_SettingsMinimumMembership>
+  <ER_SettingsBetweenStages>Time between expedition leads: {0} days</ER_SettingsBetweenStages>
+  <ER_SettingsBetweenStagesExplanation>0–7 days, default 1. At 0, the next lead follows without a waiting period. Applies to newly generated questlines; existing quests keep their scheduled intervals.</ER_SettingsBetweenStagesExplanation>
+  <ER_LeadRecovered>The recovered records bring you a little closer to the serum shipment. The coordinates are incomplete, but there is another lead among them. It should take about {0} to trace its location.</ER_LeadRecovered>
+  <ER_LeadRecoveredImmediate>The recovered records bring you a little closer to the serum shipment. Among the fragments is a reference to another outpost, with enough detail to trace its location.</ER_LeadRecoveredImmediate>
+  <ER_NextLeadTimer>Tracing the next lead: {0}</ER_NextLeadTimer>
   <ER_SettingsMembershipExplanation>0–60 days of actual colonist membership. Set to 0 to allow newly joined colonists. Prisoners, slaves, guests and other ineligible pawns remain excluded.</ER_SettingsMembershipExplanation>
   <ER_SettingsTimingExplanation>Applies to future deaths. A scheduled opportunity keeps its original arrival time. Immediately means the next game tick; the game must be unpaused. The 60-day global cooldown and one-chain limit still apply.</ER_SettingsTimingExplanation>
 </LanguageData>

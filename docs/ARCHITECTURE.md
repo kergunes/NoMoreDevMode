@@ -60,7 +60,8 @@ the opportunity. No failure path shortens the cooldown.
 saved state. Loaded-game reconciliation clears an orphan active reference and
 retains cooldown. No mutable static gameplay state or custom serializer.
 
-`ResurrectionSettings : ModSettings` persists the arrival enum and minimum days
+`ResurrectionSettings : ModSettings` persists the arrival enum, minimum membership days
+and whole days between leads (0–7, default 1)
 using vanilla mod preferences. `ResurrectionMod` exposes radio buttons and a
 whole-day slider through the standard settings window. The static settings
 reference is a user preference object, not world/save state. Changing settings
@@ -75,7 +76,10 @@ One hostile humanlike faction with a Settlement pawn-group maker defends all
 four locations. No suitable faction/site means no opportunity is generated.
 
 The sites are serialized up front; only the next site spawns after the previous
-stage's saved signal and a one-day vanilla delay. Vanilla `GenStep_Outpost` and
+stage's saved signal and a configurable vanilla delay (default one day). The
+selected interval is copied into all three delay parts at quest generation and
+persisted by vanilla; existing chains are not rescheduled by preferences.
+Vanilla `GenStep_Outpost` and
 `GenStep_Power` build and defend the maps. No custom map generator or terminal.
 Securing an outpost narratively recovers shipment records; no new intel item.
 Random outpost loot value is zero so the mission does not roll a second serum.
@@ -97,6 +101,12 @@ a saved completion latch. Its old `terminalsHackedSignal`/`terminalsHacked` fiel
 names are retained for save compatibility; new quests wire the records-recovered
 event to the site's clearance signal. Previously generated quests retain their
 old terminal signal wiring. No per-pawn or per-tick combat polling.
+
+Each of the first three completion signals also sends a localized vanilla
+positive `Message`. A signal-gated description shows that records were recovered
+and the next location is being traced, until the next site's activation signal.
+The vanilla delay's expiry text shows the remaining time. At zero days a distinct
+message omits the waiting claim. No custom quest part or ticking message system.
 
 `ER_AncientComplex` remains as a legacy-only XML definition with
 `MayRequire="Ludeon.RimWorld.Ideology"`. The engine skips it before XML inheritance

@@ -47,7 +47,9 @@ a way to test 1.6. The optional automated harness remains a 1.7-only developer t
 2. Accept. Only the first outpost should appear. Send a real caravan, attack it,
    and defeat its defenders. There are no terminal objectives in new quests.
    Clearing the outpost narratively recovers shipment records.
-3. One day later, the next outpost appears. Repeat for three leads. Old completed
+3. A short records-recovered message should explain that the next lead is being
+   traced. The quest UI should show the wait and remaining time. One day later
+   by default, the next outpost appears. Repeat for three leads. Old completed
    sites disappearing must not retroactively fail the chain.
 4. The fourth outpost should have the same enemy faction and a higher threat
    budget (1.5x the leads). Entering without defeating its defenders must award
@@ -71,6 +73,11 @@ a way to test 1.6. The optional automated harness remains a 1.7-only developer t
   maps, caravan travel and relocation. Mental breaks/downed status alone do not
   disqualify an established free colonist.
 - Settings should survive closing the dialog and restarting the game.
+- Time between leads: whole-day slider 0–7, default 1. Try 0 and a nonzero value
+  on newly generated chains. Zero should omit waiting language and unlock the
+  next site without a scheduled wait; nonzero should show the remaining time.
+  Confirm a single progress message per cleared lead, and no waiting message on
+  final success. Changing the slider during a chain must not reschedule it.
 
 ## Persistence, failure and cooldown
 
