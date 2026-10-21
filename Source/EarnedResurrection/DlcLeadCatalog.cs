@@ -31,16 +31,13 @@ internal static class DlcLeadCatalog
         new Entry("ER_ArchiveDrone", "Ideology", 2f),
         new Entry("AncientComplex_Mission", "Ideology"),
         new Entry("OpportunitySite_WorkSite", "Ideology", archiveSite: true),
-        new Entry("OpportunitySite_AncientComplex_Mechanitor", "Biotech", archiveSite: true),
         new Entry("SanguophageShip", "Biotech"),
         new Entry("OpportunitySite_AncientMercenaries", "Odyssey", archiveSite: true),
         new Entry("Opportunity_AncientStructureGarrison", "Odyssey", archiveSite: true),
         new Entry("Opportunity_AncientStructureLaunchSite", "Odyssey", archiveSite: true),
         new Entry("Opportunity_AncientStructureChemfuelRefinery", "Odyssey", archiveSite: true),
         new Entry("Opportunity_AncientStructureWarehouse", "Odyssey", archiveSite: true),
-        new Entry("Opportunity_AncientInfestedSettlement", "Odyssey", archiveSite: true),
-        new Entry("GravshipWreckage", "Odyssey", archiveSite: true),
-        new Entry("MechanoidSignal", "Odyssey")
+        new Entry("Opportunity_AncientInfestedSettlement", "Odyssey", archiveSite: true)
     };
 
     internal static bool Enabled(string dlc)

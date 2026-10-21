@@ -72,10 +72,15 @@ affects future deaths only; existing pending timestamps remain unchanged.
 
 ## DLC dispatch and saved encounter plan
 
-`DlcLeadCatalog` is an explicit 20-entry allow-list, gated by active DLC and four
+`DlcLeadCatalog` is an explicit 17-entry allow-list, gated by active DLC and four
 default-true preferences plus a saved list of individually disabled encounter
 names (empty by default). Settings show expandable per-DLC encounter lists.
 No Anomaly/orbital/gravcore/boss/cluster root is enumerated.
+Mechanitor complex, gravship wreckage and mechanoid signal were removed for
+overlapping gameplay and bespoke reward complexity. Dispatch intersects saved
+allowed names with the current catalog, so even old parent pools cannot choose
+these removed roots for a future lead. Existing generated children and marked
+objects retain their logic/protections; no active site or item is deleted.
 The problem-causer adapter runs a temporary native sequence without the mechanoid
 selection node; shared vanilla defs are never modified. Hospitality runs its native
 peaceful difficulty plus an explicit human raid to avoid randomized mech clusters.

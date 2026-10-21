@@ -45,16 +45,19 @@ Do not enable it in a personal save.
   second column, and the page must not collapse to its first label/radio button.
   Changing preferences during an existing chain must not change its saved pool.
 - Exercise each enabled pool separately, using repeated new chains: Royalty five
-  types, Ideology five types, Biotech two types, Odyssey eight types. Native
-  prerequisites can make some unavailable (e.g. the grav-engine introduction).
+  types, Ideology five types, Biotech one type, Odyssey six types. Native
+  prerequisites can make some unavailable.
+- Mechanitor's tomb, descending signal and grounded wreck must be absent from
+  settings and new lead selection, including future stages in an older saved
+  parent chain. An already generated child must remain usable and unchanged.
 - Independent shrine/drone/archive leads need terminal hacking AND clearance.
   The distant native complex mission also needs Royalty and a player relic for
   setup; its information reward must not advance a real relic hunt.
 - Ground opportunity sites require opening the sealed shipment archive after
   clearing defenders; just arriving, claiming an engine or killing one leader
   must not advance the chain. Destroying that archive must fail it.
-- For sanguophage/mechanoid crashes, keep enemies alive past the native timer or
-  inspect the engine early: the chain must wait for clearance. Hospitality must
+- For sanguophage crashes, keep enemies alive past the native timer:
+  the chain must wait for clearance. Hospitality must
   use human attackers and wait for the guests' successful departure/operation end.
 - Never select a mech-cluster quest, mechanitor ship/boss, Anomaly, gravcore or
   orbital mission. Problem-causer must use the pirate branch, never the cluster.
@@ -70,18 +73,18 @@ Do not enable it in a personal save.
 
 - Run each scenario both as a shipment child and as the ordinary vanilla quest;
   vanilla must retain its original rewards, research, ownership and completion.
-- Mechanitor child: open the cryptosleep pod, inspect its corpse and verify no
+- Legacy mechanitor child only (no longer generated): open the cryptosleep pod, inspect its corpse and verify no
   MechlinkImplant/extractable mechlink. Keep the pod/corpse and its opening behavior.
   Clear enemies and open the shipment archive: exactly one parent progress dialog
   and the next lead must follow. Opening the pod alone must not bypass the archive.
 - Mercenary child: the leader must still wield the same unique weapon and use its
   traits in combat. Down/kill/disarm them: the weapon must not become usable loot;
   ordinary enemy gear remains. The archive/clearance objective must still work.
-- Mechanoid signal: let the crash finish and select Recover engine records. The
+- Legacy mechanoid signal only (no longer generated): let the crash finish and select Recover engine records. The
   job must finish and arm native success, but wait for attacker clearance. Verify
   no working/claimable/launchable engine, no research flag change, no gravship quest
   and no bonus gravlite panels. Also try with an unrelated engine already inspected.
-- Wreckage child: keep the wreck and enemies. Its engine must remain inert and
+- Legacy wreckage child only (no longer generated): keep the wreck and enemies. Its engine must remain inert and
   unclaimable; opening the defended shipment archive must still finish this lead.
 - Sanguophage child: crash, reinforcements, hemogen/deathless combat and native
   operation timing must work; the carrier must lack XenogermReimplanter and cannot
