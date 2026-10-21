@@ -9,6 +9,7 @@
   <ER_DamagedMechanitorLead>The trail leads to a mechanitor's resting place. Its occupant's mechlink has failed, but the complex may still hold records of the shipment. Expect old machines to keep watch.</ER_DamagedMechanitorLead>
   <ER_SpecialRewardsDamaged>The trail promises information. The old prizes mentioned in these accounts are no longer recoverable; ordinary salvage may remain.</ER_SpecialRewardsDamaged>
   <ER_SettingsDlcPools>DLC encounter pools</ER_SettingsDlcPools>
+  <ER_SettingsEmptyDlcPool>{0}: no encounters currently included in this questline.</ER_SettingsEmptyDlcPool>
   <ER_SettingsShowDlcQuests>Show {0} encounters</ER_SettingsShowDlcQuests>
   <ER_SettingsHideDlcQuests>Hide {0} encounters</ER_SettingsHideDlcQuests>
   <ER_SettingsDlcPoolsExplanation>Active DLC are shown above. Expand a DLC to toggle individual encounters, or use its checkbox for the whole pool. Eligible DLC encounters take priority over Core; combat is favored. All encounters start enabled. Changes apply to new questlines.</ER_SettingsDlcPoolsExplanation>

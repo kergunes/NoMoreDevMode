@@ -79,6 +79,12 @@ public sealed class ResurrectionMod : Mod
 
     private void DrawDlcPool(Listing_Standard listing, string dlc, ref bool enabled)
     {
+        if (!DlcLeadCatalog.Entries.Exists(e => e.dlc == dlc))
+        {
+            listing.Label("ER_SettingsEmptyDlcPool".Translate(dlc));
+            listing.Gap();
+            return;
+        }
         listing.CheckboxLabeled(dlc, ref enabled);
         bool expanded = expandedDlc.Contains(dlc);
         if (listing.ButtonText((expanded ? "ER_SettingsHideDlcQuests" : "ER_SettingsShowDlcQuests").Translate(dlc)))

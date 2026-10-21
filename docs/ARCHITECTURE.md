@@ -72,12 +72,14 @@ affects future deaths only; existing pending timestamps remain unchanged.
 
 ## DLC dispatch and saved encounter plan
 
-`DlcLeadCatalog` is an explicit 17-entry allow-list, gated by active DLC and four
+`DlcLeadCatalog` is an explicit 15-entry allow-list, gated by active DLC and four
 default-true preferences plus a saved list of individually disabled encounter
 names (empty by default). Settings show expandable per-DLC encounter lists.
 No Anomaly/orbital/gravcore/boss/cluster root is enumerated.
 Mechanitor complex, gravship wreckage and mechanoid signal were removed for
-overlapping gameplay and bespoke reward complexity. Dispatch intersects saved
+overlapping gameplay and bespoke reward complexity. Sanguophage crash and ancient mercenaries
+are excluded as well; their legacy reward handling remains for saved children.
+The UI shows an empty-pool note for Biotech rather than unused controls. Dispatch intersects saved
 allowed names with the current catalog, so even old parent pools cannot choose
 these removed roots for a future lead. Existing generated children and marked
 objects retain their logic/protections; no active site or item is deleted.

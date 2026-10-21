@@ -9,6 +9,7 @@
   <ER_DamagedMechanitorLead>İzler bir mekanitorun son durağına uzanıyor. Sahibinin mechlink'i işlevini yitirmiş ama komplekste sevkiyatın kayıtları hâlâ bulunabilir. Eski makineler nöbet tutuyor olabilir.</ER_DamagedMechanitorLead>
   <ER_SpecialRewardsDamaged>Bu izin vadettiği şey bilgi. Eski kayıtlarda sözü edilen özel ganimetler artık kurtarılabilir durumda değil; sıradan malzemeler geride kalmış olabilir.</ER_SpecialRewardsDamaged>
   <ER_SettingsDlcPools>DLC görev havuzları</ER_SettingsDlcPools>
+  <ER_SettingsEmptyDlcPool>{0}: şu anda bu zincirin havuzunda görev bulunmuyor.</ER_SettingsEmptyDlcPool>
   <ER_SettingsShowDlcQuests>{0} görevlerini göster</ER_SettingsShowDlcQuests>
   <ER_SettingsHideDlcQuests>{0} görevlerini gizle</ER_SettingsHideDlcQuests>
   <ER_SettingsDlcPoolsExplanation>Etkin DLC'ler yukarıda gösterilir. Listeyi açarak görevleri tek tek, DLC kutusuyla havuzun tamamını kapatabilirsin. Uygun DLC görevleri temel oyundan önce seçilir; çatışma görevleri daha sık gelir. Tüm görevler varsayılan olarak açıktır. Değişiklikler yeni zincirlere uygulanır.</ER_SettingsDlcPoolsExplanation>

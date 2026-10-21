@@ -31,8 +31,6 @@ internal static class DlcLeadCatalog
         new Entry("ER_ArchiveDrone", "Ideology", 2f),
         new Entry("AncientComplex_Mission", "Ideology"),
         new Entry("OpportunitySite_WorkSite", "Ideology", archiveSite: true),
-        new Entry("SanguophageShip", "Biotech"),
-        new Entry("OpportunitySite_AncientMercenaries", "Odyssey", archiveSite: true),
         new Entry("Opportunity_AncientStructureGarrison", "Odyssey", archiveSite: true),
         new Entry("Opportunity_AncientStructureLaunchSite", "Odyssey", archiveSite: true),
         new Entry("Opportunity_AncientStructureChemfuelRefinery", "Odyssey", archiveSite: true),
