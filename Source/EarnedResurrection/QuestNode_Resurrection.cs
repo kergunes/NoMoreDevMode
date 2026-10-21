@@ -10,9 +10,9 @@ namespace EarnedResurrection;
 
 public sealed class QuestNode_Resurrection : QuestNode_Root_AncientComplex
 {
-    private enum Lead { Outpost, Mechanoids, Turrets, Manhunters, Ambush, Complex, Terminal, Drone, Final }
+    internal enum Lead { Outpost, Mechanoids, Turrets, Manhunters, Ambush, Complex, Terminal, Drone, Final }
     protected override LayoutDef LayoutDef => DefDatabase<LayoutDef>.GetNamed("ER_AncientComplex");
-    private static IEnumerable<Faction> EnemyFactions => Find.FactionManager.AllFactions.Where(f =>
+    internal static IEnumerable<Faction> EnemyFactions => Find.FactionManager.AllFactions.Where(f =>
         !f.IsPlayer && !f.temporary && !f.defeated && !f.Hidden && f.HostileTo(Faction.OfPlayer) &&
         f.def.humanlikeFaction && f.def.pawnGroupMakers != null &&
         f.def.pawnGroupMakers.Any(g => g.kindDef == PawnGroupKindDefOf.Settlement));
@@ -22,12 +22,6 @@ public sealed class QuestNode_Resurrection : QuestNode_Root_AncientComplex
     {
         var result = new List<Lead> { Lead.Outpost, Lead.Turrets, Lead.Manhunters, Lead.Ambush };
         if (Faction.OfMechanoids != null) result.Add(Lead.Mechanoids);
-        if (ModsConfig.IdeologyActive)
-        {
-            result.Add(Lead.Complex);
-            result.Add(Lead.Terminal);
-            if (Faction.OfMechanoids != null) result.Add(Lead.Drone);
-        }
         return result;
     }
 
@@ -40,12 +34,9 @@ public sealed class QuestNode_Resurrection : QuestNode_Root_AncientComplex
         var selected = new List<Lead>();
         while (selected.Count < LeadCount)
         {
-            // Ideology encounters are the primary path; Core encounters extend
-            // longer chains or are the entire fallback when the DLC is absent.
-            var primary = pool.Where(k => k == Lead.Complex || k == Lead.Terminal || k == Lead.Drone).ToList();
-            var candidates = primary.Count > 0 ? primary : pool;
-            Lead next = candidates.RandomElementByWeight(k => k == Lead.Manhunters ? 0.5f :
-                k == Lead.Drone ? 1f : 2f);
+            // Each slot reserves a distinct Core fallback. Its dispatcher first
+            // tries unused, eligible DLC encounters from the saved pool.
+            Lead next = pool.RandomElementByWeight(k => k == Lead.Manhunters ? 0.5f : 2f);
             selected.Add(next);
             pool.Remove(next);
         }
@@ -67,30 +58,42 @@ public sealed class QuestNode_Resurrection : QuestNode_Root_AncientComplex
         string enable = QuestGen.slate.Get<string>("inSignal");
         var cleanup = new QuestPart_ResurrectionCleanup();
         quest.AddPart(cleanup);
+        quest.AddPart(new QuestPart_DlcPool { allowed = DlcLeadCatalog.EnabledNames() });
         List<Lead> plan = SelectLeads();
         for (int index = 0; index < plan.Count; index++)
         {
             Lead kind = plan[index];
             bool final = kind == Lead.Final;
             string completed = QuestGen.GenerateNewSignal("ER_EncounterCompleted");
+            string encounterEnable = enable;
+            if (!final)
+            {
+                encounterEnable = QuestGen.GenerateNewSignal("ER_CoreFallback");
+                var dispatcher = new QuestPart_DlcLead
+                {
+                    inSignalEnable = enable, fallbackSignal = encounterEnable, points = points
+                };
+                dispatcher.outSignalsCompleted.Add(completed);
+                quest.AddPart(dispatcher);
+            }
             float budget = points * (final ? ResurrectionTuning.FinalThreatMultiplier : 1f);
             var terminals = new List<Thing>();
             Site site = MakeEncounter(kind, budget, enemy, terminals);
             site.customLabel = ("ER_Name_" + kind).Translate().Resolve();
             string tag = QuestGen.GenerateNewTargetQuestTag("ER_location");
             QuestUtility.AddQuestTag(site, tag);
-            quest.SpawnWorldObject(site, inSignal: enable);
+            quest.SpawnWorldObject(site, inSignal: encounterEnable);
             cleanup.sites.Add(site);
             string description = ("ER_Description_" + kind).Translate().Resolve();
-            quest.DescriptionPart(description, enable, completed);
-            quest.Letter(LetterDefOf.NeutralEvent, inSignal: enable, label: site.customLabel,
+            quest.DescriptionPart(description, encounterEnable, completed);
+            quest.Letter(LetterDefOf.NeutralEvent, inSignal: encounterEnable, label: site.customLabel,
                 text: description, lookTargets: Gen.YieldSingle(site));
-            AddFailure(quest, enable, completed, tag + ".MapRemoved");
-            AddFailure(quest, enable, completed, tag + ".Destroyed");
+            AddFailure(quest, encounterEnable, completed, tag + ".MapRemoved");
+            AddFailure(quest, encounterEnable, completed, tag + ".Destroyed");
             string expired = QuestGen.GenerateNewSignal("ER_Expired");
             var timeout = new QuestPart_WorldObjectTimeout
             {
-                inSignalEnable = enable, inSignalDisable = completed, worldObject = site,
+                inSignalEnable = encounterEnable, inSignalDisable = completed, worldObject = site,
                 delayTicks = ResurrectionTuning.StageDeadlineTicks, destroyOnCleanup = true
             };
             timeout.outSignalsCompleted.Add(expired);
@@ -121,7 +124,7 @@ public sealed class QuestNode_Resurrection : QuestNode_Root_AncientComplex
             {
                 var objective = new QuestPart_ArchiveObjective
                 {
-                    inSignalEnable = enable, site = site, terminals = terminals,
+                    inSignalEnable = encounterEnable, site = site, terminals = terminals,
                     clearanceSignal = tag + ".AllEnemiesDefeated"
                 };
                 objective.outSignalsCompleted.Add(completed);
@@ -132,7 +135,7 @@ public sealed class QuestNode_Resurrection : QuestNode_Root_AncientComplex
                     objective.hackedSignals.Add(terminalTag + ".Hacked");
                     string failed = QuestGen.GenerateNewSignal("ER_DataLost");
                     quest.AddPart(new QuestPart_Filter_Hacked { inSignal = terminalTag + ".Destroyed", outSignalElse = failed });
-                    AddFailure(quest, enable, completed, failed);
+                    AddFailure(quest, encounterEnable, completed, failed);
                 }
                 quest.AddPart(objective);
                 string next = QuestGen.GenerateNewSignal("ER_NextLead");
@@ -155,12 +158,13 @@ public sealed class QuestNode_Resurrection : QuestNode_Root_AncientComplex
         quest.SignalPassActivable(inSignalEnable: enable, inSignal: signal, inSignalDisable: completed,
             action: () => quest.End(QuestEndOutcome.Fail, sendStandardLetter: true));
 
-    private Site MakeEncounter(Lead kind, float points, Faction enemy, List<Thing> terminals)
+    internal Site MakeEncounter(Lead kind, float points, Faction enemy, List<Thing> terminals)
     {
         if (!TileFinder.TryFindNewSiteTile(out PlanetTile tile, 2, 10))
             throw new InvalidOperationException("No expedition tile.");
         bool final = kind == Lead.Final;
-        bool complex = kind == Lead.Complex || (final && ModsConfig.IdeologyActive);
+        bool complex = kind == Lead.Complex || (final && ModsConfig.IdeologyActive &&
+            (ResurrectionMod.Settings?.ideologyQuests ?? true));
         Faction faction = complex ? Faction.OfAncientsHostile : enemy;
         var parts = new List<SitePartDefWithParams>();
         if (complex)

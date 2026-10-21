@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <ER_SettingsDlcPools>DLC encounter pools</ER_SettingsDlcPools>
+  <ER_SettingsShowDlcQuests>Show {0} encounters</ER_SettingsShowDlcQuests>
+  <ER_SettingsHideDlcQuests>Hide {0} encounters</ER_SettingsHideDlcQuests>
+  <ER_SettingsDlcPoolsExplanation>Active DLC are shown above. Expand a DLC to toggle individual encounters, or use its checkbox for the whole pool. Eligible DLC encounters take priority over Core; combat is favored. All encounters start enabled. Changes apply to new questlines.</ER_SettingsDlcPoolsExplanation>
+  <ER_SettingsAnomalyExcluded>Anomaly: no encounters in this questline.</ER_SettingsAnomalyExcluded>
+  <ER_DlcDiscovery>recovered shipment records</ER_DlcDiscovery>
+  <ER_DlcLeadIntroduction>Another trace of the shipment has surfaced. This opportunity is part of "{0}"; follow its lead to continue the search.</ER_DlcLeadIntroduction>
+  <ER_DlcLeadActive>The trail now passes through "{0}". Open the linked quest for its objective and location.</ER_DlcLeadActive>
+  <ER_DlcLeadDeadline>Time remaining to recover this lead: {0}</ER_DlcLeadDeadline>
+  <ER_DlcArchiveObjective>Somewhere at this location is a sealed shipment archive. Clear the defenders, then open the case before leaving. Losing the case or abandoning the unfinished expedition will lose this lead.</ER_DlcArchiveObjective>
+  <ER_DlcDefendObjective>The signal has attracted pursuers. The trail will continue only after the operation is finished and the attackers have been defeated.</ER_DlcDefendObjective>
+  <ER_DlcName_Mission_BanditCamp>The raiders' stronghold</ER_DlcName_Mission_BanditCamp>
+  <ER_DlcName_ProblemCauser>The troubled relay</ER_DlcName_ProblemCauser>
+  <ER_DlcName_ShuttleCrash_Rescue>The stranded courier</ER_DlcName_ShuttleCrash_Rescue>
+  <ER_DlcName_ThreatReward_Raid_MiscReward>The hunted contact</ER_DlcName_ThreatReward_Raid_MiscReward>
+  <ER_DlcName_Hospitality_Joiners>The sheltered witness</ER_DlcName_Hospitality_Joiners>
+  <ER_DlcName_ER_ArchiveComplex>The buried archive</ER_DlcName_ER_ArchiveComplex>
+  <ER_DlcName_ER_ArchiveTerminal>The guarded shrine</ER_DlcName_ER_ArchiveTerminal>
+  <ER_DlcName_ER_ArchiveDrone>The fallen messenger</ER_DlcName_ER_ArchiveDrone>
+  <ER_DlcName_AncientComplex_Mission>The distant archive</ER_DlcName_AncientComplex_Mission>
+  <ER_DlcName_OpportunitySite_WorkSite>The occupied work camp</ER_DlcName_OpportunitySite_WorkSite>
+  <ER_DlcName_OpportunitySite_AncientComplex_Mechanitor>The mechanitor's tomb</ER_DlcName_OpportunitySite_AncientComplex_Mechanitor>
+  <ER_DlcName_SanguophageShip>The bloodbound transport</ER_DlcName_SanguophageShip>
+  <ER_DlcName_OpportunitySite_AncientMercenaries>The awakened company</ER_DlcName_OpportunitySite_AncientMercenaries>
+  <ER_DlcName_Opportunity_AncientStructureGarrison>The forgotten garrison</ER_DlcName_Opportunity_AncientStructureGarrison>
+  <ER_DlcName_Opportunity_AncientStructureLaunchSite>The silent launch site</ER_DlcName_Opportunity_AncientStructureLaunchSite>
+  <ER_DlcName_Opportunity_AncientStructureChemfuelRefinery>The abandoned refinery</ER_DlcName_Opportunity_AncientStructureChemfuelRefinery>
+  <ER_DlcName_Opportunity_AncientStructureWarehouse>The old warehouse</ER_DlcName_Opportunity_AncientStructureWarehouse>
+  <ER_DlcName_Opportunity_AncientInfestedSettlement>The infested settlement</ER_DlcName_Opportunity_AncientInfestedSettlement>
+  <ER_DlcName_GravshipWreckage>The grounded wreck</ER_DlcName_GravshipWreckage>
+  <ER_DlcName_MechanoidSignal>The descending signal</ER_DlcName_MechanoidSignal>
   <ER_QuestTitle>Earned resurrection: {0}</ER_QuestTitle>
   <ER_QuestDescription>A fragment of an old transmission mentions a shipment of resurrector mech serum. Most of the coordinates are missing, but scattered records may still reveal where it was sealed away.\n\nFollowing the trail could take you far from home. Some of these places have not been abandoned as completely as they seem.\n\nIf you hope to bring {0} back, preserve their remains.</ER_QuestDescription>
   <ER_UnknownColonist>the lost colonist</ER_UnknownColonist>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <ThingDef ParentName="BuildingBase">
+  <ThingDef ParentName="BuildingBase" Name="ER_SealedCacheBase">
     <defName>ER_SerumCache</defName>
     <label>sealed medical cache</label>
     <description>A sealed medical shipment case. Its security interlock will not release while the site's defenders remain.</description>
@@ -20,5 +20,10 @@
     <statBases><MaxHitPoints>350</MaxHitPoints><Flammability>0</Flammability></statBases>
     <building><isInert>true</isInert></building>
     <selectable>true</selectable>
+  </ThingDef>
+  <ThingDef ParentName="ER_SealedCacheBase">
+    <defName>ER_ArchiveCache</defName>
+    <label>sealed shipment archive</label>
+    <description>A sealed case of old shipment records. Its security interlock will not release while the site's defenders remain.</description>
   </ThingDef>
 </Defs>

@@ -70,17 +70,49 @@ whole-day slider through the standard settings window. The static settings
 reference is a user preference object, not world/save state. Changing settings
 affects future deaths only; existing pending timestamps remain unchanged.
 
-## Saved encounter plan
+## DLC dispatch and saved encounter plan
+
+`DlcLeadCatalog` is an explicit 20-entry allow-list, gated by active DLC and four
+default-true preferences plus a saved list of individually disabled encounter
+names (empty by default). Settings show expandable per-DLC encounter lists.
+No Anomaly/orbital/gravcore/boss/cluster root is enumerated.
+The problem-causer adapter runs a temporary native sequence without the mechanoid
+selection node; shared vanilla defs are never modified. Hospitality runs its native
+peaceful difficulty plus an explicit human raid to avoid randomized mech clusters.
+
+`QuestPart_DlcPool` saves allowed/used names on the parent at generation. Each lead
+reserves a different Core fallback; `QuestPart_DlcLead` tries weighted, unused,
+currently runnable DLC roots first. It runs on the next tick after activation,
+outside QuestGen's non-reentrant generation pass. Native prerequisites are checked
+with `CanRun`; no eligible root means activating the reserved Core fallback.
+Each child saves its parent link, and the dispatcher saves its child reference,
+started flag and 30-day deadline. It relays success once through the existing
+progress dialog/delay; child failure, offer expiration, unknown abandonment or
+outer timeout fails the parent. Parent cleanup concludes any unfinished child.
+
+Native reward choices/parts are removed before registration; physical site loot
+remains. Opportunity sites keep native layouts and occupants but replace premature
+arrival/claim success with a guarded shipment-archive interaction. That archive
+holds a component, never serum. Crash/hosting combat gates preserve the native
+success prerequisite and also require hostile clearance, including dormant enemies.
+Native mission deadlines can be shorter than the outer 30 days. Surface-only
+validation prevents dispatching an orbital or underground expedition.
+
+The distant Ideology shuttle mission requires Royalty and a real player relic for
+the native text/sketch setup. Its `Reward_RelicInfo` is removed before registration;
+it is parented only to this mod's quest, never to the relic hunt. Existing independent
+Ideology encounters do not need any player relic. Final generation remains on the
+parent, and respects the saved-at-generation Ideology pool choice.
 
 The root uses vanilla quest primitives with no player relic/precept state. At
 quest generation it freezes the selected 1–5 lead count (default 3), the 0–7 day
 interval, faction/threat budgets and encounter choices into native quest parts.
 It then appends one separate final recovery. Existing quests are not rebuilt.
 
-Selection removes each chosen type from its pool; no type repeats. With Ideology,
-ancient complex, guarded worshipful terminal and defended spacedrone are chosen
-first. Longer chains extend with distinct Core encounters. Without Ideology the
-pool is occupied outpost, sleeping mechanoids, turrets, manhunters and edge ambush.
+Selection records each chosen DLC root in the shared used list; no type repeats.
+Independent ancient complex, guarded worshipful terminal and defended spacedrone
+are Ideology entries alongside work sites and the distant mission. The Core
+fallback pool is occupied outpost, sleeping mechanoids, turrets, manhunters and edge ambush.
 Combat weights favor defended sources over the animal encounter. A world with
 insufficient supported encounter types/factions cannot generate the requested
 unique plan; no duplicated filler is silently inserted.

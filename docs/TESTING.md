@@ -30,12 +30,32 @@ Do not enable it in a personal save.
 ## Names, variety and main paths
 
 - Task/site titles must be descriptive and contain no stage numbers.
-- With Ideology and 3 leads, expect an ancient complex, a guarded shrine terminal
-  and a defended spacedrone encounter, in a combat-weighted order. No player relic
-  is needed or selected. The shrine/drone are expedition adaptations, not the
-  original relic quests. Hack their terminal(s) AND clear their guards.
-- With Ideology and 4–5 leads, additional distinct Core encounters extend the chain.
-- Without Ideology, expect distinct types from: occupied depot, sleeping mechanoid
+- With any DLC pool enabled, eligible unused DLC roots must be chosen before Core.
+  Native operations appear as linked subquests; accept them if required. Completing
+  one must open the parent progress dialog, then respect the configured interval.
+- In settings, only active DLC have pool checkboxes: Royalty, Ideology, Biotech,
+  Odyssey, all enabled by default. Anomaly shows an exclusion note, with no toggle.
+  Toggle each pool off, generate a NEW chain, and confirm that DLC is not selected.
+  Disable all pools to get Core leads and a Core final. Restart to check persistence.
+  Expand each DLC and disable one encounter: a new chain must exclude only that
+  encounter, leaving its DLC's other encounters eligible. Individual checkboxes
+  start enabled, survive restart, and are preserved across whole-pool toggles.
+  Changing preferences during an existing chain must not change its saved pool.
+- Exercise each enabled pool separately, using repeated new chains: Royalty five
+  types, Ideology five types, Biotech two types, Odyssey eight types. Native
+  prerequisites can make some unavailable (e.g. the grav-engine introduction).
+- Independent shrine/drone/archive leads need terminal hacking AND clearance.
+  The distant native complex mission also needs Royalty and a player relic for
+  setup; its information reward must not advance a real relic hunt.
+- Ground opportunity sites require opening the sealed shipment archive after
+  clearing defenders; just arriving, claiming an engine or killing one leader
+  must not advance the chain. Destroying that archive must fail it.
+- For sanguophage/mechanoid crashes, keep enemies alive past the native timer or
+  inspect the engine early: the chain must wait for clearance. Hospitality must
+  use human attackers and wait for the guests' successful departure/operation end.
+- Never select a mech-cluster quest, mechanitor ship/boss, Anomaly, gravcore or
+  orbital mission. Problem-causer must use the pirate branch, never the cluster.
+- With no eligible enabled DLC leads, expect distinct types from: occupied depot, sleeping mechanoid
   yard, automated turret relay, manhunter waystation, ambushed rendezvous. Clear
   threats to recover each lead. No hacking dependency or Ideology content may load.
 - No encounter type repeats within one chain, including after save/reload.
@@ -58,7 +78,7 @@ Do not enable it in a personal save.
 ## Mandatory final and physical reward
 
 - Both paths, at every lead-count setting, must end with a separate final.
-  Ideology uses a defended ancient complex; fallback uses a defended outpost.
+  Enabled Ideology uses a defended ancient complex; fallback uses a defended outpost.
 - Find the sealed medical cache on the map. Inspect it: the single serum is held
   in the cache, not present as loose loot or an incoming pod.
 - Opening while enemies/turrets/dormant or fogged threats remain must be blocked.
@@ -84,6 +104,9 @@ Do not enable it in a personal save.
 - Destroy an unhacked terminal: fail. Destroying an already hacked terminal after
   its encounter completes must not retroactively fail a later encounter.
 - Abandon an unfinished site / remove its map / expire its 30-day deadline: fail.
+  Fail/expire an active DLC subquest: the parent must fail and retain cooldown.
+  Save/load during its offer, active combat, archive opening and post-completion
+  wait: there must be no duplicated child, repeated type, progress popup or reward.
   Ignore the offer for ten days: expire. Vanilla Dismiss merely hides the quest.
 - Failure clears active state without refunding cooldown. Save C/D after failure
   and during cooldown; quit/load: cooldown must remain.

@@ -19,10 +19,13 @@ resurrector mech serum. The mod changes access to the item, never resurrection.
 - Failure or an expired/abandoned expedition consumes the opportunity; no retries.
 - Leads before the final: configurable 1–5, default 3; the final is always separate.
 - No encounter type repeats within a chain. Sites have descriptive names without stage numbers.
-- With Ideology: ancient archive hacking, guarded shrine terminal and defended spacedrone databanks are the primary encounters. Longer chains add distinct Core encounters.
-- Without Ideology: occupied depot, sleeping mechanoid yard, automated turret relay, manhunter-overrun waystation and ambushed rendezvous form the combat-heavy fallback pool.
+- Eligible, unused DLC encounters are selected before Core encounters, with combat encounters favored over hospitality. Royalty, Ideology, Biotech and Odyssey each have an enabled-by-default settings checkbox and expandable list of individual encounter checkboxes, shown only when that DLC is active; a questline saves its pool when generated.
+- Royalty: shuttle assault, human-held problem-causer outpost, shuttle rescue, diverted raids and protected hospitality. Ideology: independent archive/shrine/drone encounters, work camp and distant shuttle mission (the latter also needs Royalty and a player relic for native setup, without advancing its hunt).
+- Biotech: mechanitor complex and sanguophage crash. Odyssey: mercenary bunker, garrison, launch site, refinery, warehouse, infested settlement, grounded gravship wreck and downed mechanoid signal. Native prerequisites still apply; unavailable roots are skipped.
+- No mech-cluster quest, mechanitor ship, mechanitor boss, Anomaly, gravcore-chain or orbital mission is selected. The problem-causer quest is restricted to its human outpost branch; hospitality uses an explicit human raid instead of native randomized threats. Space travel is never required.
+- When no eligible unused DLC encounter remains, occupied depot, sleeping mechanoid yard, automated turret relay, manhunter-overrun waystation and ambushed rendezvous form the Core fallback pool. With every DLC pool disabled, all leads use Core.
 - Time between leads: configurable 0–7 whole days, default 1. Each recovered lead opens a direct message dialog and shows the remaining wait in the quest UI.
-- Each discovered site has a 30-day deadline. An unaccepted offer expires after ten days.
+- Each lead has a 30-day outer deadline; native DLC operations can impose shorter offer/mission deadlines. The parent offer expires after ten days. Native DLC leads appear as linked subquests and may need separate acceptance.
 - Final success requires all threats cleared, including dormant/fogged enemies.
 - Reward: one generic serum physically stored in a sealed medical cache at the final site. Defeat its defenders, then order a colonist to open it. No reward pod. Destroying the cache destroys its contents.
 - No changes to actual ideology relic progression, corpse preservation, serum use or sickness.
@@ -39,7 +42,7 @@ Do not enable the separate development-only integration test mod for normal play
 
 Already generated quests from the older Ideology version retain their original
 complexes and terminal objectives. Finish them with Ideology still enabled before
-removing that DLC. New quests choose the Ideology path when enabled, or Core fallback otherwise.
+removing that DLC. New quests use the enabled DLC pools, or Core fallback otherwise.
 This update does not migrate old active quests or make arbitrary DLC removal from
 an existing save safe.
 
@@ -107,7 +110,7 @@ ZIP under `artifacts/`, containing only this mod's binaries and content.
 
 Open Options → Mod settings → **NoMoreDevMode / Earned Resurrection** to choose
 quest arrival time, lead count, days between leads, minimum membership days and
-global cooldown days. Settings persist through vanilla
+global cooldown days, and the enabled DLC encounter pools. Settings persist through vanilla
 `ModSettings` and are global preferences, not per-save state. They apply to future
 deaths/questlines; pending arrival times, active quests and cooldowns are not
 rescheduled. Stage intervals are fixed when a questline is generated, so changing
@@ -117,8 +120,10 @@ centralized in `ResurrectionTuning.cs`.
 
 ## Scope
 
-Easy V0.1 only: no custom map generator, resurrection item, convoy AI, bespoke DLC
-bosses, compatibility layers or multiplayer support. The leads intentionally
-reuse vanilla site generators and hacking/opening mechanics. Future V0.2 work can explore
-additional final encounters and more varied independent questlines after this loop
-passes gameplay acceptance.
+No custom map generator, resurrection item, convoy AI, bespoke DLC bosses,
+compatibility layers or multiplayer support. DLC leads reuse native quest roots
+as linked subquests, retaining their layouts and operation logic. Opportunity
+sites require clearing defenders and opening a shipment archive; home crash
+quests also require the native operation to finish and surviving threats to be
+cleared. Ordinary generated reward choices are removed: the lead reward is
+information, and the separate final supplies the serum. Native site loot remains.

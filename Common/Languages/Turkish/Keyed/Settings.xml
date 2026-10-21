@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <ER_SettingsDlcPools>DLC görev havuzları</ER_SettingsDlcPools>
+  <ER_SettingsShowDlcQuests>{0} görevlerini göster</ER_SettingsShowDlcQuests>
+  <ER_SettingsHideDlcQuests>{0} görevlerini gizle</ER_SettingsHideDlcQuests>
+  <ER_SettingsDlcPoolsExplanation>Etkin DLC'ler yukarıda gösterilir. Listeyi açarak görevleri tek tek, DLC kutusuyla havuzun tamamını kapatabilirsin. Uygun DLC görevleri temel oyundan önce seçilir; çatışma görevleri daha sık gelir. Tüm görevler varsayılan olarak açıktır. Değişiklikler yeni zincirlere uygulanır.</ER_SettingsDlcPoolsExplanation>
+  <ER_SettingsAnomalyExcluded>Anomaly: bu zincirde kullanılacak görev yok.</ER_SettingsAnomalyExcluded>
+  <ER_DlcDiscovery>kurtarılan sevkiyat kayıtları</ER_DlcDiscovery>
+  <ER_DlcLeadIntroduction>Sevkiyatın izine dair yeni bir fırsat doğdu. Bu görev "{0}" arayışının bir parçası; izini sürerek araştırmaya devam edebilirsin.</ER_DlcLeadIntroduction>
+  <ER_DlcLeadActive>İzler artık "{0}" görevine uzanıyor. Hedefi ve konumu görmek için bağlantılı görevi aç.</ER_DlcLeadActive>
+  <ER_DlcLeadDeadline>Bu ipucuna ulaşmak için kalan süre: {0}</ER_DlcLeadDeadline>
+  <ER_DlcArchiveObjective>Bu bölgede mühürlü bir sevkiyat arşivi bulunuyor. Savunmacıları etkisiz hâle getirip ayrılmadan önce sandığı aç. Sandığı kaybetmek ya da seferi yarım bırakmak bu izi kaybettirecek.</ER_DlcArchiveObjective>
+  <ER_DlcDefendObjective>Sinyal takipçileri de çekti. İzler ancak operasyon tamamlandığında ve saldırganlar yenildiğinde devam edecek.</ER_DlcDefendObjective>
+  <ER_DlcName_Mission_BanditCamp>Akıncıların kalesi</ER_DlcName_Mission_BanditCamp>
+  <ER_DlcName_ProblemCauser>Huzursuz röle</ER_DlcName_ProblemCauser>
+  <ER_DlcName_ShuttleCrash_Rescue>Mahsur kalan kurye</ER_DlcName_ShuttleCrash_Rescue>
+  <ER_DlcName_ThreatReward_Raid_MiscReward>Takip edilen bağlantı</ER_DlcName_ThreatReward_Raid_MiscReward>
+  <ER_DlcName_Hospitality_Joiners>Sığınan tanık</ER_DlcName_Hospitality_Joiners>
+  <ER_DlcName_ER_ArchiveComplex>Gömülü arşiv</ER_DlcName_ER_ArchiveComplex>
+  <ER_DlcName_ER_ArchiveTerminal>Korunan tapınak</ER_DlcName_ER_ArchiveTerminal>
+  <ER_DlcName_ER_ArchiveDrone>Düşen haberci</ER_DlcName_ER_ArchiveDrone>
+  <ER_DlcName_AncientComplex_Mission>Uzaktaki arşiv</ER_DlcName_AncientComplex_Mission>
+  <ER_DlcName_OpportunitySite_WorkSite>İşgal altındaki çalışma kampı</ER_DlcName_OpportunitySite_WorkSite>
+  <ER_DlcName_OpportunitySite_AncientComplex_Mechanitor>Mekanitorun mezarı</ER_DlcName_OpportunitySite_AncientComplex_Mechanitor>
+  <ER_DlcName_SanguophageShip>Kanbağı taşıtı</ER_DlcName_SanguophageShip>
+  <ER_DlcName_OpportunitySite_AncientMercenaries>Uyanan bölük</ER_DlcName_OpportunitySite_AncientMercenaries>
+  <ER_DlcName_Opportunity_AncientStructureGarrison>Unutulmuş garnizon</ER_DlcName_Opportunity_AncientStructureGarrison>
+  <ER_DlcName_Opportunity_AncientStructureLaunchSite>Sessiz fırlatma tesisi</ER_DlcName_Opportunity_AncientStructureLaunchSite>
+  <ER_DlcName_Opportunity_AncientStructureChemfuelRefinery>Terk edilmiş rafineri</ER_DlcName_Opportunity_AncientStructureChemfuelRefinery>
+  <ER_DlcName_Opportunity_AncientStructureWarehouse>Eski ambar</ER_DlcName_Opportunity_AncientStructureWarehouse>
+  <ER_DlcName_Opportunity_AncientInfestedSettlement>İstila altındaki yerleşim</ER_DlcName_Opportunity_AncientInfestedSettlement>
+  <ER_DlcName_GravshipWreckage>Yerdeki enkaz</ER_DlcName_GravshipWreckage>
+  <ER_DlcName_MechanoidSignal>Alçalan sinyal</ER_DlcName_MechanoidSignal>
   <ER_SettingsLeadCount>Finalden önce izlenecek ipucu sayısı: {0}</ER_SettingsLeadCount>
   <ER_SettingsLeadCountExplanation>1–5 farklı karşılaşma, varsayılan 3. Ardından her zaman ayrı bir final görevi gelir. Yeni oluşturulan görev zincirleri için geçerlidir.</ER_SettingsLeadCountExplanation>
   <ER_ProgressTitle>Sevkiyatın izi</ER_ProgressTitle>

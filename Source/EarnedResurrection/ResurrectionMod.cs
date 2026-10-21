@@ -1,4 +1,5 @@
 using Verse;
+using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public sealed class ResurrectionMod : Mod
     public static ResurrectionSettings Settings { get; private set; }
     private Vector2 settingsScroll;
     private float settingsHeight = 800f;
+    private readonly HashSet<string> expandedDlc = new HashSet<string>();
 
     public ResurrectionMod(ModContentPack content) : base(content)
     {
@@ -52,9 +54,46 @@ public sealed class ResurrectionMod : Mod
             ResurrectionTuning.MaximumCooldownDays));
         listing.Label("ER_SettingsCooldownExplanation".Translate());
         listing.Gap();
+        listing.Label("ER_SettingsDlcPools".Translate());
+        if (ModsConfig.RoyaltyActive)
+            DrawDlcPool(listing, "Royalty", ref Settings.royaltyQuests);
+        if (ModsConfig.IdeologyActive)
+            DrawDlcPool(listing, "Ideology", ref Settings.ideologyQuests);
+        if (ModsConfig.BiotechActive)
+            DrawDlcPool(listing, "Biotech", ref Settings.biotechQuests);
+        if (ModsConfig.OdysseyActive)
+            DrawDlcPool(listing, "Odyssey", ref Settings.odysseyQuests);
+        if (ModsConfig.AnomalyActive)
+            listing.Label("ER_SettingsAnomalyExcluded".Translate());
+        listing.Label("ER_SettingsDlcPoolsExplanation".Translate());
+        listing.Gap();
         listing.Label("ER_SettingsTimingExplanation".Translate());
         settingsHeight = listing.CurHeight + 20f;
         listing.End();
         Widgets.EndScrollView();
+    }
+
+    private void DrawDlcPool(Listing_Standard listing, string dlc, ref bool enabled)
+    {
+        listing.CheckboxLabeled(dlc, ref enabled);
+        bool expanded = expandedDlc.Contains(dlc);
+        if (listing.ButtonText((expanded ? "ER_SettingsHideDlcQuests" : "ER_SettingsShowDlcQuests").Translate(dlc)))
+        {
+            if (expanded) expandedDlc.Remove(dlc);
+            else expandedDlc.Add(dlc);
+            expanded = !expanded;
+        }
+        if (expanded)
+        {
+            foreach (var entry in DlcLeadCatalog.Entries)
+            {
+                if (entry.dlc != dlc) continue;
+                bool selected = !Settings.disabledDlcLeads.Contains(entry.name);
+                listing.CheckboxLabeled(("ER_DlcName_" + entry.name).Translate(), ref selected);
+                if (selected) Settings.disabledDlcLeads.Remove(entry.name);
+                else if (!Settings.disabledDlcLeads.Contains(entry.name)) Settings.disabledDlcLeads.Add(entry.name);
+            }
+        }
+        listing.Gap();
     }
 }

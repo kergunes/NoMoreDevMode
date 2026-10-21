@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <QuestScriptDef Abstract="True" Name="ER_ArchiveLeadBase">
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <isRootSpecial>true</isRootSpecial>
+    <autoAccept>true</autoAccept>
+    <questAvailableLetterTextIsDescription>true</questAvailableLetterTextIsDescription>
+  </QuestScriptDef>
+  <QuestScriptDef ParentName="ER_ArchiveLeadBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>ER_ArchiveComplex</defName>
+    <root Class="EarnedResurrection.QuestNode_ArchiveLead"><kind>Complex</kind></root>
+  </QuestScriptDef>
+  <QuestScriptDef ParentName="ER_ArchiveLeadBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>ER_ArchiveTerminal</defName>
+    <root Class="EarnedResurrection.QuestNode_ArchiveLead"><kind>Terminal</kind></root>
+  </QuestScriptDef>
+  <QuestScriptDef ParentName="ER_ArchiveLeadBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>ER_ArchiveDrone</defName>
+    <root Class="EarnedResurrection.QuestNode_ArchiveLead"><kind>Drone</kind></root>
+  </QuestScriptDef>
+  <QuestScriptDef ParentName="ER_ArchiveLeadBase" MayRequire="Ludeon.RimWorld.Royalty">
+    <defName>ER_HumanProblemCauser</defName>
+    <root Class="EarnedResurrection.QuestNode_HumanProblemCauser" />
+  </QuestScriptDef>
+</Defs>
